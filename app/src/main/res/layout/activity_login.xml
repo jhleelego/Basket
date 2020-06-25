@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/basketboxlogo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <EditText
+            android:id="@+id/et_inputID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="100dp"
+            android:textSize="14dp"
+            android:paddingLeft="12dp"
+            android:hint="Input ID"/>
+
+        <EditText
+            android:id="@+id/et_inputPW"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="100dp"
+            android:paddingLeft="12dp"
+            android:textSize="14dp"
+            android:hint="Input PW"
+            android:layout_marginBottom="14dp"/>
+
+        <ImageView
+            android:id="@+id/iv_login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/basketlogin"/>
+        <!--<ImageView
+            android:id="@+id/buttonOAuthLoginImg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/nidlongbar_green"/>
+            -->
+
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/buttonOAuthLoginImg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/nidlongbar_green"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:gravity="bottom"
+        android:paddingBottom="40dp"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textAlignment="center"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnv_loginActivity_nil"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
+
+    <fragment
+        android:id="@+id/nav_host_loginActivity_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
+
+
+</LinearLayout>
