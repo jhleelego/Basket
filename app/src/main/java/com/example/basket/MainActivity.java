@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.bnv_mainActivity_nil, oAuthFragment).commitAllowingStateLoss();
 
 
+
         Intent intent = getIntent();
         if(intent.getStringExtra("nickname")!=null) {
             nickName = intent.getStringExtra("nickname");
