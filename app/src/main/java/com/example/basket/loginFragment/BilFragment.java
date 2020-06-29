@@ -34,8 +34,11 @@ public class BilFragment extends Fragment implements MemberVerifier {
         Log.i(TAG, "onAttach() mActivity : " + getActivity().toString());
     }
 
+
+    //자금활동//
+
     @Override
-    public void loginProgress(Map<String, Object> profileMap) {
+    public void loginProgress() {
         Log.i(TAG, "loginProgress()");
         Log.i(TAG, "mContext : " + this.mContext);
         Intent intent = new Intent(this.mContext, PlazaActivity.class);
@@ -55,9 +58,8 @@ public class BilFragment extends Fragment implements MemberVerifier {
 
 
         startActivity(intent);
-    }
 
-    //자금활동//
+    }
 
     @Override
     public void logoutProgress() {

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
@@ -24,7 +25,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
 
     public static final String TAG = "Kil";
 
-    private Button btn_custom_login;
+    private Button btn_kil;
     private Button btn_custom_login_out;
     private SessionCallback sessionCallback = new SessionCallback();
     Session session;
@@ -40,18 +41,17 @@ public class KilFragment extends Fragment implements MemberVerifier {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        Log.i(TAG, "onAttach()");
         super.onAttach(context);
+        Log.i(TAG, "onAttach()");
         this.mContext = context;
         session = Session.getCurrentSession();
         session.addCallback(sessionCallback);
         Map<String, String> pMap = new HashMap<>();
         session.open(AuthType.KAKAO_LOGIN_ALL, KilFragment.this);
-        //loginProgress(pMap);
-        btn_custom_login.setOnClickListener(new View.OnClickListener() {
+       /* btn_kil = getActivity().findViewById(R.id.btn_kil);
+        btn_kil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                session.open(AuthType.KAKAO_LOGIN_ALL, KilFragment.this);
             }
         });
 
@@ -66,7 +66,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
                             }
                         });
             }
-        });
+        });*/
     }
 
     @Override
@@ -88,10 +88,10 @@ public class KilFragment extends Fragment implements MemberVerifier {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void loginProgress(Map<String, Object> profileMap) {
-        Log.i(TAG, "loginProgress()");
 
+    @Override
+    public void loginProgress() {
+        Log.i(TAG, "loginProgress()");
     }
 
     @Override

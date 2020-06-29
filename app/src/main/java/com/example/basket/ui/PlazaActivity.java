@@ -14,6 +14,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
+import com.example.basket.controller.MemberVerifier;
+import com.example.basket.factory.FragmentsFactory;
 import com.example.basket.loginFragment.BilFragment;
 import com.example.basket.loginFragment.KilFragment;
 import com.example.basket.loginFragment.NilFragment;
@@ -22,15 +24,14 @@ import com.example.basket.ui.scan.ScanFragment;
 import com.example.basket.vo.MemberDTO;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.lang.reflect.Member;
+
 public class PlazaActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     String nickName = null;
-    private FragmentTransaction fragmentTransaction;
-    private Button btn_logout = null;
     String mem_Entrance = null;
-
-    NilFragment oAuthFragment = null;
+    MemberVerifier memberVerifier = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,26 +66,15 @@ public class PlazaActivity extends AppCompatActivity {
     }
 
     public void btn_logoutClick(View view) {
-        if(mem_Entrance.equals(BilFragment.TAG)){
+
+    }
+       /* if(mem_Entrance.equals(BilFragment.TAG)){
             BilFragment.getInstance().logoutProgress();
         } else if(mem_Entrance.equals(NilFragment.TAG)){
             NilFragment.getInstance();
         } else if(mem_Entrance.equals(KilFragment.TAG)){
             KilFragment.getInstance();
-        }
-
-
-
-
-
-/*
-        if(loginType.equals("nil")){
-        } else if(loginType.equals("basketidlogin")){
-        }
-*/
-
-
-    }
+        }*/
 
    /* @Override
     public void onBackPressed() {

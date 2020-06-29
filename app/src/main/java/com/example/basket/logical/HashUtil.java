@@ -8,6 +8,7 @@ import java.util.Map;
 public class HashUtil {
     public static final String TAG = "HashUtil";
     public static Map<String, Object> mapToVOBinder(Map<String, Object> profileMap, String mem_entrance){
+        Log.i(TAG, "HashUtil - mapToVOBinder");
         Map<String, Object> pMap = new HashMap<>();
         pMap.put("mem_entrance", mem_entrance);
         /****************************************************
