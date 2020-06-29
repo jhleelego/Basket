@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,27 +40,54 @@
             android:layout_marginHorizontal="100dp"
             android:paddingLeft="12dp"
             android:textSize="14dp"
-            android:hint="Input PW"
-            android:layout_marginBottom="14dp"/>
+            android:hint="Input PW"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="110dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/btn_join"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:text="JOIN"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/main_color"/>
+
+            <Button
+                android:id="@+id/btn_bil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/main_color"
+                android:onClick="btn_loginClick"/>
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/iv_login"
+            android:src="@drawable/nidlongbar_green"
+            android:id="@+id/btn_nilEnter"
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="112dp"
             android:layout_height="40dp"
-            android:src="@drawable/basketlogin"/>
-        <!--<ImageView
-            android:id="@+id/buttonOAuthLoginImg"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:src="@drawable/nidlongbar_green"/>
-            -->
+            android:onClick="btn_loginClick"/>
 
         <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-            android:id="@+id/buttonOAuthLoginImg"
+            android:id="@+id/btn_nil"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:src="@drawable/nidlongbar_green"
-            android:layout_marginTop="2dp"/>
+            android:layout_height="0dp"/>
+
+        <com.kakao.usermgmt.LoginButton
+            android:src="@drawable/kakao_login_btn_large_narrow"
+            android:id="@+id/btn_kil"
+            android:layout_width="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="112dp"
+            android:layout_height="42dp"
+            android:onClick="btn_loginClick"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -70,14 +97,6 @@
         android:paddingBottom="40dp"
         android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        android:textAlignment="center"
-        android:textSize="12dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

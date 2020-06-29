@@ -1,6 +1,7 @@
 package com.example.basket.ui.menu.myPage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.example.basket.R;
 import static android.widget.Toast.LENGTH_LONG;
 
 public class MyPageActivity extends AppCompatActivity {
+    public static final String TAG = "MyPageActivity";
     EditText et_user_id = null;
     EditText et_user_pw = null;
     EditText et_user_tel = null;
@@ -31,7 +33,7 @@ public class MyPageActivity extends AppCompatActivity {
         et_user_name = (EditText) findViewById(R.id.et_user_name);
         et_user_birth = (EditText) findViewById(R.id.et_user_birth);
         et_user_gender = (EditText) findViewById(R.id.et_user_gender);
-
+        btn_infoModified = (Button) findViewById(R.id.btn_modifiedAndConfirm);
 
 
         /********************
@@ -47,17 +49,12 @@ public class MyPageActivity extends AppCompatActivity {
          ********************/
 
 
-
-
-
-
-
-
     }
 
     public void modifiedAndConfirm(View view) {
-        Toast.makeText(this, "MODIFIEDANDCONFIRM", Toast.LENGTH_LONG).show();
-        btn_infoModified = (Button) findViewById(view.getId());
+        /*Toast.makeText(this, "MODIFIEDANDCONFIRM", Toast.LENGTH_LONG).show();*/
+        Log.i(TAG, "modifiedAndConfirm");
+        Log.i(TAG, "btn_infoModified.getText : " + btn_infoModified.getText().toString());
         if (btn_infoModified.getText().toString().equals("회원정보수정")) {
             et_user_id.setEnabled(true);
             et_user_pw.setEnabled(true);

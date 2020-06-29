@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.basket"
-        minSdkVersion 21
+        minSdkVersion 18
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -21,11 +21,17 @@ android {
         }
     }
 }
+//!!
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    jcenter()
+}
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    //네아
-    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'
+
     def android_x_version = "1.0.0"
     implementation "androidx.appcompat:appcompat:$android_x_version"
     implementation "androidx.legacy:legacy-support-core-utils:$android_x_version"
@@ -42,5 +48,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //네아버
+    implementation 'com.naver.nid:naveridlogin-android-sdk:4.2.6'
+
+    //비콘
+    implementation name: 'android-beacon-library-2.16.2', ext: 'aar'
+
+    //카카오
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 
 }
