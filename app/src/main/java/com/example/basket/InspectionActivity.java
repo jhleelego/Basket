@@ -55,6 +55,7 @@ public class InspectionActivity extends AppCompatActivity {
         getHashKey();
         mLayout = (View)findViewById(R.id.inspection);
         applicationContext = this.getApplicationContext();
+        MemberDTO.getInstance();
         checkPermission();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(BeaconFragment.getInstance(), "BeaconFragment");
@@ -136,7 +137,7 @@ public class InspectionActivity extends AppCompatActivity {
         }
 
     private void loginCheck() {
-        Log.i(TAG, MemberDTO.getInstance().getMem_code());
+        //Log.i(TAG, MemberDTO.getInstance().getMem_code());
         if(MemberDTO.getInstance().getMem_code()!=null&&MemberDTO.getInstance().getMem_code().length()>0){
             Intent intent = new Intent(InspectionActivity.this, PlazaActivity.class);
             startActivity(intent);
