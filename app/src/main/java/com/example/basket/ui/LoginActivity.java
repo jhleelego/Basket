@@ -13,11 +13,12 @@ import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
 
+import java.lang.reflect.Member;
+
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG ="LoginActivity";
     FragmentTransaction fragmentTransaction = null;
-    MemberVerifier memberVerifier = null;
     boolean success = false;
 
     @Override
@@ -30,13 +31,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void btn_loginClick(View v) {
         Log.i(TAG, v.toString());
-        memberVerifier = FragmentsFactory.getInstance(v);
+        MemberVerifier memberVerifier = FragmentsFactory.getInstance(v);
         fragmentTransaction.add((Fragment)memberVerifier, memberVerifier.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
     public void enterActivity() {
-        memberVerifier.loginProgress();
+        FragmentsFactory.getInstance().loginProgress();
         Intent intent = new Intent(LoginActivity.this, PlazaActivity.class);
         startActivity(intent);
     }

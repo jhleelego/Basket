@@ -180,7 +180,10 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	@Override
 	public void loginProgress() {
 		Log.i(TAG, "loginProgress()");
-		Map<String, Object> pMap = HashUtil.mapToVOBinder(profileMap, TAG);
+		HashUtil.mapToDTOBinder(profileMap, TAG);
+
+
+
 		/************************************************************
 		 *
 		 *
@@ -188,6 +191,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		 *
 		 *
 		 ************************************************************/
+
 	}
 
 	@Override

@@ -11,10 +11,12 @@ import com.example.basket.controller.MemberVerifier;
 import com.example.basket.loginFragment.BilFragment;
 import com.example.basket.loginFragment.KilFragment;
 import com.example.basket.loginFragment.NilFragment;
+import com.example.basket.vo.MemberDTO;
 
 
 public class FragmentsFactory {
     public static final String TAG = "FragmentFactory";
+    private static MemberVerifier memberVerifier;
     private static final MemberVerifier UNDEFINED_FRAGMENT = new MemberVerifier() {
         @Override
         public void loginProgress() {
@@ -27,13 +29,21 @@ public class FragmentsFactory {
     public static final MemberVerifier getInstance(View v) {
         Log.i(TAG, v.toString());
         if (v.getId() == R.id.btn_bil) {
-            return BilFragment.getInstance();
+            memberVerifier = BilFragment.getInstance();
+            return memberVerifier;
         } else if (v.getId() == R.id.btn_nilEnter) {
-            return NilFragment.getInstance();
+            memberVerifier = NilFragment.getInstance();
+            return memberVerifier;
         } else if (v.getId() == R.id.btn_kilEnter) {
-            return KilFragment.getInstance();
+            memberVerifier = KilFragment.getInstance();
+            return memberVerifier;
         } else {
             return UNDEFINED_FRAGMENT;
         }
     }
+
+    public static final MemberVerifier getInstance(){
+        return memberVerifier;
+    }
+
 }
