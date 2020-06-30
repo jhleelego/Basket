@@ -32,14 +32,16 @@ import java.util.Map;
 public final class ChainUtil implements Serializable {
 
 	public static Object outObject = null;
+	public static boolean wait = false;
 
 	public static void setOutObject(Object outObject) {
 		ChainUtil.outObject = outObject;
 	}
 
+	public static void doPayment(Map<String, String> pMap) {
+		Transaction usTx = (Transaction) readObjectWithVolley("pay_insert", pMap);
 
-
-
+	}
 	// for android (user)
 	public static Transaction sendFunds(PublicKey sender, PublicKey recipient, float value) {
 		// 본인에게 보내려고 할 경우
@@ -140,6 +142,7 @@ public final class ChainUtil implements Serializable {
 								setOutObject(ois.readObject());
 								ois.close();
 							} catch (Exception e) {
+								wait = false;
 								Log.i("Volley", "error at onResponse");
 							}
 						}
@@ -147,6 +150,7 @@ public final class ChainUtil implements Serializable {
 					new ErrorListener() {
 						@Override
 						public void onErrorResponse(VolleyError error) {
+							wait = false;
 							Log.i("Volley", "error at Request");
 						}
 					}
@@ -158,13 +162,18 @@ public final class ChainUtil implements Serializable {
 			};
 			request.setShouldCache(false);
 			RequestQueue requestQueue = Volley.newRequestQueue(null);//asdasdasdasdasdasdasdasasdasdasdasda
+			wait = true;
 			requestQueue.add(request);
-			while (outObject == null) {
+			while (outObject == null && wait) {
 				Thread.sleep(100);
 			}
-			result = outObject;
-			outObject = null;
-			return result;
+			if (outObject != null) {
+				result = outObject;
+				outObject = null;
+				return result;
+			} else {
+				return null;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
