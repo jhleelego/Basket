@@ -1,5 +1,6 @@
 package com.example.basket.loginFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.basket.ui.LoginActivity;
 import com.example.basket.ui.PlazaActivity;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
@@ -38,9 +40,13 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 	private static OAuthLogin mOAuthLoginInstance;
 	private static Context mContext;
-	private static FragmentActivity mActivity;
+	private static Activity mActivity;
 
 	public OAuthLoginButton mOAuthLoginButton;
+
+
+	Map<String, Object> resultMap = null;
+	Map<String, Object> profileMap = null;
 
 	public static NilFragment getInstance() {
 		return NilFragment.LazyHolder.instance;
@@ -54,6 +60,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		this.mContext = (Context)context;
+		this.mActivity = (Activity)getActivity();
 		Log.i(TAG, "onAttach()");
 		Log.i(TAG, "onAttach() mContext : " + mContext.toString());
 		initData();
@@ -148,12 +155,11 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 		protected void onPostExecute(String content) {
 			Log.i(TAG, "onPostExecute() 호출 ");
-			Gson gson = new Gson();
-			Map<String, Object> reulstMap = new HashMap<>();
-			reulstMap = gson.fromJson(content, reulstMap.getClass());
-			if (reulstMap.get("resultcode").equals("00") && reulstMap.get("message").equals("success")) {
-				loginProgress((Map<String, Object>)reulstMap.get("response"));
-				return;
+			resultMap = new HashMap<>();
+			resultMap = new Gson().fromJson(content, resultMap.getClass());
+			if (resultMap.get("resultcode").equals("00") && resultMap.get("message").equals("success")) {
+				profileMap = (Map<String, Object>)resultMap.get("response");
+				((LoginActivity)getActivity()).enterActivity();
 			}
 		}
 	}
@@ -172,9 +178,12 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	}
 
 	@Override
-	public void loginProgress(Map<String, Object> profileMap) {
+	public void loginProgress() {
 		Log.i(TAG, "loginProgress()");
-		Map<String, Object> pMap = HashUtil.mapToVOBinder(profileMap, TAG);
+		HashUtil.mapToDTOBinder(profileMap, TAG);
+
+
+
 		/************************************************************
 		 *
 		 *
@@ -182,8 +191,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		 *
 		 *
 		 ************************************************************/
-		Intent intent = new Intent(getActivity(), PlazaActivity.class);
-		startActivity(intent);
+
 	}
 
 	@Override

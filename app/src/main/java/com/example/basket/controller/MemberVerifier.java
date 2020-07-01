@@ -3,6 +3,7 @@ package com.example.basket.controller;
 import java.util.Map;
 
 public interface MemberVerifier {
-    public void loginProgress(Map<String, Object> profileMap);
+    public static final String TAG = null;
+    public void loginProgress();
     public void logoutProgress();
 }
