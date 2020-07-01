@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -37,5 +37,17 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+        <!-- Toolbar - 나의관심매장목록.-->
+    <style name="AppTheme." parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay"></style>
+
+    <style name="AppTheme.AppBarOverlay"></style>
+
 
 </resources>

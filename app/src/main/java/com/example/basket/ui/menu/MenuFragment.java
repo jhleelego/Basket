@@ -1,9 +1,7 @@
 package com.example.basket.ui.menu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -25,7 +22,7 @@ import com.example.basket.loginFragment.NilFragment;
 import com.example.basket.ui.menu.event.EventActivity;
 import com.example.basket.ui.menu.myCoupon.MyCouponActivity;
 import com.example.basket.ui.menu.myPage.MyPageActivity;
-import com.example.basket.ui.menu.myStoreChoice.MyStoreChoiceActivity;
+import com.example.basket.ui.menu.myStoreChoice.FavStoreActivity;
 import com.example.basket.ui.menu.purchaseHistory.PurchaseHistoryActivity;
 import com.example.basket.ui.menu.serviceCenter.ServiceCenterActivity;
 import com.example.basket.vo.MemberDTO;
@@ -60,7 +57,7 @@ public class MenuFragment extends Fragment {
                         startActivity(intent);
                         break;
                     case 4 :
-                        intent = new Intent(getActivity(), MyStoreChoiceActivity.class);
+                        intent = new Intent(getActivity(), FavStoreActivity.class);
                         startActivity(intent);
                         break;
                     case 5 :
