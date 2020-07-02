@@ -12,8 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
-
-import java.lang.reflect.Member;
+import com.example.basket.ui.main.PlazaActivity;
+import com.example.basket.ui.main.SignUpActivity;
+import com.example.basket.ui.main.TermsActivity;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
     }
 
-    public void btn_loginClick(View v) {
+    public void btn_signInClick(View v) {
         Log.i(TAG, v.toString());
         MemberVerifier memberVerifier = FragmentsFactory.getInstance(v);
         fragmentTransaction.add((Fragment)memberVerifier, memberVerifier.TAG);
@@ -38,7 +39,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void enterActivity() {
         FragmentsFactory.getInstance().loginProgress();
-        Intent intent = new Intent(LoginActivity.this, PlazaActivity.class);
+        Intent intent = new Intent(this, PlazaActivity.class);
         startActivity(intent);
+    }
+
+    public void btn_signUpClick(View view) {
+        startActivity(new Intent(this, TermsActivity.class));
     }
 }

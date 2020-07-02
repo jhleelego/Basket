@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.Listener;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.basket.ui.LoginActivity;
@@ -133,6 +134,7 @@ public final class ChainUtil implements Serializable {
 		Object result;
 		final String url = "http://192.168.0.189:8080/pjBasket/chain/" + path + ".do";
 		try {
+			RequestFuture<Object> future = RequestFuture.newFuture();
 			StringRequest request = new StringRequest(Request.Method.POST, url,
 					new Listener<String>() {
 						@Override
@@ -178,5 +180,10 @@ public final class ChainUtil implements Serializable {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	protected static String measureWallet(PublicKey owner) {
+		float outs = ChainUtil.measureOutputsValue(owner, null);
+		return outs + "(" + (outs + ChainUtil.measureInputsValue(owner, null)) + ")";
 	}
 }

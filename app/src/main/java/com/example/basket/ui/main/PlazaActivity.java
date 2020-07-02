@@ -1,4 +1,4 @@
-package com.example.basket.ui;
+package com.example.basket.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
-import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
+import com.example.basket.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PlazaActivity extends AppCompatActivity {

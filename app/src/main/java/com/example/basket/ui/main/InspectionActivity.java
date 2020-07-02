@@ -1,13 +1,16 @@
-package com.example.basket;
+package com.example.basket.ui.main;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,14 +27,23 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.basket.R;
 import com.example.basket.beacon.BeaconFragment;
 import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
 import com.example.basket.vo.MemberDTO;
+import com.example.basket.vo.WalletSqlLiter;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import blockchain.Wallet;
 
 public class InspectionActivity extends AppCompatActivity {
     public static final String TAG                           = "InspectionActivity";
@@ -51,6 +63,55 @@ public class InspectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+
+        WalletSqlLiter ws = new WalletSqlLiter(this);
+        SQLiteDatabase db = ws.getReadableDatabase();
+//        ws.onUpgrade(db,1,1);//asdas
+        Cursor c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
+        c.moveToFirst();
+        String s;
+        Wallet wallet;
+        if (c.getCount() == 0) {
+            Log.e("what the", "c.getCount() == 0");
+            try {
+                Wallet w = new Wallet();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+                oos.writeObject(w);
+                oos.close();
+
+                db = ws.getWritableDatabase();
+                Log.e("loglog", db.toString());
+                ContentValues values = new ContentValues();
+                s = new String(baos.toByteArray(), "ISO-8859-1");// 12345
+                Log.e("wallet:\n", s);
+                values.put(WalletSqlLiter.C_WALLET, s);
+                long newRowId = db.insert(WalletSqlLiter.TABLE_NAME, null, values);
+                Toast.makeText(this, String.valueOf(newRowId), Toast.LENGTH_LONG).show();
+                if (newRowId > 0) {
+                    db = ws.getReadableDatabase();
+                    c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
+                    c.moveToFirst();
+                    Log.e("newWallet", "커서 이동 완료");
+                } else {
+                    newRowId /= 0;
+                }
+            } catch (Exception e) {
+                Log.e("newWallet", "Error...");
+            }
+        }
+        try {
+            s = new String(c.getString(c.getColumnIndex(WalletSqlLiter.C_WALLET)).getBytes());
+            Log.e("wallet:\n", s);
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new ByteArrayInputStream(s.getBytes("ISO-8859-1"))));
+            wallet = (Wallet) ois.readObject();
+            ois.close();
+            MemberDTO.getInstance().setMem_wallet(wallet);
+        } catch (Exception e) {
+            Log.e("readWallet", e.toString());
+        }
+        Log.e("wallet:", MemberDTO.getInstance().getMem_wallet().toString());
+
         setContentView(R.layout.activity_inspection);
         getHashKey();
         mLayout = (View)findViewById(R.id.inspection);

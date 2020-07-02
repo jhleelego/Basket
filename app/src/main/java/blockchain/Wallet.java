@@ -33,10 +33,4 @@ public class Wallet implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
-	// 코인 보유량을 표기하기 위한 메소드: 거래 가능한 코인(전체 코인)"
-	public String measureWallet() {
-		float outs = ChainUtil.measureOutputsValue(publicKey, null);
-		return outs + "(" + (outs + ChainUtil.measureInputsValue(publicKey, null)) + ")";
-	}
 }

@@ -7,10 +7,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.controller.MemberVerifier;
-
-import java.util.Map;
 
 public class BilFragment extends Fragment implements MemberVerifier {
     public static final String TAG = "Bil";

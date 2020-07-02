@@ -2,17 +2,14 @@ package com.example.basket.loginFragment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;
