@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.menu.myStoreChoice.FavStoreActivity">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/amsc_tb_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:title="관심매장목록"
+                android:padding="15dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/amsc_card_View"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="5dp"
+
+               android:shape="ring"
+        card_view:cardCornerRadius="20dp"
+        card_view:cardElevation="3dp"
+        app:cardBackgroundColor="#EDF3F8">
+
+
+            <LinearLayout
+                android:padding="20dp"
+                android:id="@+id/amsc_ch_store_lilay1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/amsc_tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:text="서울디지털단지역점"
+                        android:textSize="22sp" />
+
+
+                    <TextView
+                        android:id="@+id/amsc_tv_addr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:text="서울 구로구 디지털로32길 43 이마트구로점"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/amsc_tv_time"
+                        android:layout_width="220dp"
+                        android:layout_height="20dp"
+                        android:text="영업시간 10:00 - 22:00"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/amsc_btn_tel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="☏02-2009-1212"></Button>
+
+                        <Button
+                            android:id="@+id/amsc_btn_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="지도보기"></Button>
+                    </LinearLayout>
+
+                </LinearLayout>`
+
+                <LinearLayout
+                    android:id="@+id/emty_emtyemtyemty"
+                    android:layout_width="73dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/amsc_imgbtn_like"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
+                    android:src="@drawable/happyface2"
+                    android:nextFocusUp="@drawable/sadface2"/>
+            </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
+    </ScrollView>
+</LinearLayout>

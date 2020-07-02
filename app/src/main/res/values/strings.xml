@@ -260,4 +260,6 @@
 
     <string name="app_name2">KakaoLoginSample</string>
     <string name="kakao_app_key">d61510bf439af253be38e1a57346c2c1</string>
+
+    <string name="tb_ch_stoname">관심매장 목록</string>
 </resources>
