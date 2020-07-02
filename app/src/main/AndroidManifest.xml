@@ -44,11 +44,12 @@
         <activity android:name=".InspectionActivity" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.menu.myPage.MyPageActivity" />
-        <activity android:name=".ui.menu.myStoreChoice.MyStoreChoiceActivity" />
+        <activity android:name=".ui.menu.myStoreChoice.FavStoreActivity" />
         <activity android:name=".ui.menu.serviceCenter.ServiceCenterActivity" />
         <activity android:name=".ui.menu.event.EventActivity" />
         <activity android:name=".ui.menu.myCoupon.MyCouponActivity" />
         <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryActivity" />
+        <activity android:name=".ui.menu.myStoreChoice.ChooseStoActivity" android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".ui.PlazaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

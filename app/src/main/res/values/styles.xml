@@ -38,6 +38,16 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay">구매목록</style>
+        <!-- Toolbar - 나의관심매장목록.-->
+    <style name="AppTheme." parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/main_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay"></style>
+
+    <style name="AppTheme.AppBarOverlay"></style>
+
 
 </resources>

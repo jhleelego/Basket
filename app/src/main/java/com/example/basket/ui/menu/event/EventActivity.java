@@ -1,6 +1,7 @@
 package com.example.basket.ui.menu.event;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,5 +13,8 @@ public class EventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+    }
+
+    public void btn_sto_searchMap(View view) {
     }
 }
