@@ -2,16 +2,40 @@ package com.example.basket.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
 import com.example.basket.R;
+import com.example.basket.ui.LoginActivity;
+import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyQueueProvider;
+import com.example.basket.vo.MemberDTO;
+import com.example.basket.vo.WalletSqlLiter;
 
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
+
+import blockchain.ChainUtil;
+import blockchain.Wallet;
 
 public class SignUpActivity extends AppCompatActivity {
     private Map<String, String> pMap = new HashMap<>();
@@ -34,17 +58,50 @@ public class SignUpActivity extends AppCompatActivity {
         pMap.put("terms4", getIntent().getStringExtra("terms4"));
     }
 
-    public void tryLogin(View view) {
+    public void trySignup(View view) {
         String result = checkSignUp();
+        PublicKey myKey;
         if (result.length() != 0) {
             Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         } else {
-            pMap.put("mem_id", mem_id);
-            pMap.put("mem_pw", mem_pw);
-            pMap.put("mem_name", mem_name);
-            pMap.put("mem_tel", mem_tel);
-            pMap.put("mem_birth", mem_birth);
-            pMap.put("mem_gender", mem_gender);
+            myKey = MemberDTO.getInstance().getMem_wallet().publicKey;
+            if (myKey != null) {
+                try {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+                    oos.writeObject(myKey);
+                    oos.close();
+                    pMap.put("myKey", new String(baos.toByteArray(), "ISO-8859-1"));
+                    pMap.put("mem_id", mem_id);
+                    pMap.put("mem_pw", mem_pw);
+                    pMap.put("mem_name", mem_name);
+                    pMap.put("mem_tel", mem_tel);
+                    pMap.put("mem_birth", mem_birth);
+                    pMap.put("mem_gender", mem_gender);
+                    Log.e("info:", "pMap setting 완료");
+                    VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+                        @Override
+                        public void onResponse(String response) {
+                            String[] sa = response.toString().split("#");
+                            if ("success".compareTo(sa[0]) == 0) {
+                                Toast.makeText(SignUpActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            } else {
+                                Toast.makeText(SignUpActivity.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(SignUpActivity.this, "회원가입 실패:" + error.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    }, "member/mem_signUp", pMap);
+                } catch (Exception e) {
+                    Log.e("SingUp", e.toString());
+                }
+            } else {
+                Log.e("error", "공개키 미아?");
+            }
         }
     }
 

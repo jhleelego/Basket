@@ -236,7 +236,7 @@
             android:layout_marginTop="550dp"
             android:layout_marginEnd="100dp"
             android:backgroundTint="@color/main_color"
-            android:onClick="tryLogin"
+            android:onClick="trySignup"
             android:text="가입하기"
             android:textColor="@color/white"
             android:textStyle="bold"

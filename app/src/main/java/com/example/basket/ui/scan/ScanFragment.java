@@ -26,7 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.basket.R;
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.RequestQ;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -219,6 +219,4 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
         super.onSaveInstanceState(outState);
         manager.onSaveInstanceState(outState);
     }
-
-
 }
