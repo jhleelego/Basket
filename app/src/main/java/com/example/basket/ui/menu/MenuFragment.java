@@ -32,8 +32,6 @@ import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
     private MenuViewModel menuViewModel;
-    TextView tv_userNick = null;
-    String nickName = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

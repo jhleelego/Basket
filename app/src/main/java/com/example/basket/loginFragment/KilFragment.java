@@ -1,5 +1,6 @@
 package com.example.basket.loginFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,8 +14,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
+import com.example.basket.factory.FragmentsFactory;
 import com.example.basket.logical.HashUtil;
 import com.example.basket.ui.LoginActivity;
+import com.example.basket.ui.PlazaActivity;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -28,22 +31,15 @@ import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
-
-import java.util.HashMap;
-import java.util.Map;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class KilFragment extends Fragment implements MemberVerifier {
-
     public static final String TAG = "Kil";
-
-    private Button btn_kil;
-    private Button btn_custom_login_out;
     private SessionCallback sessionCallback = new SessionCallback();
     Session session;
     private Context mContext;
+    private Activity mActivity;
 
     public static KilFragment getInstance() {
         return KilFragment.LazyHolder.instance;
@@ -58,29 +54,20 @@ public class KilFragment extends Fragment implements MemberVerifier {
         super.onAttach(context);
         Log.i(TAG, "onAttach()");
         this.mContext = context;
+        this.mActivity = getActivity();
         session = Session.getCurrentSession();
+        if(!session.isOpened()){
+            session.close();
+        }
         session.addCallback(sessionCallback);
-        Map<String, String> pMap = new HashMap<>();
+        Log.i(TAG, "session.isOpened() : " + session.isOpened());
+        if(mActivity!=null){
+            Log.i(TAG, "mActivity!=null : " + mActivity.toString());
+        }
         session.open(AuthType.KAKAO_LOGIN_ALL, KilFragment.this);
-       /* btn_kil = getActivity().findViewById(R.id.btn_kil);
-        btn_kil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
-
-        btn_custom_login_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserManagement.getInstance()
-                        .requestLogout(new LogoutResponseCallback() {
-                            @Override
-                            public void onCompleteLogout() {
-                                Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-        });*/
+        if(getActivity()!=null){
+            Log.i(TAG, "getActivity()!=null : " + getActivity().toString());
+        }
     }
 
     @Override
@@ -99,10 +86,8 @@ public class KilFragment extends Fragment implements MemberVerifier {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     @Override
     public void loginProgress() {
@@ -110,7 +95,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
     }
 
     @Override
-    public void logoutProgress() {
+    public void logoutProgress(Activity activity) {
         Log.i(TAG, "logoutProgress()");
         UserManagement.getInstance()
                 .requestLogout(new LogoutResponseCallback() {
@@ -119,6 +104,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
                         Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
+        ((PlazaActivity)activity).LoginEnterActivity();
     }
 
 
@@ -188,7 +174,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
                                     Log.i(TAG, "kakaoAccount.getBirthday() : " + kakaoAccount.getBirthday());
                                     pMap.put("birthday",kakaoAccount.getBirthday());
                                 }
-                                HashUtil.mapToDTOBinder(pMap, NilFragment.TAG);
+                                HashUtil.mapToDTOBinder(pMap, KilFragment.TAG);
                                 // 프로필
                                 Profile profile = kakaoAccount.getProfile();
                                 if (profile != null) {
@@ -201,12 +187,9 @@ public class KilFragment extends Fragment implements MemberVerifier {
                                     // 프로필 획득 불가
                                 }
                             }
-                            ((LoginActivity)getActivity()).enterActivity();
+                            ((LoginActivity)mActivity).PlazaEnterActivity();
                         }
                     });
         }
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.basket.loginFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -60,7 +61,7 @@ public class BilFragment extends Fragment implements MemberVerifier {
     }
 
     @Override
-    public void logoutProgress() {
+    public void logoutProgress(Activity activity) {
         Log.i(TAG, "logoutProgress()");
 
     }
