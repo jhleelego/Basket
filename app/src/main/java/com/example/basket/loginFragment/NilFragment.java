@@ -1,5 +1,6 @@
 package com.example.basket.loginFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -86,6 +87,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		Log.i(TAG,"onResume() 호출 ");
 		super.onResume();
 	}
+
 
 	public OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
 		@Override
