@@ -13,6 +13,8 @@ import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
 
+import java.lang.reflect.Member;
+
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG ="LoginActivity";
@@ -24,16 +26,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if(fragmentTransaction!=null){
-            Log.i(TAG, fragmentTransaction.toString());
-        }
     }
 
-    public void btn_loginClick(View v) {
-        Log.i(TAG, "btn_loginClick()");
+    public void btn_signInClick(View v) {
         Log.i(TAG, v.toString());
-        memberVerifier = FragmentsFactory.newInstance(v);
-        fragmentTransaction.add((Fragment) memberVerifier, memberVerifier.TAG);
+        MemberVerifier memberVerifier = FragmentsFactory.newInstance(v);
+        fragmentTransaction.add((Fragment)memberVerifier, memberVerifier.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
 
@@ -42,5 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         memberVerifier.loginProgress();
         startActivity(new Intent(LoginActivity.this, PlazaActivity.class));
 
+    }
+
+    public void btn_signUpClick(View view) {
+        startActivity(new Intent(this, TermsActivity.class));
     }
 }

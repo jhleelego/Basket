@@ -1,13 +1,16 @@
-package com.example.basket;
+package com.example.basket.ui.main;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,14 +27,41 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.basket.R;
 import com.example.basket.beacon.BeaconFragment;
 import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
+import com.example.basket.vo.WalletSqlLiter;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
+import java.security.PublicKey;
+import java.security.Security;
+import java.util.HashMap;
+import java.util.Map;
+
+import blockchain.ChainUtil;
+import blockchain.Wallet;
+import blockchain.Wallet2;
 
 public class InspectionActivity extends AppCompatActivity {
     public static final String TAG                           = "InspectionActivity";
@@ -47,10 +77,79 @@ public class InspectionActivity extends AppCompatActivity {
 
     View mLayout = null;
 
+    private void setupBouncyCastle() {
+        final Provider provider = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME);
+        if (provider == null) {
+            // Web3j will set up the provider lazily when it's first used.
+            return;
+        }
+        if (provider.getClass().equals(BouncyCastleProvider.class)) {
+            // BC with same package name, shouldn't happen in real life.
+            return;
+        }
+        // Android registers its own BC provider. As it might be outdated and might not include
+        // all needed ciphers, we substitute it with a known BC bundled in the app.
+        // Android's BC has its package rewritten to "com.android.org.bouncycastle" and because
+        // of that it's possible to have another BC implementation loaded in VM.
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
+    }
+
+    private PublicKey createWallet() {
+        WalletSqlLiter ws = new WalletSqlLiter(this);
+        SQLiteDatabase db = ws.getReadableDatabase();
+//        ws.onUpgrade(db,1,1);//asdas
+        Cursor c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
+        c.moveToFirst();
+        String s;
+        Wallet wallet;
+        if (c != null && c.getCount() == 0) {
+            Log.e("what the", "c.getCount() == 0");
+            try {
+                Wallet w = new Wallet();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+                oos.writeObject(w);
+                oos.close();
+
+                db = ws.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                s = new String(baos.toByteArray(), "ISO-8859-1");
+                Log.e("wallet:\n", s);
+                values.put(WalletSqlLiter.C_WALLET, s);
+                long newRowId = db.insert(WalletSqlLiter.TABLE_NAME, null, values);
+                Toast.makeText(this, String.valueOf(newRowId), Toast.LENGTH_LONG).show();
+                if (newRowId > 0) {
+                    db = ws.getReadableDatabase();
+                    c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
+                    c.moveToFirst();
+                    Log.e("newWallet", "커서 이동 완료");
+                } else {
+                    newRowId /= 0;
+                }
+            } catch (Exception e) {
+                Log.e("newWallet", e.toString());
+            }
+        }
+        try {
+            s = new String(c.getString(c.getColumnIndex(WalletSqlLiter.C_WALLET)).getBytes());
+            Log.e("wallet:\n", s);
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new ByteArrayInputStream(s.getBytes("ISO-8859-1"))));
+            wallet = (Wallet) ois.readObject();
+            ois.close();
+            MemberDTO.getInstance().setMem_wallet(wallet);
+        } catch (Exception e) {
+            Log.e("readWallet", e.toString());
+        }
+        return MemberDTO.getInstance().getMem_wallet().publicKey;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_inspection);
         getHashKey();
         mLayout = (View)findViewById(R.id.inspection);
@@ -60,6 +159,24 @@ public class InspectionActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(BeaconFragment.getInstance(), "BeaconFragment");
         fragmentTransaction.commitAllowingStateLoss();
+
+
+        VolleyQueueProvider.initRequestQueue(applicationContext);
+        setupBouncyCastle();
+        PublicKey pk = createWallet();
+//        PublicKey pk = new Wallet().publicKey;
+        Log.e("PublicKey: ", pk.toString());
+        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+                                               @Override
+                                               public void onResponse(String response) {
+                                                   Toast.makeText(applicationContext, "callback: " + response, Toast.LENGTH_SHORT).show();
+                                               }
+
+                                               @Override
+                                               public void onErrorResponse(VolleyError error) {
+                                                   Toast.makeText(applicationContext, "error: " + error, Toast.LENGTH_SHORT).show();
+                                               }
+        }, "chain/current_time", null);
     }
 
     @Override

@@ -4,8 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.lang.reflect.Field;
-
 import blockchain.Wallet;
 
 public class MemberDTO {
@@ -20,7 +18,7 @@ public class MemberDTO {
     private String  mem_age         = null;
     private String  mem_birth       = null;
     private String  mem_tel         = null;
-    private Wallet  mem_wallet      = null;
+    private Wallet mem_wallet      = null;
     private String  mem_coin        = null;
 
     public MemberDTO(){

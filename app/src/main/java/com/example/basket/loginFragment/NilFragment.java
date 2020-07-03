@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;

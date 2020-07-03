@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.menu.myPage.MyPageActivity">
+    tools:context=".ui.menu.myPage.MyPageActivity"
+    android:background="@color/colorPrimaryDark">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,10 +53,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_id"
+                android:id="@+id/mp_user_id"
                 android:layout_width="220dp"
                 android:layout_height="34dp"
-                android:enabled="false"/>
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -76,10 +83,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_pw"
+                android:id="@+id/mp_user_pw"
                 android:layout_width="205dp"
                 android:layout_height="30dp"
-                android:enabled="false"/>
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -105,10 +114,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_tel"
+                android:id="@+id/mp_user_tel"
                 android:layout_width="190dp"
                 android:layout_height="30dp"
-                android:enabled="false"/>
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -135,10 +146,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_name"
+                android:id="@+id/mp_user_name"
                 android:layout_width="175dp"
                 android:layout_height="34dp"
-                android:enabled="false" />
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -164,10 +177,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_birth"
+                android:id="@+id/mp_user_birth"
                 android:layout_width="155dp"
                 android:layout_height="34dp"
-                android:enabled="false" />
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true" />
 
         </LinearLayout>
     </LinearLayout>
@@ -193,10 +208,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
             <EditText
-                android:id="@+id/et_user_gender"
+                android:id="@+id/mp_user_gender"
                 android:layout_width="140dp"
                 android:layout_height="34dp"
-                android:enabled="false" />
+                android:lines="1"
+                android:gravity="top|left"
+                android:enabled="true" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -223,13 +240,7 @@
             android:orientation="vertical"
             android:paddingTop="20dp"
             android:paddingHorizontal="40dp">
-            
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="8dp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:text="@string/TermsOfUseOfPersonalInformation"/>
+
      </LinearLayout>
     </LinearLayout>
+</ScrollView>

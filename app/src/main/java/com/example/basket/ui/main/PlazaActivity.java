@@ -1,4 +1,4 @@
-package com.example.basket.ui;
+package com.example.basket.ui.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
 import com.example.basket.factory.FragmentsFactory;
+import com.example.basket.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static com.example.basket.ui.LoginActivity.fragmentTransaction;
