@@ -28,6 +28,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.basket.R;
 import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.RequestQ;
+import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyQueueProvider;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -37,147 +39,87 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ScanFragment extends Fragment implements  DecoratedBarcodeView.TorchListener {
-    public static final String TAG = "ScanFragment";
-    private DecoratedBarcodeView barcodeView;
-    private CaptureManager manager;
-    private boolean isFlashOn = false;// 플래시가 켜져 있는지
+import java.util.HashMap;
+import java.util.Map;
 
-    private RequestQueue requestQueue = null;
+public class ScanFragment extends Fragment implements DecoratedBarcodeView.TorchListener  {
+    public static final String TAG = "ScanFragment★★★★★★★★";
+
+    private View root = null;
     private Context mContext = null;
     private Activity mActivity = null;
+    private DecoratedBarcodeView barcodeView;
 
     String pro_barcode = null; //스캔한 상품바코드
+    private boolean isFlashOn = false;// 플래시가 켜져 있는지
+    private CaptureManager manager;
 
+    private IntentIntegrator scanner;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        Log.e(TAG, "onAttach()");
         this.mContext = context;
         this.mActivity = getActivity();
-        //QR코드 스캐너 호출
-        //new IntentIntegrator(mActivity).initiateScan();
-
-        /*dddddddddddddddddddddddddddddddddddd
-        final ListView listView = getActivity().findViewById(R.id.listView);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                new String[]{"copy","past","cut","delete","convert","open", "copy","past","cut","delete","convert","open", "copy","past","cut","delete","convert","open"}));
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), position+" 번째 값 : " + parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-
-        });
-        dddddddddddddddddddddddddddddddddddd*/
-
-
     }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView 호출됨");
+        //QR코드 스캐너 호출
         View root = inflater.inflate(R.layout.fragment_scan, container, false);
         barcodeView = root.findViewById(R.id.barcode_view);
+
+        scanner = new IntentIntegrator(getActivity());
+        scanner.setOrientationLocked(true);
+        scanner.setPrompt("상품의 바코드를 스캔해주세요.");
         if(mActivity!=null){
-            Log.i(TAG, "mActivity" + mActivity.toString());
+            Log.e(TAG, "mActivity : " + getActivity().toString());
+            Log.e(TAG, "getActivity : " + getActivity().toString());
         }
-        if(getActivity()!=null){
-            Log.i(TAG, "getActivity() : " + getActivity().toString());
-        }
-        if(savedInstanceState!=null){
-            Log.i(TAG, "savedInstance : " + savedInstanceState);
+        manager = new CaptureManager(mActivity, barcodeView);
 
-        }
-        manager = new CaptureManager(getActivity() , barcodeView);
-        manager.initializeFromIntent(mActivity.getIntent() , savedInstanceState);
+        manager.initializeFromIntent(new Intent() , savedInstanceState);
         manager.decode();
+        scanner.initiateScan();
 
-        //btFlash = mActivity.findViewById(R.id.bt_flash);
-       /* btFlash.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isFlashOn){
-                    barcodeView.setTorchOff();
-                }else{
-                    barcodeView.setTorchOn();
-                }
-            }
-        });*/
+
         return root;
     }
 
-    /*public void pageMove(View view) {
-        webView = mActivity.findViewById(R.id.wv_qr);
-        WebSettings webSettings = webView.getSettings();
-        //자바스크립트를 사용할 수 있게
-//        webSettings.setJavaScriptEnabled(true);
-//        webSettings.setSupportMultipleWindows(true);
-//        webSettings.setUseWideViewPort(true);
-//        webView.setWebViewClient(new WebViewClient());
-//        webView.setWebChromeClient(new WebChromeClient());
-//        webView.loadUrl(qrcontent);
-    }*/
-
-  /*  public void scanExit(View view) {
-        if(webView.canGoBack()) webView.goBack();
-        else finish();
-    }*/
-
-    public void jsonArrayRequestTest(){
-        String url = "http://192.168.0.37:5050/product/find_pro.do?pro_barcode="+pro_barcode;
-        try{
-            requestQueue = RequestQ.getInstance(getActivity().getApplicationContext()).getRequestQueue();
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                    Request.Method.GET,
-                    url,
-                    null,
-                    new Response.Listener<JSONArray>() {
-
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            try {
-                                for(int i=0; i<response.length(); i++) {
-                                    JSONObject sth = response.getJSONObject(i);
-                                    String id = sth.getString("member_id");
-                                    String name = sth.getString("member_name");
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener(){
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("Errorr", error.toString());
-                }
-            }
-            );
-
-            // Access the RequestQueue through your singleton class.
-            requestQueue.add(jsonArrayRequest);
-
-        } catch (Exception e) {
-            Log.i("Volley",e.toString());
-        }
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.e(TAG, "onActivityResult 호출 성공");
         // QR코드/바코드를 스캔한 결과 값을 가져옴
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         // 결과값 출력
         if(result != null){
             if(result.getContents() == null) { //결과값이 없으면
-                Toast.makeText(mContext, "Cancelled", Toast.LENGTH_LONG).show();
+                Log.e(TAG , "result.getContents() == null");
             }
             else {
-                //qrcontent = result.getContents();
-                //Toast.makeText(mContext,  qrcontent ,Toast.LENGTH_LONG).show();
+                //상품 바코드로 DB연동 고고 그리고 다이얼로그 액티비티 띄우기
+                pro_barcode = result.getContents();
+                Log.e("ScanFrag pro_barcode is" , pro_barcode);
+                Map<String, String> pMap = new HashMap<>();
+                pMap.put("sto_code", "1");
+                pMap.put("pro_barcode", pro_barcode);
+                VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e(TAG, "response : " + response);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }, "product/find_pro", pMap);
+
 
             }
         }
@@ -187,36 +129,44 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
     }
     @Override
     public void onTorchOn() {
+        Log.e(TAG, "onTorchOn()");
         //btFlash.setText("플래시끄기");
         isFlashOn = true;
     }
 
     @Override
     public void onTorchOff() {
+        Log.e(TAG, "onTorchOff()");
         //btFlash.setText("플래시켜기");
         isFlashOn = false;
     }
     @Override
     public void onResume() {
+        Log.e(TAG, "onResume()");
         super.onResume();
         manager.onResume();
     }
 
     @Override
     public void onPause() {
+        Log.e(TAG, "onPause()");
         super.onPause();
         manager.onPause();
     }
 
     @Override
     public void onDestroy() {
+        Log.e(TAG, "onDestroy()");
         super.onDestroy();
         manager.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.e(TAG, "onSaveInstanceState()");
         super.onSaveInstanceState(outState);
         manager.onSaveInstanceState(outState);
     }
+
+
 }

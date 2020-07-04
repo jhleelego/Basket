@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,15 +15,27 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.factory.FragmentsFactory;
 import com.example.basket.ui.LoginActivity;
+import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyQueueProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.CaptureManager;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.basket.ui.LoginActivity.fragmentTransaction;
 import static com.example.basket.ui.LoginActivity.memberVerifier;
 
 public class PlazaActivity extends AppCompatActivity {
+    private RequestQueue requestQueue = null;
 
     public static final String TAG = "PlazaActivity";
     @Override
@@ -55,4 +69,6 @@ public class PlazaActivity extends AppCompatActivity {
         memberVerifier.logoutProgress(this);
         FragmentsFactory.removeInstance();
     }
+
+
 }

@@ -22,6 +22,7 @@
     <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!--[[[[[[[[[[[[[[[[[[[[[[[NAVER -  DONE ]]]]]]]]]]]]]]]]]]]]]]]-->
 
     <application
@@ -50,7 +51,6 @@
         <activity android:name=".ui.main.InspectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -60,7 +60,8 @@
         <activity android:name=".ui.menu.event.EventActivity" />
         <activity android:name=".ui.menu.myCoupon.MyCouponActivity" />
         <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryActivity" />
-        <activity android:name=".ui.main.PlazaActivity" />
+        <activity android:name=".ui.main.PlazaActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.menu.myStoreChoice.ChooseStoActivity"
             android:theme="@android:style/Theme.Dialog" />
