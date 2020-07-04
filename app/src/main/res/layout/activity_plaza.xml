@@ -29,6 +29,7 @@
         app:menu="@menu/bottom_nav_menu"
         android:layout_gravity="bottom"
         />
+
     <fragment
         android:id="@+id/nav_host_mainActivity_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
