@@ -26,7 +26,7 @@ public final class VolleyQueueProvider {
     private VolleyQueueProvider() {
     }
 
-    private static Context app = null;
+    public static Context app = null;
 
     private static class LazyHolder {
         private static final RequestQueue requestQueue = Volley.newRequestQueue(app);
