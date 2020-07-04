@@ -1,5 +1,6 @@
 package com.example.basket.loginFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -7,10 +8,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.controller.MemberVerifier;
-
-import java.util.Map;
 
 public class BilFragment extends Fragment implements MemberVerifier {
     public static final String TAG = "Bil";
@@ -62,7 +61,7 @@ public class BilFragment extends Fragment implements MemberVerifier {
     }
 
     @Override
-    public void logoutProgress() {
+    public void logoutProgress(Activity activity) {
         Log.i(TAG, "logoutProgress()");
 
     }

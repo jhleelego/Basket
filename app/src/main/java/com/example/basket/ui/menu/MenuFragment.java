@@ -25,15 +25,13 @@ import com.example.basket.loginFragment.NilFragment;
 import com.example.basket.ui.menu.event.EventActivity;
 import com.example.basket.ui.menu.myCoupon.MyCouponActivity;
 import com.example.basket.ui.menu.myPage.MyPageActivity;
-import com.example.basket.ui.menu.myStoreChoice.MyStoreChoiceActivity;
+import com.example.basket.ui.menu.myStoreChoice.ChooseStoActivity;
 import com.example.basket.ui.menu.purchaseHistory.PurchaseHistoryActivity;
 import com.example.basket.ui.menu.serviceCenter.ServiceCenterActivity;
 import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
     private MenuViewModel menuViewModel;
-    TextView tv_userNick = null;
-    String nickName = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class MenuFragment extends Fragment {
                     if(position==1){startActivity(new Intent(getActivity(), PurchaseHistoryActivity.class)); return;}
                     if(position==2){startActivity(new Intent(getActivity(), MyCouponActivity.class)); return;}
                     if(position==3){startActivity(new Intent(getActivity(), EventActivity.class)); return;}
-                    if(position==4){startActivity(new Intent(getActivity(), MyStoreChoiceActivity.class)); return;}
+                    if(position==4){startActivity(new Intent(getActivity(), ChooseStoActivity.class)); return;}
                     if(position==5){startActivity(new Intent(getActivity(), ServiceCenterActivity.class)); return;}
             }
         };

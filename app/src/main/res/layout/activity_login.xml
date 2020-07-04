@@ -49,21 +49,22 @@
             android:layout_marginHorizontal="110dp"
             android:gravity="center">
             <Button
-                android:id="@+id/btn_join"
+                android:id="@+id/btn_sign_up"
                 android:layout_width="104dp"
                 android:layout_height="wrap_content"
-                android:text="JOIN"
+                android:text="SIGN UP"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/main_color"/>
+                android:backgroundTint="@color/main_color"
+                android:onClick="btn_signUpClick"/>
 
             <Button
                 android:id="@+id/btn_bil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="SIGN IN"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/main_color"
-                android:onClick="btn_loginClick"/>
+                android:onClick="btn_signInClick"/>
         </LinearLayout>
 
         <ImageView

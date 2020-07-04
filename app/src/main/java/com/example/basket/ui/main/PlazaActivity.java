@@ -1,26 +1,29 @@
-package com.example.basket.ui;
+package com.example.basket.ui.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
-import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
+import com.example.basket.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import static com.example.basket.ui.LoginActivity.fragmentTransaction;
+import static com.example.basket.ui.LoginActivity.memberVerifier;
 
 public class PlazaActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
-    String nickName = null;
-    String mem_Entrance = null;
-
+    public static final String TAG = "PlazaActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,27 +32,27 @@ public class PlazaActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
-
-
+        if(fragmentTransaction!=null){
+            Log.i(TAG, fragmentTransaction.toString());
+        }
     }
 
     public void btn_logoutClick(View v) {
-        Log.i(TAG, "v : " + v);
-        FragmentsFactory.getInstance().logoutProgress();
-        startActivity(new Intent(PlazaActivity.this, LoginActivity.class));
-        Log.i(TAG, "btn 끝");
+        fragmentTransaction.remove((Fragment)memberVerifier);
+        memberVerifier.logoutProgress(this);
+        FragmentsFactory.removeInstance();
     }
 
-   /* @Override
+    public void LoginEnterActivity() {
+        startActivity(new Intent(PlazaActivity.this, LoginActivity.class));
+    }
+
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(nickName!=null){
-            Log.i("nickname", nickName);
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("nickname", nickName);
-            startActivity(intent);
-        }
-    }*/
-
-
+        fragmentTransaction.remove((Fragment)memberVerifier);
+        memberVerifier.logoutProgress(this);
+        FragmentsFactory.removeInstance();
+    }
 }
