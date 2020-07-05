@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
+import com.example.basket.ui.main.PlazaActivity;
+import com.example.basket.ui.main.TermsActivity;
 
 import java.lang.reflect.Member;
 

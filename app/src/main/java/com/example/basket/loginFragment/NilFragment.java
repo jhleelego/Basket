@@ -13,6 +13,7 @@ import com.example.basket.ui.LoginActivity;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;
+import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
 import com.nhn.android.naverlogin.OAuthLogin;

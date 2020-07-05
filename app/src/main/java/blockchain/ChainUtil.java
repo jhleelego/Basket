@@ -1,30 +1,5 @@
 package blockchain;
 
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response.Listener;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.basket.ui.LoginActivity;
-import com.example.basket.util.VolleyCallBack;
-import com.example.basket.util.VolleyQueueProvider;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.ArrayList;
