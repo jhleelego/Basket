@@ -43,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         pMap.put("terms2", getIntent().getStringExtra("terms2"));
         pMap.put("terms3", getIntent().getStringExtra("terms3"));
         pMap.put("terms4", getIntent().getStringExtra("terms4"));
-    }
+    }  
 
     public void trySignup(View view) {
         String result = checkSignUp();
