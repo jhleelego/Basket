@@ -22,7 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     private String mem_tel;
     private String mem_birth;
     private String mem_gender;
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
