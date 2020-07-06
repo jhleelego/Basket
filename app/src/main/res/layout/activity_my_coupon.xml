@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.menu.myCoupon.MyCouponActivity">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.menu.myCoupon.MyCouponActivity"
+    tools:showIn="@layout/activity_main">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/amc_Toolbar"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:text="쿠폰함"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:text="이벤트"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:onClick="eventMove"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+<!--
+    <Spinner
+        android:entries="@array/amc_FavoriteStoreDropDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/amc_card_view1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
+        android:shape="ring"
+        card_view:cardCornerRadius="30dp"
+        card_view:cardElevation="0dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/amc_imageView"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerInside"/>
+    </androidx.cardview.widget.CardView>
+-->
+</LinearLayout>

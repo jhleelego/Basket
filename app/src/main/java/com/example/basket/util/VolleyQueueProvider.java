@@ -10,18 +10,23 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
-import java.util.Map; 
+import org.json.JSONObject;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public final class VolleyQueueProvider {
 
     private VolleyQueueProvider() {
     }
 
-    private static Context app = null;
+    public static Context app = null;
 
     private static class LazyHolder {
         private static final RequestQueue requestQueue = Volley.newRequestQueue(app);
@@ -52,7 +57,7 @@ public final class VolleyQueueProvider {
         }
     }
 
-    public static void callbackVolley(@NonNull final VolleyCallBack volleyCallBack, String path, final Map<String, String> pMap) {
+    public static void callbackVolley(@NonNull final VolleyCallback volleyCallBack, String path, final Map<String, String> pMap) {
         Object result;
         final String url = "http://192.168.0.30:8080/pjBasket/" + path + ".do";
         Log.e("url: ", url);

@@ -36,7 +36,6 @@ repositories {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation files('libs\\bcprov-jdk15to18-165.jar')
-    /*implementation 'org.jetbrains:annotations:15.0'*/
 
     def android_x_version = "1.0.0"
     implementation "androidx.appcompat:appcompat:$android_x_version"

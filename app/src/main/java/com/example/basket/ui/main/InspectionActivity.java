@@ -27,9 +27,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.basket.R;
 import com.example.basket.beacon.BeaconFragment;
+import com.example.basket.ui.LoginActivity;
 import com.example.basket.util.VolleyCallBack;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
@@ -49,15 +56,20 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
+import java.util.HashMap;
+import java.util.Map;
 
+import blockchain.ChainUtil;
 import blockchain.Wallet;
+import blockchain.Wallet2;
 
 public class InspectionActivity extends AppCompatActivity {
     public static final String TAG                           = "InspectionActivity";
+    public String userNick = null;
     public static final int PERMISSIONS_REQUEST_CODE = 2000;
-    private Context applicationContext                              =   null;
-    public static final String[] REQUIRED_PERMISSIONS = new String[]{   Manifest.permission.CAMERA,
-                                                                        Manifest.permission.ACCESS_FINE_LOCATION
+    private Context applicationContext = null;
+    public static final String[] REQUIRED_PERMISSIONS = new String[]{Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
 
     private FragmentManager fragmentManager;
@@ -140,31 +152,29 @@ public class InspectionActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_inspection);
         getHashKey();
-        mLayout = (View)findViewById(R.id.inspection);
-        applicationContext = this.getApplicationContext();
+        mLayout = (View) findViewById(R.id.inspection);
         MemberDTO.getInstance();
         checkPermission();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(BeaconFragment.getInstance(), "BeaconFragment");
         fragmentTransaction.commitAllowingStateLoss();
 
-
-        VolleyQueueProvider.initRequestQueue(applicationContext);
+        VolleyQueueProvider.initRequestQueue(getApplicationContext());
         setupBouncyCastle();
         PublicKey pk = createWallet();
 //        PublicKey pk = new Wallet().publicKey;
         Log.e("PublicKey: ", pk.toString());
-        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
-                                               @Override
-                                               public void onResponse(String response) {
-                                                   Toast.makeText(applicationContext, "callback: " + response, Toast.LENGTH_SHORT).show();
-                                               }
-
-                                               @Override
-                                               public void onErrorResponse(VolleyError error) {
-                                                   Toast.makeText(applicationContext, "error: " + error, Toast.LENGTH_SHORT).show();
-                                               }
-        }, "chain/current_time", null);
+//        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+//            @Override
+//            public void onResponse(String response) {
+//                Toast.makeText(applicationContext, "callback: " + response, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(applicationContext, "error: " + error, Toast.LENGTH_SHORT).show();
+//            }
+//        }, "chain/current_time", null);
     }
 
     @Override
@@ -180,70 +190,72 @@ public class InspectionActivity extends AppCompatActivity {
     }
 
     @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grandResults) {
-            if ( requestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
-                // 요청 코드가 PERMISSIONS_REQUEST_CODES[I] 이고, 요청한 퍼미션 개수만큼 수신되었다면
-                boolean check_result = true;
-                // 모든 퍼미션을 허용했는지 체크합니다.
-                for (int result : grandResults) {
-                    if (result != PackageManager.PERMISSION_GRANTED) {
-                        check_result = false;
-                        break;
-                    }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grandResults) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
+            // 요청 코드가 PERMISSIONS_REQUEST_CODES[I] 이고, 요청한 퍼미션 개수만큼 수신되었다면
+            boolean check_result = true;
+            // 모든 퍼미션을 허용했는지 체크합니다.
+            for (int result : grandResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false;
+                    break;
                 }
-                if ( check_result ) {
-                    loginCheck();
-                    // 모든 퍼미션을 허용했다면 카메라 프리뷰를 시작합니다.
+            }
+            if (check_result) {
+                loginCheck();
+                // 모든 퍼미션을 허용했다면 카메라 프리뷰를 시작합니다.
+            } else {
+                // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
+                if (ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[0])
+                        || ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[1])) {
+                    // 사용자가 거부만 선택한 경우에는 앱을 다시 실행하여 허용을 선택하면 앱을 사용할 수 있습니다.
+                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
+                            Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            finish();
+                        }
+                    }).show();
                 } else {
-                    // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[0])
-                            || ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[1])) {
-                        // 사용자가 거부만 선택한 경우에는 앱을 다시 실행하여 허용을 선택하면 앱을 사용할 수 있습니다.
-                        Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요. ",
-                                Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                finish();
-                            }
-                        }).show();
-                    }else {
-                        // “다시 묻지 않음”을 사용자가 체크하고 거부를 선택한 경우에는 설정(앱 정보)에서 퍼미션을 허용해야 앱을 사용할 수 있습니다.
-                        Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
-                                Snackbar.LENGTH_INDEFINITE).setAction("설정", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AlertDialog.Builder localBuilder = new AlertDialog.Builder(InspectionActivity.this);
-                                localBuilder.setTitle("권한 설정")
-                                        .setMessage("권한 거절로 인해 일부기능이 제한됩니다.")
-                                        .setPositiveButton("권한 설정하러 가기", new DialogInterface.OnClickListener(){
-                                            public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt){
-                                                try {
-                                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                                            .setData(Uri.parse("package:" + getPackageName()));
-                                                    startActivity(intent);
-                                                } catch (ActivityNotFoundException e) {
-                                                    e.printStackTrace();
-                                                    Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-                                                    startActivity(intent);
-                                                }
-                                            }})
-                                        .setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
-                                                Toast.makeText(getApplication(), "권한이 필요합니다." ,Toast.LENGTH_SHORT).show();
-                                                //Toast.makeText(getApplication(),getString(R.string.limit),Toast.LENGTH_SHORT).show();
-                                            }})
-                                        .create()
-                                        .show();
-                            }
-                        }).show();
-                    }
+                    // “다시 묻지 않음”을 사용자가 체크하고 거부를 선택한 경우에는 설정(앱 정보)에서 퍼미션을 허용해야 앱을 사용할 수 있습니다.
+                    Snackbar.make(mLayout, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
+                            Snackbar.LENGTH_INDEFINITE).setAction("설정", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            AlertDialog.Builder localBuilder = new AlertDialog.Builder(InspectionActivity.this);
+                            localBuilder.setTitle("권한 설정")
+                                    .setMessage("권한 거절로 인해 일부기능이 제한됩니다.")
+                                    .setPositiveButton("권한 설정하러 가기", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
+                                            try {
+                                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                                        .setData(Uri.parse("package:" + getPackageName()));
+                                                startActivity(intent);
+                                            } catch (ActivityNotFoundException e) {
+                                                e.printStackTrace();
+                                                Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                                                startActivity(intent);
+                                            }
+                                        }
+                                    })
+                                    .setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
+                                            Toast.makeText(getApplication(), "권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(getApplication(),getString(R.string.limit),Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .create()
+                                    .show();
+                        }
+                    }).show();
                 }
             }
         }
+    }
 
     private void loginCheck() {
         //Log.i(TAG, MemberDTO.getInstance().getMem_code());
-        if(MemberDTO.getInstance().getMem_code()!=null&&MemberDTO.getInstance().getMem_code().length()>0){
+        if (MemberDTO.getInstance().getMem_code() != null && MemberDTO.getInstance().getMem_code().length() > 0) {
             Intent intent = new Intent(InspectionActivity.this, PlazaActivity.class);
             startActivity(intent);
         } else {
@@ -252,15 +264,15 @@ public class InspectionActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermission(){
+    private void checkPermission() {
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             // 1. 카메라 퍼미션과 외부 저장소 퍼미션을 가지고 있는지 체크합니다.
             int cameraPermission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA);
             int afLocationPermission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION);
-            if ( cameraPermission == PackageManager.PERMISSION_GRANTED
+            if (cameraPermission == PackageManager.PERMISSION_GRANTED
                     && afLocationPermission == PackageManager.PERMISSION_GRANTED) {
                 loginCheck();  // 3. 카메라 프리뷰 시작
-            }else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
+            } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
                 // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
                 if (ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[0])
                         || ActivityCompat.shouldShowRequestPermissionRationale(InspectionActivity.this, REQUIRED_PERMISSIONS[1])) {
@@ -269,14 +281,14 @@ public class InspectionActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                            ActivityCompat.requestPermissions( InspectionActivity.this, REQUIRED_PERMISSIONS,
+                            ActivityCompat.requestPermissions(InspectionActivity.this, REQUIRED_PERMISSIONS,
                                     PERMISSIONS_REQUEST_CODE);
                         }
                     }).show();
                 } else {
                     // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                     // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                    ActivityCompat.requestPermissions( InspectionActivity.this, REQUIRED_PERMISSIONS,
+                    ActivityCompat.requestPermissions(InspectionActivity.this, REQUIRED_PERMISSIONS,
                             PERMISSIONS_REQUEST_CODE);
                 }
             }
@@ -293,7 +305,7 @@ public class InspectionActivity extends AppCompatActivity {
         }
     }
 
-    private void getHashKey(){
+    private void getHashKey() {
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
@@ -313,4 +325,7 @@ public class InspectionActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 }

@@ -21,7 +21,6 @@ import com.example.basket.ui.menu.myPage.MyPageActivity;
 import com.example.basket.ui.menu.myStoreChoice.ChooseStoActivity;
 import com.example.basket.ui.menu.purchaseHistory.PurchaseHistoryActivity;
 import com.example.basket.ui.menu.serviceCenter.ServiceCenterActivity;
-import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
     private MenuViewModel menuViewModel;

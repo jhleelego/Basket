@@ -1,17 +1,19 @@
-package com.example.basket.ui.main;
+package com.example.basket.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.basket.R;
+import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
+
+import java.lang.reflect.Member;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -25,8 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        et_inputID = findViewById(R.id.et_inputID);
-        et_inputPW = findViewById(R.id.et_inputPW);
     }
 
     public void btn_signInClick(View v) {
@@ -39,7 +39,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void PlazaEnterActivity() {
         Log.i(TAG, "PlazaEnterActivity()");
+        memberVerifier.loginProgress();
         startActivity(new Intent(LoginActivity.this, PlazaActivity.class));
+
     }
 
     public void btn_signUpClick(View view) {

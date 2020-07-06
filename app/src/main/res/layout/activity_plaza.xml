@@ -30,4 +30,17 @@
         android:layout_gravity="bottom"
         />
 
+    <fragment
+        android:id="@+id/nav_host_mainActivity_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bnv_mainActivity_nil"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
+
 </LinearLayout>
