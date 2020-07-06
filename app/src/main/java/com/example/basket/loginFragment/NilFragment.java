@@ -13,6 +13,10 @@ import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;
+import com.example.basket.ui.main.LoginActivity;
+import com.example.basket.ui.main.PlazaActivity;
+import com.example.basket.util.VolleyCallback;
+import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
 import com.nhn.android.naverlogin.OAuthLogin;
@@ -189,7 +193,8 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		 * mem_tel
 		 * mem_entrance
 		 **********************************************************************************/
-		VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+
+		VolleyQueueProvider.callbackVolley(new VolleyCallback() {
 			@Override
 			public void onResponse(String response) { //resonse : JSONArray
 				Map<String, Object> resultMap = new Gson().fromJson(response, Map.class);
@@ -199,7 +204,8 @@ public class NilFragment extends Fragment implements MemberVerifier {
 					Log.i(TAG, "NAVER CONNECT SUCCESS");
 					Log.i(TAG, "DATABASE ISNERT OR UPDATE SUCCESS");
 					for(Map.Entry dtoTOMap : resultMap.entrySet()){
-						if(dtoTOMap.getKey().equals("mem_code")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
+						if(dtoTOMap.getKey().equals("mem_code")) {
+							MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
 						if(dtoTOMap.getKey().equals("mem_name")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
 						if(dtoTOMap.getKey().equals("mem_email")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
 						if(dtoTOMap.getKey().equals("mem_pw")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}

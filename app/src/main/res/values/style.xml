@@ -44,5 +44,9 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
+    <style name="AppTheme.PopupOverlay"></style>
+
+    <style name="AppTheme.AppBarOverlay"></style>
+
 
 </resources>

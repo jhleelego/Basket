@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -175,7 +174,7 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
         else{
             super.onActivityResult(requestCode, resultCode, data);
         }
-    }
+    } 
     @Override
     public void onTorchOn() {
         //btFlash.setText("플래시끄기");

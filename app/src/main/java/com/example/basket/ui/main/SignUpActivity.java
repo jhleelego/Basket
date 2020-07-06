@@ -1,8 +1,5 @@
 package com.example.basket.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -11,11 +8,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.VolleyError;
 import com.example.basket.R;
-import com.example.basket.ui.LoginActivity;
-import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 

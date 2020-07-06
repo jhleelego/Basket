@@ -6,6 +6,7 @@
     android:padding="10dp"
     tools:context=".ui.menu.myStoreChoice.ChooseStoActivity"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,43 +38,43 @@
             android:gravity="center"
             android:textColor="#00ACC1"
             android:textSize="30dp" />
-    <ImageView
-        android:src="@drawable/emart"
-        android:id="@+id/acs_sto_img"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
-        android:scaleType="center"
-        ></ImageView>
+        <ImageView
+            android:src="@drawable/emart"
+            android:id="@+id/acs_sto_img"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:scaleType="center"
+            ></ImageView>
 
 
         <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-     <ImageView
-         android:src="@drawable/store_tel"
-         android:layout_width="300dp"
-         android:layout_height="60dp"
-         android:layout_weight="3">
-     </ImageView>
-        <TextView
-        android:text="02-2060-212121"
-        android:id="@+id/acs_sto_tel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            />
-    </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:src="@drawable/store_tel"
+                android:layout_width="80dp"
+                android:layout_height="60dp">
+            </ImageView>
+
+            <TextView
+                android:text="02-2060-212121"
+                android:id="@+id/acs_sto_tel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                />
+        </LinearLayout>
 
         <TextView
             android:text="서울특별시구로구고구고구공"
-        android:id="@+id/acs_sto_addr"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="20dp"/>
+            android:id="@+id/acs_sto_addr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20dp"/>
 
     </LinearLayout>
     <!-- Notice -->
@@ -105,6 +106,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"/>
         <Button
+            android:id="@+id/acs_btn_close"
             android:text="닫기"
             android:textSize="15sp"
             android:textColor="#FFFFFF"

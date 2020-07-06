@@ -15,12 +15,14 @@ import com.example.basket.loginFragment.BilFragment;
 import com.example.basket.loginFragment.KilFragment;
 import com.example.basket.loginFragment.NilFragment;
 
+import java.util.Map;
+
 
 public class FragmentsFactory {
     public static final String TAG = "FragmentFactory";
     public static MemberVerifier memberVerifier = null;
     private static final MemberVerifier UNDEFINED_FRAGMENT = new MemberVerifier() {
-        @Override public void loginProgress() {
+        @Override public void loginProgress(Map<String, Object> profileMap) {
 
         }
         @Override public void logoutProgress(Activity activity) {

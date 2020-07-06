@@ -13,7 +13,7 @@ import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;
 import com.example.basket.ui.main.LoginActivity;
 import com.example.basket.ui.main.PlazaActivity;
-import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
@@ -47,7 +47,9 @@ public class BilFragment extends Fragment implements MemberVerifier {
          * mem_tel
          * mem_entrance
          **********************************************************************************/
-        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+        VolleyQueueProvider.initRequestQueue(mContext);
+        VolleyQueueProvider.openQueue();
+        VolleyQueueProvider.callbackVolley(new VolleyCallback() {
             @Override
             public void onResponse(String response) { //resonse : JSONArray
                 Map<String, Object> resultMap = new Gson().fromJson(response, Map.class);

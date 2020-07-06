@@ -113,7 +113,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         googleApiClient.connect();                                                  //위치연결 시도
         providerClient = LocationServices.getFusedLocationProviderClient(mContext); //최적
 
-
         Log.i(TAG, "onCreateView()");
         View root = inflater.inflate(R.layout.fragment_search, container, false);
         String apiKey = getString(R.string.google_api_key);

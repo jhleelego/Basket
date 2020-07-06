@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,10 +12,13 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.basket.controller.MemberVerifier;
-import com.example.basket.factory.FragmentsFactory;
 import com.example.basket.logical.HashUtil;
-import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.main.LoginActivity;
+import com.example.basket.ui.main.PlazaActivity;
+import com.example.basket.util.VolleyCallback;
+import com.example.basket.util.VolleyQueueProvider;
+import com.example.basket.vo.MemberDTO;
+import com.google.gson.Gson;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -179,7 +180,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
          * mem_tel
          * mem_entrance
          **********************************************************************************/
-        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+        VolleyQueueProvider.callbackVolley(new VolleyCallback() {
             @Override
             public void onResponse(String response) { //resonse : JSONArray
                 Map<String, Object> resultMap = new Gson().fromJson(response, Map.class);

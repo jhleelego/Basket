@@ -1,6 +1,5 @@
 package com.example.basket.ui.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,14 +7,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
 import com.example.basket.factory.FragmentsFactory;
-import com.example.basket.ui.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static com.example.basket.ui.main.LoginActivity.fragmentTransaction;
