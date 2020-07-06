@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".ui.LoginActivity">
+    android:background="@color/white"
+    tools:context=".ui.main.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:orientation="vertical"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
@@ -23,35 +25,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="@color/white">
         <EditText
             android:id="@+id/et_inputID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="100dp"
-            android:textSize="14dp"
-            android:paddingLeft="12dp"
+            android:layout_marginHorizontal="48dp"
+            android:textSize="16dp"
+            android:textAlignment="center"
             android:hint="Input ID"/>
 
         <EditText
             android:id="@+id/et_inputPW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="100dp"
-            android:paddingLeft="12dp"
-            android:textSize="14dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginHorizontal="48dp"
+            android:textAlignment="center"
+            android:textSize="16dp"
             android:hint="Input PW"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="110dp"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:layout_marginHorizontal="48dp"
+            android:gravity="center"
+            android:background="@color/white">
+
             <Button
                 android:id="@+id/btn_sign_up"
-                android:layout_width="104dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
                 android:text="SIGN UP"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/main_color"
@@ -59,41 +65,52 @@
 
             <Button
                 android:id="@+id/btn_bil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
                 android:text="SIGN IN"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/main_color"
                 android:onClick="btn_signInClick"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="46dp"
+                android:layout_marginBottom="4dp"
+                android:textAlignment="center"
+                android:text="Social login"
+                android:textColor="@color/black"
+                android:textSize="10dp"/>
+
+            <ImageView
+                android:src="@drawable/nidlongbar_green"
+                android:id="@+id/btn_nilEnter"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:padding="4dp"
+                android:onClick="btn_signInClick"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:src="@drawable/kakao_login_btn_large_narrow"
+                android:id="@+id/btn_kilEnter"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="4dp"
+                android:padding="4dp"
+                android:onClick="btn_signInClick"
+                android:scaleType="centerCrop"/>
+
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:id="@+id/btn_nil"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+
+            <com.kakao.usermgmt.LoginButton
+                android:id="@+id/btn_kil"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
         </LinearLayout>
-
-        <ImageView
-            android:src="@drawable/nidlongbar_green"
-            android:id="@+id/btn_nilEnter"
-            android:layout_width="match_parent"
-            android:layout_marginHorizontal="112dp"
-            android:layout_height="40dp"
-            android:onClick="btn_loginClick"/>
-
-        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-            android:id="@+id/btn_nil"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
-        <ImageView
-            android:src="@drawable/kakao_login_btn_large_narrow"
-            android:id="@+id/btn_kilEnter"
-            android:layout_width="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginHorizontal="112dp"
-            android:layout_height="42dp"
-            android:onClick="btn_loginClick"/>
-
-        <com.kakao.usermgmt.LoginButton
-            android:id="@+id/btn_kil"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -101,7 +118,8 @@
         android:layout_height="260dp"
         android:gravity="bottom"
         android:paddingBottom="40dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
     </LinearLayout>
 

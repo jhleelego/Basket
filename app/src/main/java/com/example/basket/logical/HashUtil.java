@@ -11,10 +11,12 @@ import java.util.Map;
 
 public class HashUtil {
     public static final String TAG = "HashUtil";
-    public static void mapToDTOBinder(Map<String, Object> profileMap, String mem_entrance){
-        Log.i(TAG, "HashUtil - mapToVOBinder");
-
+    public static Map<String, String> mapToDtoAndMapBinder(Map<String, Object> profileMap, String mem_entrance){
+        Log.i(TAG, "HashUtil - mapToDtoAndMapBinder");
         /****************************************************
+         *  BASKET 콜백컬럼들
+         *
+         *
          *  NAVER 콜백컬럼들
          *  id : 19044688
          *  email : jhleelego@naver.com
@@ -31,42 +33,66 @@ public class HashUtil {
          *  age : AGE_20-29
          *  gender : MALE
          *  birthday : 0307
+         *
          * 
-         *  set되는 MemberDTO변수를
-         *  mem_id : String
+         *  set되는 MemberDTO의 변수 AND put되는 updateMap의 KEY
+         *  mem_email : String
          *  mem_name : String
          *  mem_age : String
-         *  mem_getder : String
+         *  mem_gender : String
          *  mem_birth : String
+         *  mem_entrance : String
          ****************************************************/
+        Map<String, String> updateMap = new HashMap<>();
         if(profileMap!=null){
             MemberDTO memberDTO = MemberDTO.getInstance();
             for(Map.Entry vMap : profileMap.entrySet()) {
                 Log.i(TAG, vMap.getValue().toString());
                 if (vMap.getKey().equals("email")) {
                     memberDTO.setMem_email(vMap.getValue().toString());
+                    updateMap.put("mem_email", vMap.getValue().toString());
                 } else if (vMap.getKey().equals("name")) {
                     memberDTO.setMem_name(vMap.getValue().toString());
+                    updateMap.put("mem_name", vMap.getValue().toString());
                 } else if (vMap.getKey().equals("age")) {
                     if(mem_entrance.equals(NilFragment.TAG)){
                         memberDTO.setMem_age((vMap.getValue().toString()).substring(0,1));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0,1));
                     } else if(mem_entrance.equals(KilFragment.TAG)){
                         memberDTO.setMem_age((vMap.getValue().toString()).substring(4,5));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(4,5));
                     }
                 } else if (vMap.getKey().equals("gender")) {
                     if(vMap.getValue().equals("M")||vMap.getValue().equals("MALE")){
                         memberDTO.setMem_gender("남");
+                        updateMap.put("mem_gender", "남");
                     } else if(vMap.getValue().equals("W")||vMap.getValue().equals("FEMALE")){
                         memberDTO.setMem_gender("여");
+                        updateMap.put("mem_gender", "여");
                     }
                 } else if (vMap.getKey().equals("birthday")) {
-                    memberDTO.setMem_birth(vMap.getValue().toString());
+                    if(mem_entrance.equals(NilFragment.TAG)){
+                        memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
+                        updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
+                    } else if(mem_entrance.equals(KilFragment.TAG)){
+                        memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
+                        updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
+                    }
                 }
             }
             memberDTO.setMem_entrance(mem_entrance);
-            Log.i(TAG, "생성된컬럼 시작 ");
+            updateMap.put("mem_entrance", mem_entrance);
+
+            Log.i(TAG, "TO DTO BINDER START");
             memberDTO.toString();
-            Log.i(TAG, "생성된컬럼  끝 ");
+            Log.i(TAG, "TO DTO BINDER FINISH");
+
+            Log.i(TAG, "TO MAP BINDER START");
+            for(Map.Entry printMap : updateMap.entrySet()){
+                Log.i(TAG, "printMap : " + printMap.getKey() + " : " + printMap.getValue().toString());
+            }
+            Log.i(TAG, "TO MAP BINDER FINISH");
         }
+        return updateMap;
     }
 }

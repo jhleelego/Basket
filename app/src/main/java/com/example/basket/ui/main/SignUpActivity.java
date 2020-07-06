@@ -1,11 +1,6 @@
 package com.example.basket.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
@@ -13,29 +8,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.VolleyError;
 import com.example.basket.R;
-import com.example.basket.ui.LoginActivity;
 import com.example.basket.util.VolleyCallBack;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
-import com.example.basket.vo.WalletSqlLiter;
 
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
-
-import blockchain.ChainUtil;
-import blockchain.Wallet;
 
 public class SignUpActivity extends AppCompatActivity {
     private Map<String, String> pMap = new HashMap<>();

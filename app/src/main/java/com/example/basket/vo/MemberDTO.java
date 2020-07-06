@@ -18,7 +18,7 @@ public class MemberDTO {
     private String  mem_age         = null;
     private String  mem_birth       = null;
     private String  mem_tel         = null;
-    private Wallet mem_wallet      = null;
+    private Wallet  mem_wallet      = null;
     private String  mem_coin        = null;
 
     public MemberDTO(){
@@ -30,6 +30,18 @@ public class MemberDTO {
     private static class LazyHolder {
         private static final MemberDTO instance = new MemberDTO();
     }
+
+    /***************************************************
+     * DB BASKET member X member_detail Column !
+     * mem_code
+     * mem_email
+     * mem_name
+     * mem_pw
+     * mem_age
+     * mem_gender
+     * mem_birth
+     * mem_tel
+     ****************************************************/
 
     public String getMem_entrance() {
         return mem_entrance;
@@ -156,5 +168,18 @@ public class MemberDTO {
             Log.i(TAG, "mem_coin : " + getMem_coin());
         }
         return null;
+    }
+    public void removeInfo(){
+        setMem_entrance(null);
+        setMem_code(null);
+        setMem_email(null);
+        setMem_pw(null);
+        setMem_name(null);
+        setMem_gender(null);
+        setMem_age(null);
+        setMem_birth(null);
+        setMem_tel(null);
+        setMem_wallet(null);
+        setMem_coin(null);
     }
 }

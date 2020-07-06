@@ -5,18 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.menu.myPage.MyPageActivity"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/white">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:gravity="bottom"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
@@ -29,62 +31,71 @@
         android:textAlignment="center"
         android:text="MY PAGE"
         android:textStyle="bold"
-        android:padding="8dp"
-        android:textColor="@color/black"/>
+        android:paddingTop="20dp"
+        android:textColor="@color/black"
+        android:background="@color/white"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:paddingRight="12dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/main_color"
                 android:text="ID" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+            android:layout_height="60dp"
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_id"
-                android:layout_width="220dp"
-                android:layout_height="34dp"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
                 android:lines="1"
-                android:gravity="top|left"
                 android:enabled="true"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        
+        android:gravity="center"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:paddingRight="12dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/main_color"
                 android:text="PW" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_pw"
-                android:layout_width="205dp"
+                android:layout_width="245dp"
                 android:layout_height="30dp"
                 android:lines="1"
                 android:gravity="top|left"
@@ -94,17 +105,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        
+        android:gravity="center"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:paddingRight="12dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textScaleX="1.2"
                 android:textColor="@color/main_color"
                 android:text="TEL" />
@@ -112,10 +127,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_tel"
-                android:layout_width="190dp"
+                android:layout_width="230dp"
                 android:layout_height="30dp"
                 android:lines="1"
                 android:gravity="top|left"
@@ -126,17 +142,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        
+        android:gravity="center"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:paddingRight="12dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textScaleX="0.9"
                 android:textColor="@color/main_color"
                 android:text="NAME" />
@@ -144,10 +164,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_name"
-                android:layout_width="175dp"
+                android:layout_width="205dp"
                 android:layout_height="34dp"
                 android:lines="1"
                 android:gravity="top|left"
@@ -157,17 +178,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        android:gravity="center"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/main_color"
                 android:textScaleX="1.1"
                 android:text="BIRTH" />
@@ -175,10 +198,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_birth"
-                android:layout_width="155dp"
+                android:layout_width="195dp"
                 android:layout_height="34dp"
                 android:lines="1"
                 android:gravity="top|left"
@@ -189,27 +213,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="60dp"
-        android:paddingBottom="8dp">
+        android:paddingHorizontal="40dp"
+        
+        android:gravity="center"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="12dp">
+            android:layout_height="60dp"
+            android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:textSize="20dp"
                 android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/main_color"
                 android:text="GENDER" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="right"
+            android:background="@color/white">
             <EditText
                 android:id="@+id/mp_user_gender"
-                android:layout_width="140dp"
+                android:layout_width="180dp"
                 android:layout_height="34dp"
                 android:lines="1"
                 android:gravity="top|left"
@@ -222,25 +250,19 @@
         android:orientation="vertical"
         android:paddingHorizontal="80dp"
         android:paddingTop="20dp"
-        android:gravity="center">
-    <Button
-        android:id="@+id/btn_modifiedAndConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/main_color"
-        android:text="회원정보수정"
-        android:onClick="modifiedAndConfirm"/>
+        android:gravity="center"
+        android:background="@color/white">
 
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="20dp"
-            android:paddingHorizontal="40dp">
-
-     </LinearLayout>
+        <Button
+            android:id="@+id/btn_modifiedAndConfirm"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/main_color"
+            android:text="회원정보수정"
+            android:onClick="modifiedAndConfirm"/>
+    
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

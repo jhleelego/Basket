@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.basket">
     <!-- 기기 카메라를 사용할 권한 -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 연결 요청, 연결 수락 및 데이터 전송과 같은 블루투스 통신을 수행하는 데 필요. -->
+    <!-- 구글 맵 , beacon 위치 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 연결 요청, 연결 수락 및 데이터 전송과 같은 블루투스 통신을 수행하는 데 필요. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- 대부분 애플리케이션은 로컬 블루투스 기기를 검색하는 기능에만 이 권한이 필요.
     애플리케이션이 사용자 요청 시 블루투스 설정을 수정하는 "파워 관리자"가
@@ -11,8 +16,9 @@
     <!-- 앱에 이 권한이 필요한 이유는 블루투스 스캔을 사용하여 사용자 위치에 대한 정보를 수집할 수 있기 때문입니다.
     이 정보는 사용자 본인의 기기에서 가져올 수도 있고,
     상점 및 교통 시설과 같은 위치에서 사용 중인 블루투스 비콘에서 가져올 수도 있습니다.  -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 안드로이드 앱에서 인터넷에 접속할 수 있도록 허용 -->
 
+
+    <!-- 안드로이드 앱에서 인터넷에 접속할 수 있도록 허용 -->
     <!-- NAVER & 카카오 & 스캐너 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -24,6 +30,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--[[[[[[[[[[[[[[[[[[[[[[[NAVER -  DONE ]]]]]]]]]]]]]]]]]]]]]]]-->
 
+    <!-- GoogleMap-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name=".grobal.GlobalApplication"
         android:allowBackup="true"
@@ -33,7 +42,12 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.TermsActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDPmNBZ240VhPAAWiGkQFf6Qs5Way680SE" />
+
+        <activity android:name=".ui.main.TermsActivity"/>
         <activity android:name=".ui.main.SignUpActivity" />
 
         <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
@@ -46,7 +60,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.main.LoginActivity" />
         <activity android:name=".ui.main.InspectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

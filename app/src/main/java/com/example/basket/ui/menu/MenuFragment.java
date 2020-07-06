@@ -1,9 +1,7 @@
 package com.example.basket.ui.menu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.basket.R;
-import com.example.basket.loginFragment.BilFragment;
-import com.example.basket.loginFragment.KilFragment;
-import com.example.basket.loginFragment.NilFragment;
 import com.example.basket.ui.menu.event.EventActivity;
 import com.example.basket.ui.menu.myCoupon.MyCouponActivity;
 import com.example.basket.ui.menu.myPage.MyPageActivity;
@@ -32,6 +25,7 @@ import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
     private MenuViewModel menuViewModel;
+    public TextView tv_memName = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,46 +41,6 @@ public class MenuFragment extends Fragment {
                     if(position==5){startActivity(new Intent(getActivity(), ServiceCenterActivity.class)); return;}
             }
         };
-
-
-    /*    mem_Entrance = MemberDTO.getInstance().getMem_Entrance();
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        if(mem_Entrance!=null&&mem_Entrance.length()>0){
-            if(mem_Entrance.equals(BilFragment.TAG)){
-                fragmentTransaction.remove(NilFragment.getInstance());
-                fragmentTransaction.remove(KilFragment.getInstance());
-            } else if(mem_Entrance.equals(NilFragment.TAG)){
-                fragmentTransaction.remove(BilFragment.getInstance());
-                fragmentTransaction.remove(KilFragment.getInstance());
-            } else if(mem_Entrance.equals(KilFragment.TAG)){
-                fragmentTransaction.remove(BilFragment.getInstance());
-                fragmentTransaction.remove(NilFragment.getInstance());
-            }
-            fragmentTransaction.commitAllowingStateLoss();
-        }*/
-
-
-
-
-/*
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        if(mem_Entrance!=null&&mem_Entrance.length()>0){
-            if(mem_Entrance.equals("bil")){
-                fragmentTransaction.add(BilFragment.getInstance(), BilFragment.TAG);
-            } else if(mem_Entrance.equals("nil")){
-                fragmentTransaction.add(NilFragment.getInstance(), NilFragment.TAG);
-            } else if(mem_Entrance.equals("kil")){
-                fragmentTransaction.add(KilFragment.getInstance(), KilFragment.TAG);
-            }
-
-            fragmentTransaction.commitAllowingStateLoss();
-
-
-        }*/
-
-
-
         menuViewModel =
                 ViewModelProviders.of(this).get(MenuViewModel.class);
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
@@ -96,6 +50,10 @@ public class MenuFragment extends Fragment {
 
         //리스너를 리스트뷰에 매핑
         listView.setOnItemClickListener(itemClickListener);
+        tv_memName = root.findViewById(R.id.tv_memName);
+        if(MemberDTO.getInstance().getMem_name()!=null){
+            tv_memName.setText(MemberDTO.getInstance().getMem_name());
+        }
         return root;
     }
 

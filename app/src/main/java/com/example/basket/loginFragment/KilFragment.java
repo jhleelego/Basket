@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.basket.R;
+import com.android.volley.VolleyError;
 import com.example.basket.controller.MemberVerifier;
-import com.example.basket.factory.FragmentsFactory;
 import com.example.basket.logical.HashUtil;
-import com.example.basket.ui.LoginActivity;
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.main.LoginActivity;
+import com.example.basket.ui.main.PlazaActivity;
+import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyQueueProvider;
+import com.example.basket.vo.MemberDTO;
+import com.google.gson.Gson;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -40,14 +41,6 @@ public class KilFragment extends Fragment implements MemberVerifier {
     Session session;
     private Context mContext;
     private Activity mActivity;
-
-    public static KilFragment getInstance() {
-        return KilFragment.LazyHolder.instance;
-    }
-
-    private static class LazyHolder {
-        private static final KilFragment instance = new KilFragment();
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -89,27 +82,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void loginProgress() {
-        Log.i(TAG, "loginProgress()");
-    }
-
-    @Override
-    public void logoutProgress(Activity activity) {
-        Log.i(TAG, "logoutProgress()");
-        UserManagement.getInstance()
-                .requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        ((PlazaActivity)activity).LoginEnterActivity();
-    }
-
-
     public class SessionCallback implements ISessionCallback {
-
         public static final String TAG = "SessionCallback";
 
         // 로그인에 성공한 상태
@@ -151,30 +124,30 @@ public class KilFragment extends Fragment implements MemberVerifier {
                                 } else {
                                     // 이메일 획득 불가
                                 }
-                                Map<String, Object> pMap = new HashMap<>();
+                                Map<String, Object> profileMap = new HashMap<>();
                                 if(kakaoAccount.getEmail()!=null){
                                     Log.i(TAG, "kakaoAccount.getEmail() : " + kakaoAccount.getEmail());
-                                    pMap.put("email",kakaoAccount.getEmail());
+                                    profileMap.put("email",kakaoAccount.getEmail());
                                 }
                                 if(kakaoAccount.getProfile()!=null){
                                     if(kakaoAccount.getProfile().getNickname()!=null){
                                         Log.i(TAG,  "kakaoAccount.getProfile().getNickname() : " + kakaoAccount.getProfile().getNickname());
-                                        pMap.put("name", kakaoAccount.getProfile().getNickname());
+                                        profileMap.put("name", kakaoAccount.getProfile().getNickname());
                                     }
                                 }
                                 if(kakaoAccount.getAgeRange()!=null){
                                     Log.i(TAG, "kakaoAccount.getAgeRange().toString() : " + kakaoAccount.getAgeRange().toString());
-                                    pMap.put("age",kakaoAccount.getAgeRange());
+                                    profileMap.put("age",kakaoAccount.getAgeRange());
                                 }
                                 if(kakaoAccount.getGender()!=null){
                                     Log.i(TAG, "kakaoAccount.getGender().toString() : " + kakaoAccount.getGender().toString());
-                                    pMap.put("gender",kakaoAccount.getGender());
+                                    profileMap.put("gender",kakaoAccount.getGender());
                                 }
                                 if(kakaoAccount.getBirthday()!=null){
                                     Log.i(TAG, "kakaoAccount.getBirthday() : " + kakaoAccount.getBirthday());
-                                    pMap.put("birthday",kakaoAccount.getBirthday());
+                                    profileMap.put("birthday",kakaoAccount.getBirthday());
                                 }
-                                HashUtil.mapToDTOBinder(pMap, KilFragment.TAG);
+                                loginProgress(profileMap);
                                 // 프로필
                                 Profile profile = kakaoAccount.getProfile();
                                 if (profile != null) {
@@ -191,5 +164,67 @@ public class KilFragment extends Fragment implements MemberVerifier {
                         }
                     });
         }
+    }
+
+    @Override
+    public void loginProgress(Map<String, Object> profileMap) {
+        Log.i(TAG, "loginProgress()");
+        /************DB갖다오기 (정보에 맞는 계정 로우 업데이트, 멤버정보 가져오기)************
+         * mem_code
+         * mem_name
+         * mem_email
+         * mem_pw
+         * mem_age
+         * mem_gender
+         * mem_birth
+         * mem_tel
+         * mem_entrance
+         **********************************************************************************/
+        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+            @Override
+            public void onResponse(String response) { //resonse : JSONArray
+                Map<String, Object> resultMap = new Gson().fromJson(response, Map.class);
+                if(resultMap.get("mem_name").equals("아이디 또는 비밀번호가 일치하지 않습니다.")){
+                    Toast.makeText(mContext, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.i(TAG, "KAKAO CONNECT SUCCESS");
+                    Log.i(TAG, "DATABASE ISNERT OR UPDATE SUCCESS");
+                    for(Map.Entry dtoTOMap : resultMap.entrySet()){
+                        if(dtoTOMap.getKey().equals("mem_code")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_name")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_email")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_pw")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_age")) {MemberDTO.getInstance().setMem_age(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_gender")) {MemberDTO.getInstance().setMem_gender(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_birth")) {MemberDTO.getInstance().setMem_birth(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_tel")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("mem_entrance")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
+                    }
+                    Log.i(TAG, "MEMBERDTO toString() START ");
+                    MemberDTO.getInstance().toString();
+                    Log.i(TAG, "MEMBERDTO toString() FINISH ");
+                }
+                ((LoginActivity)getActivity()).PlazaEnterActivity();
+                    Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }, "", HashUtil.mapToDtoAndMapBinder(profileMap, TAG));
+    }
+
+    @Override
+    public void logoutProgress(Activity activity) {
+        Log.i(TAG, "logoutProgress()");
+        UserManagement.getInstance()
+                .requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        ((PlazaActivity)activity).LoginEnterActivity();
+        MemberDTO.getInstance().removeInfo();
     }
 }
