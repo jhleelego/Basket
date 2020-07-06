@@ -64,7 +64,6 @@ public final class HashUtil implements Serializable {
 	//	}
 
 	// Key를 64진법으로 문자코드에 영향을 받지않는 일련의 스트링으로 인코딩
-	@RequiresApi(api = Build.VERSION_CODES.O)
 	public static final String getStringFromKey(Key key) {
 		return Base64.getEncoder().encodeToString(key.getEncoded());
 	}

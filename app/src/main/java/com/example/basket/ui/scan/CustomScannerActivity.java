@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.basket.R;
-import com.example.basket.util.VolleyCallBack;
+import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.ProductOneDTO;
 import com.google.gson.Gson;
@@ -49,7 +49,7 @@ public class CustomScannerActivity extends AppCompatActivity {
             Map<String, String> pMap = new HashMap<>();
             pMap.put("sto_code", "1");
             pMap.put("pro_barcode", pro_barcode);
-            VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+            VolleyQueueProvider.callbackVolley(new VolleyCallback() {
                 @Override
                 public void onResponse(String response) {
                     Log.e(TAG, "response : " + response);

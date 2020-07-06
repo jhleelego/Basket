@@ -27,17 +27,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.basket.R;
 import com.example.basket.beacon.BeaconFragment;
 import com.example.basket.ui.LoginActivity;
-import com.example.basket.util.VolleyCallBack;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 import com.example.basket.vo.WalletSqlLiter;
@@ -56,12 +48,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
-import java.util.HashMap;
-import java.util.Map;
 
-import blockchain.ChainUtil;
 import blockchain.Wallet;
-import blockchain.Wallet2;
 
 public class InspectionActivity extends AppCompatActivity {
     public static final String TAG = "InspectionActivity";

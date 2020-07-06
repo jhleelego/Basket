@@ -102,6 +102,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		super.onResume();
 	}
 
+
 	public OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
 		@Override
 		public void run(boolean success) {

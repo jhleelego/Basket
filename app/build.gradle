@@ -20,6 +20,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 //!!
 repositories {
@@ -32,10 +36,6 @@ repositories {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation files('libs\\bcprov-jdk15to18-165.jar')
-    implementation files('libs\\bcprov-jdk15to18-165.jar')
-    implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.3.0'
-    implementation 'androidx.navigation:navigation-ui:2.3.0'
 
     def android_x_version = "1.0.0"
     implementation "androidx.appcompat:appcompat:$android_x_version"
