@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.basket">
     <!-- 기기 카메라를 사용할 권한 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 연결 요청, 연결 수락 및 데이터 전송과 같은 블루투스 통신을 수행하는 데 필요. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <!-- 대부분 애플리케이션은 로컬 블루투스 기기를 검색하는 기능에만 이 권한이 필요.
+    <!--
+ 대부분 애플리케이션은 로컬 블루투스 기기를 검색하는 기능에만 이 권한이 필요.
     애플리케이션이 사용자 요청 시 블루투스 설정을 수정하는 "파워 관리자"가
-    아닌 경우 이 권한이 부여하는 다른 기능은 사용해서는 안 됩니다. -->
+    아닌 경우 이 권한이 부여하는 다른 기능은 사용해서는 안 됩니다.
+    -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <!-- 앱에 이 권한이 필요한 이유는 블루투스 스캔을 사용하여 사용자 위치에 대한 정보를 수집할 수 있기 때문입니다.
+    <!--
+ 앱에 이 권한이 필요한 이유는 블루투스 스캔을 사용하여 사용자 위치에 대한 정보를 수집할 수 있기 때문입니다.
     이 정보는 사용자 본인의 기기에서 가져올 수도 있고,
-    상점 및 교통 시설과 같은 위치에서 사용 중인 블루투스 비콘에서 가져올 수도 있습니다.  -->
+    상점 및 교통 시설과 같은 위치에서 사용 중인 블루투스 비콘에서 가져올 수도 있습니다.
+    -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 안드로이드 앱에서 인터넷에 접속할 수 있도록 허용 -->
-
     <!-- NAVER & 카카오 & 스캐너 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--[[[[[[[[[[[[[[[[[[[[[[[NAVER - START]]]]]]]]]]]]]]]]]]]]]]]-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- [[[[[[[[[[[[[[[[[[[[[[[NAVER - START]]]]]]]]]]]]]]]]]]]]]]] -->
     <!-- network 상태를 미리 체크하여 연결 안된 경우 다이얼로그를 보여주려면 아래 permission 추가 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--[[[[[[[[[[[[[[[[[[[[[[[NAVER -  DONE ]]]]]]]]]]]]]]]]]]]]]]]-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".grobal.GlobalApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.TermsActivity"></activity>
-        <activity android:name=".ui.main.SignUpActivity" />
-
-        <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.scan.BasicActivity"
+            android:label="@string/title_activity_basic"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ui.scan.CustomScannerActivity" />
+        <activity android:name=".ui.main.TermsActivity" />
+        <activity android:name=".ui.main.SignUpActivity" /> <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
         <activity
             android:name=".ui.scan.ProInfoActivity"
             android:theme="@android:style/Theme.Holo.Dialog" />
-
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -51,6 +54,7 @@
         <activity android:name=".ui.main.InspectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -60,10 +64,10 @@
         <activity android:name=".ui.menu.event.EventActivity" />
         <activity android:name=".ui.menu.myCoupon.MyCouponActivity" />
         <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryActivity" />
-        <activity android:name=".ui.main.PlazaActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.PlazaActivity" />
         <activity
             android:name=".ui.menu.myStoreChoice.ChooseStoActivity"
             android:theme="@android:style/Theme.Dialog" />
     </application>
+
 </manifest>

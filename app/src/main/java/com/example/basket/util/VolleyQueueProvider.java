@@ -58,15 +58,16 @@ public final class VolleyQueueProvider {
     }
 
     public static void callbackVolley(@NonNull final VolleyCallBack volleyCallBack, String path, final Map<String, String> pMap) {
+
         Object result;
         final String url = "http://192.168.0.37:8000/pjBasket/" + path + ".do";
         Log.e("url: ", url);
         try {
-            RequestFuture<Object> future = RequestFuture.newFuture();
             StringRequest request = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.e("VolleyQueueProvider", "VolleyQueueProvider onResponse");
                             volleyCallBack.onResponse(response);
                         }
                     },
@@ -76,7 +77,7 @@ public final class VolleyQueueProvider {
                             volleyCallBack.onErrorResponse(error);
                         }
                     }
-            ) {
+            )  {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     return pMap;
