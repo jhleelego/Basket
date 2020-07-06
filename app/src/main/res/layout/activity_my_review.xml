@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.menu.myReview.MyReviewActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/aphd_Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="리뷰 관리"
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:textColor="#000000"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="교촌치킨"
+        android:textSize="24dp" />
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RatingBar
+            android:id="@+id/ratingbarSmall"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:stepSize="1"
+            android:rating="3"
+            android:numStars="5"
+            android:background=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textColor="#000000"
+            android:layout_marginLeft="20dp"
+            android:textSize="15dp"
+            android:text="2020/07/05 13:32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:textColor="#000000"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="25dp"
+        android:textSize="18dp"
+        android:text="돈까스 소스가 기가막히네요 \n 튀김옷도 깔금한게 기름관리 잘하시는것 같습니다.\n양도 많고  맛있게 잘 먹엇습니다."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:background="#D8D8D8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/radiusbottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+        </FrameLayout>
+        <LinearLayout
+            android:background="@drawable/radiustop_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="#000000"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textSize="24dp"
+                    android:text="사장님"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textColor="#000000"
+                    android:textSize="15dp"
+                    android:text="2020/07/05 15:52"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:textColor="#000000"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="xxx님, 안녕하세요 xxx입니다.\n\n 맛있는 식사되셨다닌 감사드립니다~"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

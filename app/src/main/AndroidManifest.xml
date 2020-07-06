@@ -31,7 +31,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.menu.serviceCenter.ChattingActivity"></activity>
+        <activity android:name=".ui.menu.myReview.MyReviewActivity"></activity>
+        <activity android:name=".ui.menu.serviceCenter.ChattingActivity" />
         <activity android:name=".ui.menu.purchaseHistory.purchaseHistoryDetail" />
 
         <meta-data
