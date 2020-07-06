@@ -14,7 +14,7 @@ import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.Map;
+import java.util.Map; 
 
 public final class VolleyQueueProvider {
 
