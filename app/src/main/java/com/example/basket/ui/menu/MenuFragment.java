@@ -1,9 +1,7 @@
 package com.example.basket.ui.menu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.basket.R;
-import com.example.basket.loginFragment.BilFragment;
-import com.example.basket.loginFragment.KilFragment;
-import com.example.basket.loginFragment.NilFragment;
 import com.example.basket.ui.menu.event.EventActivity;
 import com.example.basket.ui.menu.myCoupon.MyCouponActivity;
 import com.example.basket.ui.menu.myPage.MyPageActivity;
 import com.example.basket.ui.menu.myStoreChoice.ChooseStoActivity;
 import com.example.basket.ui.menu.purchaseHistory.PurchaseHistoryActivity;
 import com.example.basket.ui.menu.serviceCenter.ServiceCenterActivity;
-import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
     private MenuViewModel menuViewModel;
