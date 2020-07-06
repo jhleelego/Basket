@@ -46,4 +46,5 @@ public class LoginActivity extends AppCompatActivity {
     public void btn_signUpClick(View view) {
         startActivity(new Intent(this, TermsActivity.class));
     }
+
 }
