@@ -1,10 +1,10 @@
 package com.example.basket.ui.menu.purchaseHistory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,5 +37,12 @@ public class PurchaseHistoryActivity extends AppCompatActivity {
         m_oListView = (ListView)findViewById(R.id.aph_listview);
         ListAdapter oAdapter = new ListAdapter(oData);
         m_oListView.setAdapter(oAdapter);
+
+
+    }
+    public void move_detail(View view){
+        Button aph_btn = findViewById(R.id.aph_btn);
+        Intent intent = new Intent(this, PurchaseHistoryDetailActivity.class);
+        startActivity(intent);
     }
 }

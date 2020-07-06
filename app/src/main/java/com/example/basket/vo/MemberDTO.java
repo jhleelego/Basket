@@ -12,7 +12,7 @@ public class MemberDTO {
     public final String TAG = "MemberDTO";
 
     private String  mem_entrance    = null;
-    private String  mem_code        = null;
+    private String  mem_code        = "ansi91";
     private String  mem_email       = null;
     private String  mem_pw          = null;
     private String  mem_name        = null;

@@ -32,16 +32,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
-        <activity android:name=".ui.scan.ProInfoActivity"
-            android:theme="@android:style/Theme.Holo.Dialog"/>
-
-
+        <activity
+            android:name=".ui.scan.ProInfoActivity"
+            android:theme="@android:style/Theme.Holo.Dialog" /> <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".InspectionActivity" />
+        <activity android:name=".InspectionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.menu.myPage.MyPageActivity" />
         <activity android:name=".ui.menu.myStoreChoice.FavStoreActivity" />
@@ -49,14 +53,23 @@
         <activity android:name=".ui.menu.event.EventActivity" />
         <activity android:name=".ui.menu.myCoupon.MyCouponActivity" />
         <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryActivity" />
-        <activity android:name=".ui.menu.myStoreChoice.ChooseStoActivity" android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".ui.PlazaActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryDetailActivity" />
+        <activity
+            android:name=".ui.menu.myStoreChoice.ChooseStoActivity"
+            android:theme="@android:style/Theme.Dialog" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".ui.search.EventPopupActivity" android:theme="@style/Theme.MyDialog"/>
+
+
+
+
+
+
+
+
+
+        <activity android:name=".ui.PlazaActivity" />
     </application>
 
 </manifest>
