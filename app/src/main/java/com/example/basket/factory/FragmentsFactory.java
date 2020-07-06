@@ -1,42 +1,50 @@
 package com.example.basket.factory;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.basket.R;
+import com.example.basket.controller.MemberVerifier;
 import com.example.basket.loginFragment.BilFragment;
 import com.example.basket.loginFragment.KilFragment;
 import com.example.basket.loginFragment.NilFragment;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import static com.example.basket.ui.LoginActivity.memberVerifier;
+
 
 public class FragmentsFactory {
-    private static final Fragment UNDEFINED_FRAGMENT = new Fragment() {
-        public static final String TAG = "FragmentFactory";
+    public static final String TAG = "FragmentFactory";
+    private static final MemberVerifier UNDEFINED_FRAGMENT = new MemberVerifier() {
+        @Override public void loginProgress() {}
+        @Override public void logoutProgress(Activity activity) {}
     };
-    public static final Fragment getInstance(FragmentTransaction fragmentTransaction, View v) {
+
+    public static final MemberVerifier newInstance(View v) {
         Log.i(TAG, v.toString());
-        switch(v.getId()) {
-            case R.id.btn_bil : {
-                fragmentTransaction.add(BilFragment.getInstance(), BilFragment.getInstance().TAG);
-                fragmentTransaction.commitAllowingStateLoss();
-                return BilFragment.getInstance();
-            }
-            case R.id.btn_nilEnter : {
-                fragmentTransaction.add(NilFragment.getInstance(), NilFragment.getInstance().TAG);
-                fragmentTransaction.commitAllowingStateLoss();
-                return NilFragment.getInstance();
-            }
-            case R.id.btn_kil : {
-                fragmentTransaction.add(KilFragment.getInstance(), KilFragment.getInstance().TAG);
-                fragmentTransaction.commitAllowingStateLoss();
-                return KilFragment.getInstance();
-            }
-            default :
-                return UNDEFINED_FRAGMENT;
+        if (v.getId() == R.id.btn_bil) {
+            return new BilFragment();
+        } else if (v.getId() == R.id.btn_nilEnter) {
+            return new NilFragment();
+        } else if (v.getId() == R.id.btn_kilEnter) {
+            return new KilFragment();
+        } else {
+            return UNDEFINED_FRAGMENT;
         }
+    }
+
+  /*  public static final MemberVerifier getInstance(){
+        Log.i(TAG, "getInstance();");
+        return memberVerifier;
+    }*/
+
+    public static void removeInstance() {
+        Log.i(TAG, "removeInstance();");
+        ((Fragment)memberVerifier).onStop();
+        ((Fragment)memberVerifier).onDestroy();
+        ((Fragment)memberVerifier).onDetach();
+        memberVerifier = null;
     }
 }

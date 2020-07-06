@@ -1,8 +1,10 @@
 package com.example.basket.controller;
 
-import java.util.Map;
+import android.app.Activity;
+
 
 public interface MemberVerifier {
-    public void loginProgress(Map<String, Object> profileMap);
-    public void logoutProgress();
+    public static final String TAG = null;
+    void loginProgress();
+    void logoutProgress(Activity activity);
 }

@@ -4,34 +4,38 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-public class MemberDTO {
-    private static String mem_entrance = "";
-    private static String mem_code = "";
-    private static String mem_email = "";
-    private static String mem_pw = "";
-    private static String mem_name = "";
-    private static String mem_gender = "";
-    private static String mem_age = "";
-    private static String mem_birth = "";
-    private static String mem_tel = "";
+import blockchain.Wallet;
 
+public class MemberDTO {
     public final String TAG = "MemberDTO";
 
-    private MemberDTO(){
+    private String  mem_entrance    = null;
+    private String  mem_code        = "ansi91";
+    private String  mem_email       = null;
+    private String  mem_pw          = null;
+    private String  mem_name        = null;
+    private String  mem_gender      = null;
+    private String  mem_age         = null;
+    private String  mem_birth       = null;
+    private String  mem_tel         = null;
+    private Wallet mem_wallet      = null;
+    private String  mem_coin        = null;
+
+    public MemberDTO(){
         MemberDTO.getInstance();
     }
-
     public static MemberDTO getInstance() {
         return MemberDTO.LazyHolder.instance;
     }
     private static class LazyHolder {
         private static final MemberDTO instance = new MemberDTO();
     }
-    public String getMem_Entrance() {
+
+    public String getMem_entrance() {
         return mem_entrance;
     }
 
-    public void setMem_Entrance(String mem_entrance) {
+    public void setMem_entrance(String mem_entrance) {
         this.mem_entrance = mem_entrance;
     }
 
@@ -99,27 +103,57 @@ public class MemberDTO {
         this.mem_tel = mem_tel;
     }
 
+    public Wallet getMem_wallet() {
+        return mem_wallet;
+    }
+
+    public void setMem_wallet(Wallet mem_wallet) {
+        this.mem_wallet = mem_wallet;
+    }
+
+    public String getMem_coin() {
+        return mem_coin;
+    }
+
+    public void setMem_coin(String mem_coin) {
+        this.mem_coin = mem_coin;
+    }
+
     @NonNull
     @Override
     public String toString() {
-        if (getMem_Entrance() != null && getMem_Entrance().length() > 0) {
-            Log.i(TAG, "mem_entrance : " + getMem_Entrance());
-        } else if (getMem_code() != null && getMem_code().length() > 0) {
+        if (getMem_entrance() != null && getMem_entrance().length() > 0) {
+            Log.i(TAG, "mem_entrance : " + getMem_entrance());
+        }
+        if (getMem_code() != null && getMem_code().length() > 0) {
             Log.i(TAG, "mem_code : " + getMem_code());
-        } else if (getMem_email() != null && getMem_email().length() > 0) {
-            Log.i(TAG, "mem_email : " + getMem_email());
-        } else if (getMem_pw() != null && getMem_pw().length() > 0) {
+        }
+        if (getMem_email() != null && getMem_email().length() > 0) {
+            Log.i(TAG, "mem_id : " + getMem_email());
+        }
+        if (getMem_pw() != null && getMem_pw().length() > 0) {
             Log.i(TAG, "mem_pw : " + getMem_pw());
-        } else if (getMem_name() != null && getMem_name().length() > 0) {
+        }
+        if (getMem_name() != null && getMem_name().length() > 0) {
             Log.i(TAG, "mem_name : " + getMem_name());
-        } else if (getMem_gender() != null && getMem_gender().length() > 0) {
+        }
+        if (getMem_gender() != null && getMem_gender().length() > 0) {
             Log.i(TAG, "mem_gender : " + getMem_gender());
-        } else if (getMem_age() != null && getMem_age().length() > 0) {
+        }
+        if (getMem_age() != null && getMem_age().length() > 0) {
             Log.i(TAG, "mem_age : " + getMem_age());
-        } else if (getMem_birth() != null && getMem_birth().length() > 0) {
+        }
+        if (getMem_birth() != null && getMem_birth().length() > 0) {
             Log.i(TAG, "mem_birth : " + getMem_birth());
-        } else if (getMem_tel() != null && getMem_tel().length() > 0) {
+        }
+        if (getMem_tel() != null && getMem_tel().length() > 0) {
             Log.i(TAG, "mem_tel : " + getMem_tel());
+        }
+        if (getMem_wallet() != null) {
+            Log.i(TAG, "mem_wallet : " + getMem_wallet());
+        }
+        if (getMem_coin() != null && getMem_coin().length() > 0) {
+            Log.i(TAG, "mem_coin : " + getMem_coin());
         }
         return null;
     }

@@ -1,20 +1,19 @@
 package com.example.basket.loginFragment;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
-import com.example.basket.ui.PlazaActivity;
+import com.example.basket.ui.LoginActivity;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.HashUtil;
+import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
 import com.nhn.android.naverlogin.OAuthLogin;
@@ -39,9 +38,13 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 	private static OAuthLogin mOAuthLoginInstance;
 	private static Context mContext;
-	private static FragmentActivity mActivity;
+	private static Activity mActivity;
 
 	public OAuthLoginButton mOAuthLoginButton;
+
+
+	Map<String, Object> resultMap = null;
+	Map<String, Object> profileMap = null;
 
 	public static NilFragment getInstance() {
 		return NilFragment.LazyHolder.instance;
@@ -55,6 +58,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	public void onAttach(@NonNull Context context) {
 		super.onAttach(context);
 		this.mContext = (Context)context;
+		this.mActivity = (Activity)getActivity();
 		Log.i(TAG, "onAttach()");
 		Log.i(TAG, "onAttach() mContext : " + mContext.toString());
 		initData();
@@ -79,6 +83,16 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 	private void updateView() {
 		Log.i(TAG,"updateView() 호출 ");
+		String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
+		String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
+		long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
+		String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+		String state =mOAuthLoginInstance.getState(mContext).toString();
+		Log.i(TAG,"AccessToken  : " + accessToken);
+		Log.i(TAG,"RefreshToken : " + refreshToken);
+		Log.i(TAG,"ExpiresAt    : " + expiresAt);
+		Log.i(TAG,"TokenType    : " + tokenType);
+		Log.i(TAG,"State        : " + state);
 	}
 
 	//private
@@ -150,12 +164,11 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 		protected void onPostExecute(String content) {
 			Log.i(TAG, "onPostExecute() 호출 ");
-			Gson gson = new Gson();
-			Map<String, Object> reulstMap = new HashMap<>();
-			reulstMap = gson.fromJson(content, reulstMap.getClass());
-			if (reulstMap.get("resultcode").equals("00") && reulstMap.get("message").equals("success")) {
-				loginProgress((Map<String, Object>)reulstMap.get("response"));
-				return;
+			resultMap = new HashMap<>();
+			resultMap = new Gson().fromJson(content, resultMap.getClass());
+			if (resultMap.get("resultcode").equals("00") && resultMap.get("message").equals("success")) {
+				profileMap = (Map<String, Object>)resultMap.get("response");
+				((LoginActivity)getActivity()).PlazaEnterActivity();
 			}
 		}
 	}
@@ -174,9 +187,10 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	}
 
 	@Override
-	public void loginProgress(Map<String, Object> profileMap) {
+	public void loginProgress() {
 		Log.i(TAG, "loginProgress()");
-		Map<String, Object> pMap = HashUtil.mapToVOBinder(profileMap, TAG);
+		HashUtil.mapToDTOBinder(profileMap, TAG);
+
 		/************************************************************
 		 *
 		 *
@@ -184,38 +198,25 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		 *
 		 *
 		 ************************************************************/
-		Intent intent = new Intent(getActivity(), PlazaActivity.class);
-		startActivity(intent);
+
 	}
 
 	@Override
-	public void logoutProgress() {
+	public void logoutProgress(Activity activity) {
 		Log.i(TAG, "logoutProgress()");
-		new DeleteTokenTask().execute();
-		mOAuthLoginInstance.logout(mContext);
-		new RefreshTokenTask().execute();
-		MemberDTO.getInstance().setMem_code(null);
-
-	/*public void activityNil(String active){
-		switch (active) {
-			case "refresh" : { //토큰다시받기버튼
-				new RefreshTokenTask().execute();
-				break;
-			}
-			case "logout" : { //로그아웃버튼
-				//OAuthLogin.logout() 메서드가 호출되면 클라이언트에 저장된 토큰이 삭제되고
-				//OAuthLogin.getState() 메서드가 OAuthLoginState.NEED_LOGIN 값을 반환합니다.
-				mOAuthLoginInstance.logout(mContext);
-				updateView();
-				break;
-			}
-			case "delete" : { //연동끊기버튼
-				new DeleteTokenTask().execute();
-				break;
-			}
-			default:
-				break;
+		if(activity!=null){
+			Log.i(TAG, "activity : " + activity.toString());
 		}
-	}*/
+		if(mActivity!=null){
+			Log.i(TAG, "mActivity : " + mActivity.toString());
+		}
+		if(getActivity()!=null){
+			Log.i(TAG, "getActivity() : " + getActivity().toString());
+		}
+		new RefreshTokenTask().execute();
+		mOAuthLoginInstance.logout(mContext);
+		new DeleteTokenTask().execute();
+		((PlazaActivity)activity).LoginEnterActivity();
+		MemberDTO.getInstance().setMem_code(null);
 	}
 }

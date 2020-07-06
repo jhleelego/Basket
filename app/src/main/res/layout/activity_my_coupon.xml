@@ -11,7 +11,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/amc_Toolbar"
             android:orientation="horizontal"
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
+<!--
     <Spinner
         android:entries="@array/amc_FavoriteStoreDropDown"
         android:layout_width="wrap_content"
@@ -54,5 +55,5 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="centerInside"/>
     </androidx.cardview.widget.CardView>
-
+-->
 </LinearLayout>
