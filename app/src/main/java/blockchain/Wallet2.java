@@ -1,5 +1,9 @@
 package blockchain;
 
+import android.util.Log;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.io.Serializable;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -11,16 +15,14 @@ import java.security.spec.ECGenParameterSpec;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-public class Wallet implements Serializable {
+public class Wallet2 implements Serializable {
 
 	public PrivateKey privateKey = null;
 	public PublicKey publicKey = null;
 
 	public Map<String, Float> utxos = new HashMap<>();// 지갑에 속해있는 코인들
 
-	public Wallet() {
+	public Wallet2() {
 		// Wallet 생성시 타원곡선 알고리즘을 통해 private key와 public key를 생성
 		try {
 			Security.addProvider(new BouncyCastleProvider());
@@ -30,7 +32,7 @@ public class Wallet implements Serializable {
 			privateKey = kp.getPrivate();
 			publicKey = kp.getPublic();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("error", e.toString());
 		}
 	}
 }

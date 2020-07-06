@@ -1,5 +1,6 @@
-package com.example.basket.ui;
+package com.example.basket.ui.main;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,17 +12,25 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.basket.R;
 import com.example.basket.factory.FragmentsFactory;
+import com.example.basket.ui.LoginActivity;
 import com.example.basket.ui.search.EventPopupActivity;
 import com.example.basket.vo.MemberDTO;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import static com.example.basket.ui.LoginActivity.fragmentTransaction;
+import static com.example.basket.ui.LoginActivity.memberVerifier;
+
 public class PlazaActivity extends AppCompatActivity {
+
+    public static final String TAG = "PlazaActivity";
     Dialog dialog = null;
     public static final String TAG = "MainActivity";
     String nickName = null;
@@ -61,29 +70,27 @@ public class PlazaActivity extends AppCompatActivity {
             Intent intent = new Intent(PlazaActivity.this, EventPopupActivity.class);
             startActivity(intent);
         }
+        if(fragmentTransaction!=null){
+            Log.i(TAG, fragmentTransaction.toString());
+        }
     }
-
-
 
     public void btn_logoutClick(View v) {
-        Log.i(TAG, "v : " + v);
-        FragmentsFactory.getInstance().logoutProgress();
+        fragmentTransaction.remove((Fragment)memberVerifier);
+        memberVerifier.logoutProgress(this);
+        FragmentsFactory.removeInstance();
+    }
+
+    public void LoginEnterActivity() {
         startActivity(new Intent(PlazaActivity.this, LoginActivity.class));
-        Log.i(TAG, "btn 끝");
     }
 
 
-
-   /* @Override
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(nickName!=null){
-            Log.i("nickname", nickName);
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.putExtra("nickname", nickName);
-            startActivity(intent);
-        }
-    }*/
-
-
+        fragmentTransaction.remove((Fragment)memberVerifier);
+        memberVerifier.logoutProgress(this);
+        FragmentsFactory.removeInstance();
+    }
 }

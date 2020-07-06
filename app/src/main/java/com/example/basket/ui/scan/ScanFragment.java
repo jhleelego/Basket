@@ -8,12 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,8 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.basket.R;
-import com.example.basket.ui.PlazaActivity;
-import com.example.basket.util.RequestQ;
+import com.example.basket.util.VolleyQueueProvider;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.CaptureManager;
@@ -43,7 +36,6 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
     private CaptureManager manager;
     private boolean isFlashOn = false;// 플래시가 켜져 있는지
 
-    private RequestQueue requestQueue = null;
     private Context mContext = null;
     private Activity mActivity = null;
 
@@ -128,7 +120,6 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
     public void jsonArrayRequestTest(){
         String url = "http://192.168.0.37:5050/product/find_pro.do?pro_barcode="+pro_barcode;
         try{
-            requestQueue = RequestQ.getInstance(getActivity().getApplicationContext()).getRequestQueue();
             JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                     Request.Method.GET,
                     url,
@@ -158,7 +149,7 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
             );
 
             // Access the RequestQueue through your singleton class.
-            requestQueue.add(jsonArrayRequest);
+            VolleyQueueProvider.openQueue(jsonArrayRequest);
 
         } catch (Exception e) {
             Log.i("Volley",e.toString());
@@ -219,6 +210,4 @@ public class ScanFragment extends Fragment implements  DecoratedBarcodeView.Torc
         super.onSaveInstanceState(outState);
         manager.onSaveInstanceState(outState);
     }
-
-
 }
