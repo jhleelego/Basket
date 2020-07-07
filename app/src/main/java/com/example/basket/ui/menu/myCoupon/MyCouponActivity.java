@@ -17,10 +17,6 @@ public class MyCouponActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_coupon);
 
-        Toolbar toolbar = findViewById(R.id.amc_Toolbar);
-        setSupportActionBar(toolbar);
-
-
     }
 
     public void eventMove(View view) {
