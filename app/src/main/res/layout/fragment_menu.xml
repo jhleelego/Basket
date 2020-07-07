@@ -53,8 +53,9 @@
                     android:backgroundTint="@color/main_color"
                     android:text="로그아웃"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
-                <!--android:onClick="btn_logoutClick"-->
+                    android:textStyle="bold"
+                    android:onClick="btn_logoutClick"/>
+
             </LinearLayout>
 
             <LinearLayout

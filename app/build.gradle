@@ -36,6 +36,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation files('libs\\bcprov-jdk15to18-165.jar')
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     def android_x_version = "1.0.0"
     implementation "androidx.appcompat:appcompat:$android_x_version"
@@ -77,4 +78,8 @@ dependencies {
     //Volley , GSON
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    //Image glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

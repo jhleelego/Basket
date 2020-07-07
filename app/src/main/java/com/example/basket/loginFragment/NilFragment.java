@@ -161,6 +161,9 @@ public class NilFragment extends Fragment implements MemberVerifier {
 			resultMap = new HashMap<>();
 			resultMap = new Gson().fromJson(content, resultMap.getClass());
 			if (resultMap.get("resultcode").equals("00") && resultMap.get("message").equals("success")) {
+				/***************톰캣연동이되면 사라질것임************/
+				((LoginActivity)getActivity()).PlazaEnterActivity();
+				/**************************************************/
 				loginProgress((Map<String, Object>)resultMap.get("response"));
 			}
 		}

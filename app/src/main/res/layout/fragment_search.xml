@@ -7,11 +7,30 @@
     android:orientation="vertical"
     tools:context=".ui.search.SearchFragment">
 
-    <fragment android:id="@+id/autocomplete_fragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"/>
+        android:layout_height="48dp"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/iv_goToProSearch"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품검색"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:background="@color/main_color"
+            android:onClick="iv_goToProSearch"/>
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"

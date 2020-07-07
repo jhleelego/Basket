@@ -11,14 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.basket.R;
-import com.example.basket.controller.MemberVerifier;
 import com.example.basket.factory.FragmentsFactory;
 
 
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG ="LoginActivity";
     public static FragmentTransaction fragmentTransaction = null;
-    public MemberVerifier memberVerifier = null;
     public EditText et_inputID = null;
     public EditText et_inputPW = null;
     @Override

@@ -32,9 +32,9 @@ public class FragmentsFactory {
 
     public static final MemberVerifier newInstance(View v, EditText et_inputID, EditText et_inputPW, Context context) {
         Log.i(TAG, v.toString());
-        if (v.getId() == R.id.btn_nilEnter) {
+        if (v.getId() == R.id.iv_nilEnter) {
             return memberVerifier = new NilFragment();
-        } else if (v.getId() == R.id.btn_kilEnter) {
+        } else if (v.getId() == R.id.iv_kilEnter) {
             return memberVerifier = new KilFragment();
         } else if (v.getId() == R.id.btn_bil) {
             if((et_inputID.getText().toString()!=null&&et_inputID.getText().toString().length()>0)

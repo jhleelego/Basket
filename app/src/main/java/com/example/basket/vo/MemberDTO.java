@@ -9,8 +9,9 @@ import blockchain.Wallet;
 public class MemberDTO {
     public final String TAG = "MemberDTO";
 
+    private String  sto_code        = "1";
     private String  mem_entrance    = null;
-    private String  mem_code        = "ansi91";
+    private String  mem_code        = null;
     private String  mem_email       = null;
     private String  mem_pw          = null;
     private String  mem_name        = null;
@@ -42,6 +43,11 @@ public class MemberDTO {
      * mem_birth
      * mem_tel
      ****************************************************/
+
+    //sto_code는 DB가 아닌 비콘으로 set 된다.
+    public String getSto_code(){return sto_code;};
+
+    public void setSto_code(String sto_code){this.sto_code = sto_code;}
 
     public String getMem_entrance() {
         return mem_entrance;

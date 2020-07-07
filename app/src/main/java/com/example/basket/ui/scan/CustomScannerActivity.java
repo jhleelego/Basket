@@ -1,19 +1,15 @@
 package com.example.basket.ui.scan;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
-import com.example.basket.vo.ProductOneDTO;
 import com.google.gson.Gson;
 import com.google.zxing.ResultPoint;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -32,7 +28,6 @@ public class CustomScannerActivity extends AppCompatActivity {
     private DecoratedBarcodeView barcodeView;
     String lastText = null;
     String pro_barcode = null;
-    ProductOneDTO productOneDTO = null;
 
     private BarcodeCallback callback = new BarcodeCallback() {
         @Override
@@ -55,7 +50,7 @@ public class CustomScannerActivity extends AppCompatActivity {
                     Log.e(TAG, "response : " + response);
                     Map<String, Object> rMap = new Gson().fromJson(response, Map.class);
                     //데이터 담아서 팝업(액티비티) 호출
-                    for (int i = 0; i < rMap.size(); i++) {
+                 /*   for (int i = 0; i < rMap.size(); i++) {
                         productOneDTO = new ProductOneDTO();
                         productOneDTO.setPRO_CODE((String) rMap.get("PRO_CODE"));
                         productOneDTO.setPRO_IMG((String) rMap.get("PRO_IMG"));
@@ -65,12 +60,13 @@ public class CustomScannerActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), ProInfoActivity.class);
                         intent.putExtra("data", productOneDTO);
                         startActivityForResult(intent, 1);
-                    }
-
+                    }*/
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.e(TAG, "error.getStackTrace() : " + error.getStackTrace().toString());
+                    Log.e(TAG, "error.getMessage() : " + error.getMessage());
                     Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
                 }
             }, "product/find_pro", pMap);
@@ -124,6 +120,4 @@ public class CustomScannerActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         manager.onSaveInstanceState(outState);
     }
-
-
 }
