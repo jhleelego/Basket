@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:orientation="vertical"
     tools:context=".ui.menu.serviceCenter.ServiceCenterActivity">
     <com.google.android.material.appbar.AppBarLayout
@@ -25,6 +26,7 @@
 
 
     <TextView
+        android:textColor="#B40486"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp"
         android:textSize="40dp"
@@ -32,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
+        android:textColor="#B40486"
         android:layout_marginLeft="20dp"
         android:textSize="40dp"
         android:text="도와드릴까요?"
@@ -45,21 +48,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:textSize="25dp"
-        android:layout_gravity="center"
+    <TextView
+        android:textColor="#4B088A"
         android:layout_marginTop="30dp"
-        android:text="고객센터 전화연결"
+        android:layout_gravity="center"
+        android:text="0000 - 0000"
+        android:textSize="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:textColor="#4B088A"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:text="평일 9:00 ~ 18:00"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textColor="#4B088A"
+        android:text="(점심 12:00 ~ 13:00)"
+        android:textSize="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button
+        android:textColor="#FFFFFF"
+        android:background="#4B088A"
+        android:onClick="call"
+        android:textSize="25dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text=" 고객센터 전화연결 "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+   <!-- <Button
         android:onClick="chatMove"
         android:textSize="25dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:text="실시간 채팅"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"/>-->
 
 
 
