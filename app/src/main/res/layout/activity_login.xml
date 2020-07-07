@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="112dp"
             android:layout_height="40dp"
-            android:onClick="btn_loginClick"/>
+            android:onClick="btn_signInClick"/>
 
         <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
             android:id="@+id/btn_nil"
@@ -87,7 +87,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginHorizontal="112dp"
             android:layout_height="42dp"
-            android:onClick="btn_loginClick"/>
+            android:onClick="btn_signInClick"/>
 
         <com.kakao.usermgmt.LoginButton
             android:id="@+id/btn_kil"

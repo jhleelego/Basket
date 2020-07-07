@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void btn_signInClick(View v) {
         Log.i(TAG, v.toString());
-        MemberVerifier memberVerifier = FragmentsFactory.newInstance(v);
+        memberVerifier = FragmentsFactory.newInstance(v);
         fragmentTransaction.add((Fragment)memberVerifier, memberVerifier.TAG);
         fragmentTransaction.commitAllowingStateLoss();
     }
