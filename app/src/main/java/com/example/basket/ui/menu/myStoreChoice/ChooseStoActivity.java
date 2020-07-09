@@ -15,7 +15,6 @@ public class ChooseStoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_sto);
-
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         //R.id.textView는 텍스트뷰 의 첫번째값 매장정보 <<

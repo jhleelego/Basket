@@ -63,6 +63,6 @@ public class ScanFragment extends Fragment {
 
     public void scanCustomScanner(View view) {
         Log.e(TAG, "scanCustomScanner(View view) 호출 성공");
-        //new IntentIntegrator(getActivity()).setOrientationLocked(false).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+
     }
 }

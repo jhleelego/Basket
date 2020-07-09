@@ -16,11 +16,11 @@
         android:label="@string/title_basket"
         tools:layout="@layout/fragment_basket" />
 
-    <fragment
+<!--    <fragment
         android:id="@+id/navigation_scan"
         android:name="com.example.basket.ui.scan.ScanFragment"
         android:label="@string/title_scan"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/fragment_scan" />-->
 
     <fragment
         android:id="@+id/navigation_menu"

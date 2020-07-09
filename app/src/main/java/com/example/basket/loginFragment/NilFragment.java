@@ -204,8 +204,8 @@ public class NilFragment extends Fragment implements MemberVerifier {
 			@Override
 			public void onResponse(String response) { //resonse : JSONArray
 				Log.i(TAG, "response : " + response);
-				List<Map<String, Object>> resultList = new Gson().fromJson(response, List.class);
-				for(Map.Entry dtoTOMap : resultList.get(0).entrySet()){
+				Map<String, Object> proResultMap = (Map<String, Object>)((List<Map<String, Object>>)(new Gson().fromJson(response, List.class))).get(0);
+				for(Map.Entry dtoTOMap : proResultMap.entrySet()){
 					if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
 					if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
 					if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}

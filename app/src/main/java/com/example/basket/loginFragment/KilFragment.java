@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,6 @@ public class KilFragment extends Fragment implements MemberVerifier {
     Session session;
     private Context mContext;
     private Activity mActivity;
-    private WebView mWebView;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -187,8 +185,9 @@ public class KilFragment extends Fragment implements MemberVerifier {
             @Override
             public void onResponse(String response) { //resonse : JSONArray
                 Log.i(TAG, "response : " + response);
-                List<Map<String, Object>> resultList = new Gson().fromJson(response, List.class);
-                for(Map.Entry dtoTOMap : resultList.get(0).entrySet()){
+
+                Map<String, Object> proResultMap = (Map<String, Object>)((List<Map<String, Object>>)(new Gson().fromJson(response, List.class))).get(0);
+                for(Map.Entry dtoTOMap : proResultMap.entrySet()){
                     if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
                     if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
                     if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
