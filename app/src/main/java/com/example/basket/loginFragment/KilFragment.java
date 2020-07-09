@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.basket.controller.MemberVerifier;
-import com.example.basket.logical.HashUtil;
+import com.example.basket.logical.OAuthCallbackParser;
 import com.example.basket.ui.main.LoginActivity;
 import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.VolleyCallback;
@@ -208,7 +208,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, "error : " + error.toString());
             }
-        }, "member/proc_login_social", HashUtil.mapToDtoAndMapBinder(profileMap, TAG));
+        }, "member/proc_login_social", OAuthCallbackParser.mapToDtoAndMapBinder(profileMap, TAG));
     }
 
     @Override

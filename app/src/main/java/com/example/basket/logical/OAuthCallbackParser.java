@@ -6,10 +6,13 @@ import com.example.basket.loginFragment.KilFragment;
 import com.example.basket.loginFragment.NilFragment;
 import com.example.basket.vo.MemberDTO;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HashUtil {
+public class OAuthCallbackParser {
     public static final String TAG = "HashUtil";
     public static Map<String, String> mapToDtoAndMapBinder(Map<String, String> profileMap, String mem_entrance){
         Log.i(TAG, "HashUtil - mapToDtoAndMapBinder");
@@ -93,6 +96,16 @@ public class HashUtil {
                 Log.i(TAG, "printMap : " + printMap.getKey() + " : " + printMap.getValue().toString());
             }
             Log.i(TAG, "TO MAP BINDER FINISH");
+        }
+
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+            oos.writeObject(MemberDTO.getInstance().getMem_wallet().publicKey);
+            oos.close();
+            updateMap.put("myKey", new String(baos.toByteArray(), "ISO-8859-1"));
+        } catch (Exception e) {
+            Log.e(TAG, "Error while key into Map");
         }
         return updateMap;
     }
