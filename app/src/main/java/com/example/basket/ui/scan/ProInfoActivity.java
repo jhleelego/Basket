@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.basket.R;
@@ -20,8 +21,6 @@ import java.util.Map;
 
 public class ProInfoActivity extends Activity {
     public static final String TAG = "ProInfoActivity";
-
-
     ImageView iv_pro_img = null;
     TextView tv_pro_name = null;
     TextView tv_pro_price = null;
@@ -31,6 +30,7 @@ public class ProInfoActivity extends Activity {
     Button btn_sto_plus = null;
     Button btn_basket_cancel = null;
     Button btn_basket_dunk = null;
+    int desired_stock_count = 0;
 
 
     List<ProductOneDTO> proList = new ArrayList<>();
@@ -84,23 +84,39 @@ public class ProInfoActivity extends Activity {
     public void pro_info_onClick(View view) {
         switch(view.getId()){
             case R.id.btn_sto_minus : {
-                /*int  Integer.parseInt(tv_pro_stock_ea.getText().toString());
-
-                if(Integer.parseInt(tv_pro_stock_ea.getText().toString())>Integer.parseInt(tv_desired_stock_count.getText().toString())){
-                    tv_desired_stock_count.setText(Integer.parseInt(tv_desired_stock_count.getText())+1);
+                int pro_stock_ea = Integer.parseInt(tv_pro_stock_ea.getText().toString());
+                desired_stock_count = Integer.parseInt(tv_desired_stock_count.getText().toString());
+                if(desired_stock_count==1&&desired_stock_count!=0){
+                    Toast.makeText(this, "주문수량은 최소 1개 입니다..", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    tv_desired_stock_count.setText(--desired_stock_count);
+                    return;
                 }
-                if(tv_pro_price.getText().toString()>=0){
-
-                }*/
-
             }
             case R.id.btn_sto_plus : {
-
+                int pro_stock_ea = Integer.parseInt(tv_pro_stock_ea.getText().toString());
+                desired_stock_count = Integer.parseInt(tv_desired_stock_count.getText().toString());
+                if(desired_stock_count<pro_stock_ea){
+                    tv_desired_stock_count.setText(++desired_stock_count);
+                    return;
+                } else {
+                    Toast.makeText(this, "주문수량이 재고수량보다 많습니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
             case R.id.btn_basket_cancel : {
-
+                finish();
             }
             case R.id.btn_basket_dunk : {
+                /*************************************
+                 *               SQLite
+                 *
+                 *
+              
+                 ***********************************/
+
+
 
             }
         }
