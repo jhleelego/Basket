@@ -11,11 +11,12 @@ import java.util.Map;
 
 public class HashUtil {
     public static final String TAG = "HashUtil";
-    public static Map<String, String> mapToDtoAndMapBinder(Map<String, Object> profileMap, String mem_entrance){
+    public static Map<String, String> mapToDtoAndMapBinder(Map<String, String> profileMap, String mem_entrance){
         Log.i(TAG, "HashUtil - mapToDtoAndMapBinder");
         /****************************************************
          *  BASKET 콜백컬럼들
-         *
+         *  mem_emial : jhleelego@naver.com
+         *  mem_pw : 1234567
          *
          *  NAVER 콜백컬럼들
          *  id : 19044688
@@ -52,12 +53,12 @@ public class HashUtil {
                     memberDTO.setMem_email(vMap.getValue().toString());
                     updateMap.put("mem_email", vMap.getValue().toString());
                 } else if (vMap.getKey().equals("name")) {
-                    memberDTO.setMem_name(vMap.getValue().toString());
-                    updateMap.put("mem_name", vMap.getValue().toString());
+                        memberDTO.setMem_name(vMap.getValue().toString());
+                        updateMap.put("mem_name", (vMap.getValue().toString()));
                 } else if (vMap.getKey().equals("age")) {
                     if(mem_entrance.equals(NilFragment.TAG)){
-                        memberDTO.setMem_age((vMap.getValue().toString()).substring(0,1));
-                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0,1));
+                        memberDTO.setMem_age((vMap.getValue().toString()).substring(0,2));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0,2));
                     } else if(mem_entrance.equals(KilFragment.TAG)){
                         memberDTO.setMem_age((vMap.getValue().toString()).substring(4,5));
                         updateMap.put("mem_age", (vMap.getValue().toString()).substring(4,5));

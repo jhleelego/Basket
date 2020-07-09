@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.basket.R;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 public class ScanFragment extends Fragment {
@@ -64,6 +63,6 @@ public class ScanFragment extends Fragment {
 
     public void scanCustomScanner(View view) {
         Log.e(TAG, "scanCustomScanner(View view) 호출 성공");
-        new IntentIntegrator(getActivity()).setOrientationLocked(false).setCaptureActivity(CustomScannerActivity.class).initiateScan();
+        //new IntentIntegrator(getActivity()).setOrientationLocked(false).setCaptureActivity(CustomScannerActivity.class).initiateScan();
     }
 }

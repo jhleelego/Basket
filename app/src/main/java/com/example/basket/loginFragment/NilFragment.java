@@ -24,6 +24,7 @@ import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -33,7 +34,7 @@ import java.util.Map;
  */
 public class NilFragment extends Fragment implements MemberVerifier {
 
-	public static final String TAG = "Nil";
+	public static final String TAG = "nil";
 
 	private static String OAUTH_CLIENT_ID = "XRp7KGaVvvtQRkzfCRo2";
 	private static String OAUTH_CLIENT_SECRET = "Bpu2rQ8MEQ";
@@ -47,7 +48,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 
 
 	Map<String, Object> resultMap = null;
-	Map<String, Object> profileMap = null;
+	Map<String, String> profileMap = null;
 
 	@Override
 	public void onAttach(@NonNull Context context) {
@@ -116,7 +117,8 @@ public class NilFragment extends Fragment implements MemberVerifier {
 			} else {
 				String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
 				String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
-				Toast.makeText(mContext, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+				Log.i(TAG, "errorCode ::::::::::");
+				((LoginActivity)getActivity()).plazaEnterActivity();
 			}
 		}
 	};
@@ -131,6 +133,8 @@ public class NilFragment extends Fragment implements MemberVerifier {
 				// 실패했어도 클라이언트 상에 token 정보가 없기 때문에 추가적으로 해줄 수 있는 것은 없음
 				Log.d(TAG, "errorCode:" + mOAuthLoginInstance.getLastErrorCode(mContext));
 				Log.d(TAG, "errorDesc:" + mOAuthLoginInstance.getLastErrorDesc(mContext));
+				mOAuthLoginInstance.logout(mContext);
+				((LoginActivity)getActivity()).logOutActive();
 			}
 			return null;
 		}
@@ -160,11 +164,10 @@ public class NilFragment extends Fragment implements MemberVerifier {
 			Log.i(TAG, "onPostExecute() 호출 ");
 			resultMap = new HashMap<>();
 			resultMap = new Gson().fromJson(content, resultMap.getClass());
-			if (resultMap.get("resultcode").equals("00") && resultMap.get("message").equals("success")) {
-				/***************톰캣연동이되면 사라질것임************/
-				((LoginActivity)getActivity()).PlazaEnterActivity();
-				/**************************************************/
-				loginProgress((Map<String, Object>)resultMap.get("response"));
+			if (resultMap.get("resultcode").toString().equals("00") && resultMap.get("message").toString().equals("success")) {
+				Log.i(TAG, "reusltMap.get(response).toString() : " + resultMap.get("response").toString());
+				profileMap = new Gson().fromJson(resultMap.get("response").toString(), Map.class);
+				loginProgress(profileMap);
 			}
 		}
 	}
@@ -183,7 +186,7 @@ public class NilFragment extends Fragment implements MemberVerifier {
 	}
 
 	@Override
-	public void loginProgress(Map<String, Object> profileMap) {
+	public void loginProgress(Map<String, String> profileMap) {
 		Log.i(TAG, "loginProgress()");
 		/************DB갖다오기 (정보에 맞는 계정 로우 업데이트, 멤버정보 가져오기)************
 		 * mem_code
@@ -200,36 +203,31 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		VolleyQueueProvider.callbackVolley(new VolleyCallback() {
 			@Override
 			public void onResponse(String response) { //resonse : JSONArray
-				Map<String, Object> resultMap = new Gson().fromJson(response, Map.class);
-				if(resultMap.get("mem_name").equals("아이디 또는 비밀번호가 일치하지 않습니다.")){
-					Toast.makeText(mContext, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
-				} else {
-					Log.i(TAG, "NAVER CONNECT SUCCESS");
-					Log.i(TAG, "DATABASE ISNERT OR UPDATE SUCCESS");
-					for(Map.Entry dtoTOMap : resultMap.entrySet()){
-						if(dtoTOMap.getKey().equals("mem_code")) {
-							MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_name")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_email")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_pw")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_age")) {MemberDTO.getInstance().setMem_age(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_gender")) {MemberDTO.getInstance().setMem_gender(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_birth")) {MemberDTO.getInstance().setMem_birth(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_tel")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
-						if(dtoTOMap.getKey().equals("mem_entrance")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
-					}
-					Log.i(TAG, "MEMBERDTO toString() START ");
-					MemberDTO.getInstance().toString();
-					Log.i(TAG, "MEMBERDTO toString() FINISH ");
+				Log.i(TAG, "response : " + response);
+				List<Map<String, Object>> resultList = new Gson().fromJson(response, List.class);
+				for(Map.Entry dtoTOMap : resultList.get(0).entrySet()){
+					if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_PW")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_AGE")) {MemberDTO.getInstance().setMem_age(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_GENDER")) {MemberDTO.getInstance().setMem_gender(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_BIRTh")) {MemberDTO.getInstance().setMem_birth(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_TEL")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_ENTRANCE")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
 				}
-				((LoginActivity)getActivity()).PlazaEnterActivity();
+				Log.i(TAG, "MEMBERDTO toString() START ");
+				MemberDTO.getInstance().toString();
+				Log.i(TAG, "MEMBERDTO toString() FINISH ");
+				((LoginActivity)getActivity()).plazaEnterActivity();
 				Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_LONG).show();
 			}
 			@Override
 			public void onErrorResponse(VolleyError error) {
+				Log.i(TAG, "error : " + error.toString());
 
 			}
-		}, "", HashUtil.mapToDtoAndMapBinder(profileMap, TAG));
+		}, "member/proc_login_social", HashUtil.mapToDtoAndMapBinder(profileMap, TAG));
 	}
 
 	@Override
@@ -246,8 +244,6 @@ public class NilFragment extends Fragment implements MemberVerifier {
 		}
 		//new RefreshTokenTask().execute();
 		mOAuthLoginInstance.logout(mContext);
-		//new DeleteTokenTask().execute();
-		((PlazaActivity)activity).LoginEnterActivity();
-		MemberDTO.getInstance().removeInfo();
+		((PlazaActivity)activity).loginEnterActivity();
 	}
 }

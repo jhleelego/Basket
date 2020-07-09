@@ -41,7 +41,12 @@ public class ProductSearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Map<String, String> pMap = new HashMap<>();
                 pMap.put("p_word", query);
-                pMap.put("sto_code", MemberDTO.getInstance().getSto_code());
+                String sto_code = MemberDTO.getInstance().getSto_code();
+                if (sto_code != null) {
+                    pMap.put("sto_code", sto_code);
+                } else {
+                    pMap.put("sto_code", "0");
+                }
                 VolleyQueueProvider.initRequestQueue(ProductSearchActivity.this);
                 searchProduct(pMap);
                 return false;
@@ -66,7 +71,7 @@ public class ProductSearchActivity extends AppCompatActivity {
                 List<Map<String, Object>> pList = new Gson().fromJson(response, List.class);
                 // 리사이클러뷰에 표시할 데이터 리스트 생성.
                 // 리사이클러뷰에 LinearLayoutManager 객체 지정.
-                RecyclerView recyclerView = findViewById(R.id.recycler1) ;
+                RecyclerView recyclerView = findViewById(R.id.pro_recycler) ;
                 recyclerView.setLayoutManager(new LinearLayoutManager(ProductSearchActivity.this)) ;
 
                 // 리사이클러뷰에 ProductInfoAdapter 객체 지정.

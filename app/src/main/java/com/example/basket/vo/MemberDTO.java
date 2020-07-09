@@ -9,7 +9,7 @@ import blockchain.Wallet;
 public class MemberDTO {
     public final String TAG = "MemberDTO";
 
-    private String  sto_code        = "1";
+    private String  sto_code        = null;
     private String  mem_entrance    = null;
     private String  mem_code        = null;
     private String  mem_email       = null;
@@ -176,6 +176,7 @@ public class MemberDTO {
         return null;
     }
     public void removeInfo(){
+        //setSto_code(null);
         setMem_entrance(null);
         setMem_code(null);
         setMem_email(null);
