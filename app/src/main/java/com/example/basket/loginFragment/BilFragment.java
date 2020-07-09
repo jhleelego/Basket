@@ -19,6 +19,9 @@ import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,16 @@ public class BilFragment extends Fragment implements MemberVerifier {
         }
         pMap.put("mem_email", et_inputID.getText().toString());
         pMap.put("mem_pw", et_inputPW.getText().toString());
+
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+            oos.writeObject(MemberDTO.getInstance().getMem_wallet().publicKey);
+            oos.close();
+            pMap.put("myKey", new String(baos.toByteArray(), "ISO-8859-1"));
+        } catch (Exception e) {
+            Log.e(TAG, "Error while key into Map");
+        }
         loginProgress(pMap);
     }
 
