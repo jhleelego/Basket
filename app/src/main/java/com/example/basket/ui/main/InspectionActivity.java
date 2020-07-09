@@ -85,7 +85,7 @@ public class InspectionActivity extends AppCompatActivity {
     private PublicKey createWallet() {
         WalletSqlLiter ws = new WalletSqlLiter(this);
         SQLiteDatabase db = ws.getReadableDatabase();
-//        ws.onUpgrade(db,1,1);//asdas
+//        ws.onUpgrade(db,1,1);//지갑 삭제후 재 생성
         Cursor c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
         c.moveToFirst();
         String s;
