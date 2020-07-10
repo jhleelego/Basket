@@ -53,7 +53,7 @@ public class ProductInfoAdapter extends RecyclerView.Adapter<ProductInfoAdapter.
         View view = inflater.inflate(R.layout.product_recyclerview_item, parent, false) ;
         ProductInfoAdapter.ViewHolder vh = new ProductInfoAdapter.ViewHolder(view) ;
 
-        return vh ;
+        return vh;
     }
     @Override
     public void onBindViewHolder(ProductInfoAdapter.ViewHolder holder, int position) {

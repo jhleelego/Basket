@@ -8,12 +8,17 @@ import blockchain.Wallet;
 
 public class MemberDTO {
     public final String TAG = "MemberDTO";
+    //private String  mem_entrance    = null;
+    //private String  mem_email       = null;
+    //private String  mem_pw          = null;
 
-    private String  sto_code        = null;
     private String  mem_entrance    = "bil";
-    private String  mem_code        = null;
     private String  mem_email       = "leejhgo@naver.com";
     private String  mem_pw          = "123";
+
+
+    private String  sto_code        = null;
+    private String  mem_code        = null;
     private String  mem_name        = null;
     private String  mem_gender      = null;
     private String  mem_age         = null;

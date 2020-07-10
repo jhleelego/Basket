@@ -17,7 +17,6 @@ import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +26,8 @@ public class CustomScannerActivity extends AppCompatActivity {
     private final String TAG = "CustomScannerActivity";
     private CaptureManager manager;
     private DecoratedBarcodeView barcodeView;
-    String lastText = null;
-    String pro_barcode = null;
+    String now_barcode = null;
+    String last_barcode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +38,18 @@ public class CustomScannerActivity extends AppCompatActivity {
         BarcodeCallback callback = new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
-                if (result.getText() == null || result.getText().equals(lastText)) {
+                if (result.getText() == null || result.getText().equals(last_barcode)) {
                     // Prevent duplicate scans
                     Log.e(TAG, "// Prevent duplicate scans");
                     return;
                 }
-
-                pro_barcode = result.getText();
+                now_barcode = result.getText();
+                Log.i(TAG, "★★★★★★★★★★★★★★★★★★★pro_barcode : " + now_barcode);
                 barcodeView.setStatusText(result.getText());
-                Log.e("ScanFrag pro_barcode is", pro_barcode);
+                Log.e("ScanFrag pro_barcode is", now_barcode);
                 Map<String, String> pMap = new HashMap<>();
                 pMap.put("sto_code", "1");
-                pMap.put("pro_barcode", pro_barcode);
+                pMap.put("pro_barcode", now_barcode);
                 VolleyQueueProvider.initRequestQueue(CustomScannerActivity.this);
                 VolleyQueueProvider.callbackVolley(new VolleyCallback() {
                     @Override
@@ -76,8 +75,6 @@ public class CustomScannerActivity extends AppCompatActivity {
             }
         };
 
-        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_p);
-        layout.setAnchorPoint(0.3f);
         barcodeView = (DecoratedBarcodeView) findViewById(R.id.barcode_view);
         manager = new CaptureManager(this, barcodeView);
         manager.initializeFromIntent(getIntent(), savedInstanceState);

@@ -83,6 +83,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="-"
+                        android:backgroundTint="@color/main_color"
+                        android:textColor="@color/white"
                         android:onClick="pro_info_onClick"/>
 
                     <TextView
@@ -98,11 +100,11 @@
                         android:id="@+id/btn_sto_plus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/main_color"
+                        android:textColor="@color/white"
                         android:text="+"
                         android:onClick="pro_info_onClick"/>
                 </LinearLayout>
-
-
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -119,7 +121,7 @@
                 android:textColor="@color/white"
                 android:paddingHorizontal="4dp"
                 android:padding="20px"
-                android:background="@color/main_color"
+                android:backgroundTint="@color/main_color"
                 android:layout_margin="4dp"
                 android:text="취소"
                 android:onClick="pro_info_onClick"/>
@@ -132,7 +134,7 @@
                 android:textColor="@color/white"
                 android:paddingHorizontal="4dp"
                 android:padding="20px"
-                android:background="@color/main_color"
+                android:backgroundTint="@color/main_color"
                 android:layout_margin="4dp"
                 android:text="담기"
                 android:onClick="pro_info_onClick"/>

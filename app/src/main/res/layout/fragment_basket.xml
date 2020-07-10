@@ -1,13 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.basket.BasketFragment">
-
-    <TextView
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textSize="22sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:background="@color/main_color"
+            android:text="장바구니"/>
+        <ListView
+            android:id="@+id/lv_basket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textAlignment="textEnd"
+            android:text="총 결제 : 249,000원"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:gravity="right">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="결제하기"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
