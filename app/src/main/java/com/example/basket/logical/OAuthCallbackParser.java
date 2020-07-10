@@ -48,37 +48,37 @@ public class OAuthCallbackParser {
          *  mem_entrance : String
          ****************************************************/
         Map<String, String> updateMap = new HashMap<>();
-        if(profileMap!=null){
+        if(profileMap!=null) {
             MemberDTO memberDTO = MemberDTO.getInstance();
-            for(Map.Entry vMap : profileMap.entrySet()) {
+            for (Map.Entry vMap : profileMap.entrySet()) {
                 Log.i(TAG, vMap.getValue().toString());
                 if (vMap.getKey().equals("email")) {
                     memberDTO.setMem_email(vMap.getValue().toString());
                     updateMap.put("mem_email", vMap.getValue().toString());
                 } else if (vMap.getKey().equals("name")) {
-                        memberDTO.setMem_name(vMap.getValue().toString());
-                        updateMap.put("mem_name", (vMap.getValue().toString()));
+                    memberDTO.setMem_name(vMap.getValue().toString());
+                    updateMap.put("mem_name", (vMap.getValue().toString()));
                 } else if (vMap.getKey().equals("age")) {
-                    if(mem_entrance.equals(NilFragment.TAG)){
-                        memberDTO.setMem_age((vMap.getValue().toString()).substring(0,2));
-                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0,2));
-                    } else if(mem_entrance.equals(KilFragment.TAG)){
-                        memberDTO.setMem_age((vMap.getValue().toString()).substring(4,5));
-                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(4,5));
+                    if (mem_entrance.equals(NilFragment.TAG)) {
+                        memberDTO.setMem_age((vMap.getValue().toString()).substring(0, 2));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0, 2));
+                    } else if (mem_entrance.equals(KilFragment.TAG)) {
+                        memberDTO.setMem_age((vMap.getValue().toString()).substring(4, 5));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(4, 5));
                     }
                 } else if (vMap.getKey().equals("gender")) {
-                    if(vMap.getValue().equals("M")||vMap.getValue().equals("MALE")){
+                    if (vMap.getValue().equals("M") || vMap.getValue().equals("MALE")) {
                         memberDTO.setMem_gender("남");
                         updateMap.put("mem_gender", "남");
-                    } else if(vMap.getValue().equals("W")||vMap.getValue().equals("FEMALE")){
+                    } else if (vMap.getValue().equals("W") || vMap.getValue().equals("FEMALE")) {
                         memberDTO.setMem_gender("여");
                         updateMap.put("mem_gender", "여");
                     }
                 } else if (vMap.getKey().equals("birthday")) {
-                    if(mem_entrance.equals(NilFragment.TAG)){
+                    if (mem_entrance.equals(NilFragment.TAG)) {
                         memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
                         updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
-                    } else if(mem_entrance.equals(KilFragment.TAG)){
+                    } else if (mem_entrance.equals(KilFragment.TAG)) {
                         memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
                         updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
                     }
@@ -92,7 +92,7 @@ public class OAuthCallbackParser {
             Log.i(TAG, "TO DTO BINDER FINISH");
 
             Log.i(TAG, "TO MAP BINDER START");
-            for(Map.Entry printMap : updateMap.entrySet()){
+            for (Map.Entry printMap : updateMap.entrySet()) {
                 Log.i(TAG, "printMap : " + printMap.getKey() + " : " + printMap.getValue().toString());
             }
             Log.i(TAG, "TO MAP BINDER FINISH");

@@ -66,17 +66,6 @@
 
         <activity android:name=".ui.main.LoginActivity" />
 
-
-
-       <!-- <activity android:name=".ui.main.InspectionActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
-        <activity android:name=".ui.main.InspectionActivity"/>
-
-
         <activity android:name=".ui.menu.myPage.MyPageActivity" />
         <activity android:name=".ui.menu.myStoreChoice.FavStoreActivity" />
         <activity android:name=".ui.menu.serviceCenter.ServiceCenterActivity" />
@@ -90,13 +79,16 @@
         <activity
             android:name=".ui.search.EventPopupActivity"
             android:theme="@style/Theme.MyDialog" />
-        <activity android:name=".ui.main.PlazaActivity">
+
+
+        <activity android:name=".ui.main.InspectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".ui.main.PlazaActivity"/>-->
+        <activity android:name=".ui.main.PlazaActivity">
+        </activity>
         <activity android:name=".ui.scan.CustomScannerActivity" />
     </application>
 
