@@ -10,7 +10,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -32,7 +31,6 @@ import com.example.basket.beacon.BeaconFragment;
 import com.example.basket.util.SqliteTable;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
-import com.example.basket.vo.WalletSqlLiter;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -186,6 +184,7 @@ public class InspectionActivity extends AppCompatActivity {
         fragmentTransaction.commitAllowingStateLoss();
 
         VolleyQueueProvider.initRequestQueue(getApplicationContext());
+        SqliteTable.initTables(getApplicationContext());
         setupBouncyCastle();
         PublicKey pk = createWallet();
 //        PublicKey pk = new Wallet().publicKey;

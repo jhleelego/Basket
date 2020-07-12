@@ -5,6 +5,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_marginTop="6dp">
+
     <androidx.cardview.widget.CardView android:layout_gravity="center"
         android:id="@+id/amc_card_view1"
         android:layout_width="wrap_content"

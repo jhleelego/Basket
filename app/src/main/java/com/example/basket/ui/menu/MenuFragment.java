@@ -24,8 +24,13 @@ import com.example.basket.ui.menu.serviceCenter.ServiceCenterActivity;
 import com.example.basket.vo.MemberDTO;
 
 public class MenuFragment extends Fragment {
+    public static final String TAG = "MenuFragment";
     private MenuViewModel menuViewModel;
     public TextView tv_memName = null;
+
+    public static MenuFragment newInstance() {
+        return new MenuFragment();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

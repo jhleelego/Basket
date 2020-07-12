@@ -1,6 +1,8 @@
 package com.example.basket.ui.scan;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,13 +14,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.basket.R;
-import com.example.basket.vo.DBHelper;
 import com.example.basket.vo.ProductOneDTO;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.basket.util.SqliteTable.basket;
 
 public class ProInfoActivity extends Activity {
     public static final String TAG = "ProInfoActivity";
@@ -55,7 +58,7 @@ public class ProInfoActivity extends Activity {
         Map<String, Object> proResultMap = (Map<String, Object>)((List<Map<String, Object>>)(new Gson().fromJson(getIntent().getStringExtra("data"), List.class))).get(0);
         productOneDTO = new ProductOneDTO();
         if(proResultMap.get("PRO_CODE")!=null){
-            productOneDTO.setPro_code(String.valueOf(Math.round((double)proResultMap.get("PRO_CODE"))));
+            productOneDTO.setPro_code((int) Math.round((double)proResultMap.get("PRO_CODE")));
         }
         if(proResultMap.get("PRO_IMG")!=null){
             productOneDTO.setPro_img(proResultMap.get("PRO_IMG").toString());
@@ -63,7 +66,7 @@ public class ProInfoActivity extends Activity {
             Glide.with(this).load(proResultMap.get("PRO_IMG")).into(iv_pro_img);
         }
         if(proResultMap.get("PRO_STOCK_EA")!=null){
-            productOneDTO.setPro_stock_ea(String.valueOf(Math.round((double)proResultMap.get("PRO_STOCK_EA"))));
+            productOneDTO.setPro_stock_ea((int) Math.round((double)proResultMap.get("PRO_STOCK_EA")));
             pro_stock_ea = (int) Math.round((double)proResultMap.get("PRO_STOCK_EA"));
             tv_pro_stock_ea.setText("재고수량 : " + pro_stock_ea + "개");
         }
@@ -73,7 +76,7 @@ public class ProInfoActivity extends Activity {
 
         }
         if(proResultMap.get("PRO_PRICE")!=null){
-            productOneDTO.setPro_price(String.valueOf(Math.round((double)proResultMap.get("PRO_PRICE"))));
+            productOneDTO.setPro_price((int) Math.round((double)proResultMap.get("PRO_PRICE")));
             tv_pro_price.setText(Math.round((double)proResultMap.get("PRO_PRICE"))+"원");
         }
         proList.add(productOneDTO);
@@ -106,9 +109,29 @@ public class ProInfoActivity extends Activity {
                 finish();
             } break;
             case R.id.btn_basket_dunk : {
-                DBHelper basketSQLite = new DBHelper(getApplicationContext());
-                basketSQLite.insert(Integer.parseInt(productOneDTO.getPro_code()), productOneDTO.getPro_img(), desired_stock_count, productOneDTO.getPro_name(), Integer.parseInt(productOneDTO.getPro_price()));
+                Cursor c = basket.select("pro_code = " + productOneDTO.getPro_code());
+                ContentValues row = new ContentValues();
+                if (c.getCount() == 0) {
+                    row.put("pro_image", productOneDTO.getPro_img());
+                    row.put("pro_price", productOneDTO.getPro_price());
+                    row.put("pro_code", productOneDTO.getPro_code());
+                    row.put("pay_ea", desired_stock_count);
+                    row.put("pro_name", productOneDTO.getPro_name());
+                    basket.insert(row);
+                } else {
+                    c.moveToFirst();
+                    int ea = c.getInt(3);
+                    Log.i(TAG, "■■■■■■ EA : " + ea);
+                    Log.i(TAG, "■■■■■■ desired_stock_count : " + desired_stock_count);
+                    int eades = ea + desired_stock_count;
+                    Log.i(TAG, "■■■■■■ ea + desired_stock_count : " + eades);
+                    Log.i(TAG, Integer.toString(eades));
+                    row.put("pay_ea", ea + desired_stock_count);
+                    basket.update(row, "pro_code = " + productOneDTO.getPro_code());
+                }
                 Toast.makeText(this, "장바구니에 추가되었습니다.", Toast.LENGTH_LONG).show();
+                String last_barcode = getIntent().getStringExtra("last_barcode");
+                last_barcode = null;
                 finish();
             } break;
             default : break;

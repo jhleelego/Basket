@@ -12,12 +12,14 @@ public class MemberDTO {
     //private String  mem_email       = null;
     //private String  mem_pw          = null;
 
-    private String  mem_entrance    = "bil";
-    private String  mem_email       = "leejhgo@naver.com";
-    private String  mem_pw          = "123";
+    private String  mem_entrance    = null;
+    private String  mem_email       = null;
+    private String  mem_pw          = null;
 
 
     private String  sto_code        = null;
+    private String  sto_name        = null;
+
     private String  mem_code        = null;
     private String  mem_name        = null;
     private String  mem_gender      = null;
@@ -140,6 +142,14 @@ public class MemberDTO {
 
     public void setMem_coin(String mem_coin) {
         this.mem_coin = mem_coin;
+    }
+
+    public String getSto_name() {
+        return sto_name;
+    }
+
+    public void setSto_name(String sto_name) {
+        this.sto_name = sto_name;
     }
 
     @NonNull

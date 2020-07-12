@@ -43,7 +43,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback {
-
     public static final String TAG = "SearchFragment";
 
     GoogleApiClient googleApiClient;                                           //LocationManger역할
@@ -63,6 +62,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Context mContext;
+
+
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -221,6 +225,27 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         markerOptions.position(AMUDAENA2);
         markerOptions.title("아무대나2");
         markerOptions.snippet("한국의 수도");
+        mMap.addMarker(markerOptions);
+
+        LatLng AMUDAENA3 = new LatLng( 37.585965, 126.949354);
+        markerOptions = new MarkerOptions();
+        markerOptions.position(AMUDAENA3);
+        markerOptions.title("아무대나2");
+        markerOptions.snippet("홍제동1");
+        mMap.addMarker(markerOptions);
+
+        LatLng AMUDAENA4 = new LatLng(37.586329, 126.948002);
+        markerOptions = new MarkerOptions();
+        markerOptions.position(AMUDAENA4);
+        markerOptions.title("아무대나3");
+        markerOptions.snippet("홍제동2");
+        mMap.addMarker(markerOptions);
+
+        LatLng AMUDAENA5 = new LatLng(37.584085, 126.948244);
+        markerOptions = new MarkerOptions();
+        markerOptions.position(AMUDAENA5);
+        markerOptions.title("아무대나4");
+        markerOptions.snippet("홍제동3");
         mMap.addMarker(markerOptions);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.478720, 126.878654), 16);

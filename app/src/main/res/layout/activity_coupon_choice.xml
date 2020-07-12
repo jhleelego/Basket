@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="650dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context=".ui.basket.CouponChoice">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="쿠폰 선택"
+        android:background="@color/main_color"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:textStyle="bold">
+    </TextView>
+    </LinearLayout>
+
+<ListView
+    android:id="@+id/lv_event_coupon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"/>
+</LinearLayout>

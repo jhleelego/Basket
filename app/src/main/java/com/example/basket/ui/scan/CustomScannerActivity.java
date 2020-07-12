@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
+import com.example.basket.vo.MemberDTO;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.BarcodeCallback;
@@ -26,8 +27,8 @@ public class CustomScannerActivity extends AppCompatActivity {
     private final String TAG = "CustomScannerActivity";
     private CaptureManager manager;
     private DecoratedBarcodeView barcodeView;
+    String last_barcode = "0";
     String now_barcode = null;
-    String last_barcode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,26 @@ public class CustomScannerActivity extends AppCompatActivity {
         BarcodeCallback callback = new BarcodeCallback() {
             @Override
             public void barcodeResult(BarcodeResult result) {
+                if(last_barcode!=null){
+                    Log.i(TAG, "★★★★★★★★★★★★★★★★★★★last_barcode : " + last_barcode);
+                }
+                if(now_barcode!=null){
+                    Log.i(TAG, "★★★★★★★★★★★★★★★★★★★pro_barcode : " + now_barcode);
+                }
+
                 if (result.getText() == null || result.getText().equals(last_barcode)) {
                     // Prevent duplicate scans
                     Log.e(TAG, "// Prevent duplicate scans");
                     return;
                 }
                 now_barcode = result.getText();
-                Log.i(TAG, "★★★★★★★★★★★★★★★★★★★pro_barcode : " + now_barcode);
+                last_barcode = now_barcode;
+                Log.i(TAG, "★★★★★★★★★★★★★★★★★★★last_barcode : " + last_barcode);
                 barcodeView.setStatusText(result.getText());
-                Log.e("ScanFrag pro_barcode is", now_barcode);
+                Log.e("ScanFrag pro_barcode is", last_barcode);
                 Map<String, String> pMap = new HashMap<>();
-                pMap.put("sto_code", "1");
-                pMap.put("pro_barcode", now_barcode);
+                pMap.put("sto_code", MemberDTO.getInstance().getSto_code());
+                pMap.put("pro_barcode", last_barcode);
                 VolleyQueueProvider.initRequestQueue(CustomScannerActivity.this);
                 VolleyQueueProvider.callbackVolley(new VolleyCallback() {
                     @Override
@@ -58,6 +67,7 @@ public class CustomScannerActivity extends AppCompatActivity {
                         //데이터 담아서 팝업(액티비티) 호출
                         Intent intent = new Intent(CustomScannerActivity.this, ProInfoActivity.class);
                         intent.putExtra("data", response);
+                        intent.putExtra("last_barcode", last_barcode);
                         startActivityForResult(intent, 1);
                     }
 
@@ -123,4 +133,8 @@ public class CustomScannerActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

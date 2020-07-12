@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.basket.vo.MemberDTO;
+
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -117,6 +119,10 @@ public class BeaconFragment extends Fragment implements BeaconConsumer {
                         Log.i(TAG2, ":::::This :: U U I D :: of beacon   :  "+ signal_beaconInfo[0] + ":::::");
                         Log.i(TAG2, ":::::This ::M a j o r:: of beacon   :  "+ signal_beaconInfo[1] + ":::::");
                         Log.i(TAG2, ":::::This ::M i n o r:: of beacon   :  "+ signal_beaconInfo[2] + ":::::");
+                        Log.i(TAG2, "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+                        Log.i(TAG2, "■■■STO_CODE : " + 1 + " 획득");
+                        Log.i(TAG2, "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+                        MemberDTO.getInstance().setSto_code("1");
                     }
                 }
             }

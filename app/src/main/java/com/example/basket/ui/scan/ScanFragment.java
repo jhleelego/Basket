@@ -47,16 +47,6 @@ public class ScanFragment extends Fragment {
             Log.e(TAG, "mActivity : " + getActivity().toString());
             Log.e(TAG, "getActivity : " + getActivity().toString());
         }
-
-        //이게 커스터마이징한 바코드 스캐너
-        //manager = new CaptureManager(mActivity, barcodeView);
-        //manager.initializeFromIntent(mActivity.getIntent(), savedInstanceState);
-        //barcodeView.decodeContinuous(callback);
-        //manager.decode();
-        //IntentIntegrator intentIntegrator = new IntentIntegrator(getActivity());
-        //intentIntegrator.setCaptureActivity(CustomScannerActivity.class); // 여기서 커스터마이징한 액티비티 (CaptureActivity를 상속받은)를 ...
-        //intentIntegrator.initiateScan();
-        //IntentIntegrator.forSupportFragment(ScanFragment.this).initiateScan();
         scanCustomScanner(root);
         return root;
     }

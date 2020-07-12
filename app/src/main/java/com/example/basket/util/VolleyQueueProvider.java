@@ -54,7 +54,7 @@ public final class VolleyQueueProvider {
 
     public static void callbackVolley(@NonNull final VolleyCallback volleyCallBack, String path, final Map<String, String> pMap) {
         Object result;
-        final String url = "http://192.168.0.189:8000/pjBasket/" + path + ".do";
+        final String url = "http://192.168.0.30:8000/pjBasket/" + path + ".do";
         Log.e("url: ", url);
         try {
             RequestFuture<Object> future = RequestFuture.newFuture();

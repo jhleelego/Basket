@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.menu.MenuFragment">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +13,6 @@
         android:paddingTop="24dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,19 +20,16 @@
             android:textColor="@color/black"
             android:textSize="28dp"
             android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="right"
                 android:orientation="horizontal"
                 android:paddingRight="6dp">
-
                 <TextView
                     android:id="@+id/tv_memName"
                     android:layout_width="wrap_content"
@@ -45,7 +40,6 @@
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:paddingRight="12dp"/>
-
                 <Button
                     android:id="@+id/btn_logout"
                     android:layout_width="wrap_content"
@@ -55,34 +49,8 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:onClick="btn_logoutClick"/>
-
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-
     </LinearLayout>
     <ListView
         android:id="@+id/menu_list"
@@ -90,6 +58,4 @@
         android:layout_height="match_parent"
         android:divider="@color/white"
         android:paddingLeft="12dp" />
-
-
 </LinearLayout>
