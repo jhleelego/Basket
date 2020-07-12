@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.basket.R;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import static com.example.basket.ui.basket.BasketFragment.discountMoney;
@@ -98,8 +99,8 @@ public class ListViewBasketAdapter extends ArrayAdapter implements View.OnClickL
                     c.moveToPosition(0);
                     tv_total_pro_price.setText("총 금액 : " + c.getInt(0) + " 원");
                     total_pro_price = c.getInt(0);
-                    tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
                     total_pay = total_pro_price - discountMoney;
+                    tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
                 }
                 } else {
                     Toast.makeText(mContext, "주문수량은 최소 1개 입니다.", Toast.LENGTH_SHORT).show();
@@ -118,11 +119,14 @@ public class ListViewBasketAdapter extends ArrayAdapter implements View.OnClickL
                 if(c.getCount()!=0){
                     c.moveToPosition(0);
                     Log.i(TAG, "■■■■■ 총금액 : " + c.getInt(0));
-                    c.moveToPosition(0);
                     tv_total_pro_price.setText("총 금액 : " + c.getInt(0) + " 원");
                     total_pro_price = c.getInt(0);
-                    tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
                     total_pay = total_pro_price - discountMoney;
+                    tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
+
+
+
+
                 }
             }
         });
@@ -142,8 +146,8 @@ public class ListViewBasketAdapter extends ArrayAdapter implements View.OnClickL
                                     Log.i(TAG, "■■■■■ 총금액 : " + c.getInt(0));
                                     tv_total_pro_price.setText("총 금액 : " + c.getInt(0) + " 원");
                                     total_pro_price = c.getInt(0);
-                                    tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
                                     total_pay = total_pro_price - discountMoney;
+                                    tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
                                 }
                                 ListViewBasketAdapter.this.notifyDataSetInvalidated();
                             }

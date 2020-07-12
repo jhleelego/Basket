@@ -7,10 +7,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +54,8 @@ public class BasketFragment extends Fragment {
     //결제 버튼
     public Button btn_payment = null;
 
+    public ScrollView sv_basket = null;
+
     public static BasketFragment newInstance() {
         return new BasketFragment();
     }
@@ -74,6 +79,14 @@ public class BasketFragment extends Fragment {
         ListViewBasketAdapter basketAdapter = new ListViewBasketAdapter(mContext, R.layout.listview_basket_item, basketItems);
         ListView basketListview = (ListView) root.findViewById(R.id.lv_basket);
         basketListview.setAdapter(basketAdapter);
+        sv_basket = root.findViewById(R.id.sv_basket);
+
+        basketListview.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                sv_basket.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         tv_basketMoney = root.findViewById(R.id.tv_basketMoney);
         tv_total_pro_price = root.findViewById(R.id.tv_total_pro__prise);
@@ -88,11 +101,11 @@ public class BasketFragment extends Fragment {
             c.moveToPosition(0);
             tv_total_pro_price.setText("총 금액 : " + c.getInt(0) + " 원");
             total_pro_price = c.getInt(0);
-            tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
             total_pay = total_pro_price - discountMoney;
+            tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
         }
-        tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
         total_pay = total_pro_price - discountMoney;
+        tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
 
         btn_payment.setOnClickListener(new View.OnClickListener() {
             @Override

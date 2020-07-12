@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_pro_img"
@@ -29,7 +31,8 @@
             android:padding="4dp"
             android:text="간장게장"
             android:textColor="#000000"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:background="@color/white"/>
 
         <TextView
             android:id="@+id/tv_pro_price"
@@ -38,7 +41,8 @@
             android:padding="4dp"
             android:text="12000원"
             android:textColor="#000000"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:background="@color/white"/>
 
         <Button
             android:id="@+id/btn_sto_minus"

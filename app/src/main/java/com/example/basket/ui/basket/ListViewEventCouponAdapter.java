@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.basket.R;
 import com.example.basket.vo.EventCouponOneDTO;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import static com.example.basket.ui.basket.BasketFragment.discountMoney;
@@ -86,12 +87,14 @@ public class ListViewEventCouponAdapter extends ArrayAdapter implements View.OnC
                 tv_couponChoiceInfo.setText(itemList.get(pos).getSto_name()
                         + "  "
                         + itemList.get(pos).getDis_price()
-                        + "원 할인 쿠폰");
+                        + "원 할인 쿠폰 적용중");
 
                 discountMoney = itemList.get(pos).getDis_price();
-                tv_discountMoney.setText(" - " + itemList.get(pos).getDis_price());
-                tv_total_pay.setText(" = " + (total_pro_price - discountMoney) + "원");
+                tv_discountMoney.setText(" - " + itemList.get(pos).getDis_price() + "원");
                 total_pay = total_pro_price - discountMoney;
+                tv_total_pay.setText(" = " + new DecimalFormat("###,###").format(total_pay) + "원");
+
+
                 mActivity.finish();
             }
         });
