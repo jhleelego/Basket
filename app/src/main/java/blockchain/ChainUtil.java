@@ -1,6 +1,10 @@
 package blockchain;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +13,18 @@ import java.util.Map;
 
 public final class ChainUtil implements Serializable {
 
-    public static void doPayment(Map<String, String> pMap) {
-        Transaction usTx = null;
-
+    // 개인키로 이 트랜잭션의 데이터에 싸인
+    public static String generateSignature(PrivateKey key, String txId) {
+        try {
+            byte[] sign =  HashUtil.applyECDSASig(key, txId);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
+            oos.writeObject(sign);
+            oos.close();
+            return new String(baos.toByteArray(), "ISO-8859-1");
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     // for android (user)
