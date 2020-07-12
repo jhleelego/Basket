@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +22,11 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.basket.R;
+import com.example.basket.util.SqliteTable;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
+import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -110,29 +113,45 @@ public class BasketFragment extends Fragment {
         btn_payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "mem_code : " + MemberDTO.getInstance().getMem_code());
-                Log.i(TAG, "sto_code : " + MemberDTO.getInstance().getSto_code());
-                Log.i(TAG, "total_pay : " + total_pay);
-                Map<String, String> paymentMap = new HashMap<>();
-                paymentMap.put("mem_code", MemberDTO.getInstance().getMem_code());
-                paymentMap.put("sto_code", MemberDTO.getInstance().getSto_code());
-                paymentMap.put("total_pay", Integer.toString(total_pay));
-                VolleyQueueProvider.callbackVolley(new VolleyCallback() {
-                    @Override
-                    public void onResponse(String response) {
-                        Intent intent = new Intent(mActivity, PaymentDialog.class);
-                        intent.putExtra("paymentdata", response);
-                        startActivityForResult(intent, 1);
-
-                        //제이슨을 받아서 txid 제너레이트 시그니쳐아이디에 넣으면 바이트어레이나옴
+                Cursor rs = SqliteTable.basket.select(null);
+                if (rs.getCount() > 0) {
+                    Log.i(TAG, "mem_code : " + MemberDTO.getInstance().getMem_code());
+                    Log.i(TAG, "sto_code : " + MemberDTO.getInstance().getSto_code());
+                    Map<String, String> paymentMap = new HashMap<>();
+                    paymentMap.put("mem_code", MemberDTO.getInstance().getMem_code());
+                    paymentMap.put("sto_code", MemberDTO.getInstance().getSto_code());
+                    for (int i = 0; i < rs.getCount(); i++) {
+                        rs.moveToPosition(i);
+                        paymentMap.put("pro_code" + (i + 1), String.valueOf(rs.getInt(2)));
+                        paymentMap.put("pay_ea" + (i + 1), String.valueOf(rs.getInt(3)));
                     }
+//                paymentMap.put("total_pay", Integer.toString(total_pay));
+                    VolleyQueueProvider.callbackVolley(new VolleyCallback() {
+                        @Override
+                        public void onResponse(String response) {
+                            Map<String, String> rMap = new Gson().fromJson(response, Map.class);
+//                            rMap.put("pay_code", pay_code);
+//                            rMap.put("pay_value", totalPrice + "원");
+//                            rMap.put("mem_code", Integer.parseInt((String) pMap.get("mem_code")));
+//                            rMap.put("sto_code", Integer.parseInt((String) pMap.get("sto_code")));
+//                            rMap.put("txId", payTx.txId);
+                            Intent intent = new Intent(mActivity, PaymentDialog.class);
+                            intent.putExtra("pay_code", rMap.get("pay_code"));
+                            intent.putExtra("txId", rMap.get("txId"));
+                            startActivityForResult(intent, 1);
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Log.i(TAG, "error : " + error.toString());
-                    }
-                },"payment/pay_insert" ,paymentMap);
+                            //제이슨을 받아서 txid 제너레이트 시그니쳐아이디에 넣으면 바이트어레이나옴
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                            Log.i(TAG, "error : " + error.toString());
+                        }
+                    },"chain/pay_insert" ,paymentMap);
+                } else {
+                    Toast.makeText(mContext, "장바구니가 비어있습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

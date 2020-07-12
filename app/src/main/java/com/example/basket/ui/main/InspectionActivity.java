@@ -84,11 +84,7 @@ public class InspectionActivity extends AppCompatActivity {
     }
 
     private PublicKey createWallet() {
-        List<String> columns = new ArrayList<>();
-        columns.add(SqliteTable.wrapColumn("wallet", SqliteTable.TYPE_TEXT));
-        SqliteTable st = new SqliteTable(this, "wallet", columns);
-//        st.resetTable();
-        Cursor c = st.select(null);
+        Cursor c = SqliteTable.wallet.select(null);
         if (c.getCount() == 0) {
             try {
                 Wallet w = new Wallet();
@@ -98,8 +94,8 @@ public class InspectionActivity extends AppCompatActivity {
                 oos.close();
                 ContentValues row = new ContentValues();
                 row.put("wallet", new String(baos.toByteArray(), "ISO-8859-1"));
-                if (st.insert(row) > -1) {
-                    c = st.select(null);
+                if (SqliteTable.wallet.insert(row) > -1) {
+                    c = SqliteTable.wallet.select(null);
                 } else {
                     throw new RuntimeException();
                 }
@@ -116,55 +112,6 @@ public class InspectionActivity extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("at Read Wallet", e.toString());
         }
-
-
-
-
-//        WalletSqlLiter ws = new WalletSqlLiter(this);
-//        SQLiteDatabase db = ws.getReadableDatabase();
-////        ws.onUpgrade(db,1,1);//지갑 삭제후 재 생성
-//        Cursor c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
-//        c.moveToFirst();
-//        String s;
-//        Wallet wallet;
-//        if (c != null && c.getCount() == 0) {
-//            Log.e("what the", "c.getCount() == 0");
-//            try {
-//                Wallet w = new Wallet();
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(baos));
-//                oos.writeObject(w);
-//                oos.close();
-//
-//                db = ws.getWritableDatabase();
-//                ContentValues values = new ContentValues();
-//                s = new String(baos.toByteArray(), "ISO-8859-1");
-//                Log.e("wallet:\n", s);
-//                values.put(WalletSqlLiter.C_WALLET, s);
-//                long newRowId = db.insert(WalletSqlLiter.TABLE_NAME, null, values);
-//                Toast.makeText(this, String.valueOf(newRowId), Toast.LENGTH_LONG).show();
-//                if (newRowId > 0) {
-//                    db = ws.getReadableDatabase();
-//                    c = db.query(WalletSqlLiter.TABLE_NAME, null, null, null, null, null, null, null);
-//                    c.moveToFirst();
-//                    Log.e("newWallet", "커서 이동 완료");
-//                } else {
-//                    newRowId /= 0;
-//                }
-//            } catch (Exception e) {
-//                Log.e("newWallet", e.toString());
-//            }
-//        }
-//        try {
-//            s = new String(c.getString(c.getColumnIndex(WalletSqlLiter.C_WALLET)).getBytes());
-//            Log.e("wallet:\n", s);
-//            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new ByteArrayInputStream(s.getBytes("ISO-8859-1"))));
-//            wallet = (Wallet) ois.readObject();
-//            ois.close();
-//            MemberDTO.getInstance().setMem_wallet(wallet);
-//        } catch (Exception e) {
-//            Log.e("readWallet", e.toString());
-//        }
         return MemberDTO.getInstance().getMem_wallet().publicKey;
     }
 
@@ -187,7 +134,6 @@ public class InspectionActivity extends AppCompatActivity {
         SqliteTable.initTables(getApplicationContext());
         setupBouncyCastle();
         PublicKey pk = createWallet();
-//        PublicKey pk = new Wallet().publicKey;
         Log.e("PublicKey: ", pk.toString());
 //        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
 //            @Override

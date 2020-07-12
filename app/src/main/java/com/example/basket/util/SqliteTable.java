@@ -17,11 +17,14 @@ public class SqliteTable extends SQLiteOpenHelper {
     public static final String TYPE_INTEGER = " INTEGER";
     public static final String TYPE_TEXT = " TEXT";
 
+    public static SqliteTable wallet;
     public static SqliteTable basket;
     public static SqliteTable event;
 
     public static void initTables(Context app) {
         List<String> columns = new ArrayList<>();
+        columns.add("wallet" + TYPE_TEXT);
+        wallet = new SqliteTable(app, "wallet", columns);
         columns.clear();
         columns.add("pro_image" + TYPE_TEXT);
         columns.add("pro_price" + TYPE_INTEGER);
