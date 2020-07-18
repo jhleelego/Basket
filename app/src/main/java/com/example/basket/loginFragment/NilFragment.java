@@ -14,7 +14,6 @@ import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.OAuthCallbackParser;
 import com.example.basket.ui.main.LoginActivity;
-import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
@@ -204,9 +203,13 @@ public class NilFragment extends Fragment implements MemberVerifier {
 			@Override
 			public void onResponse(String response) { //resonse : JSONArray
 				Log.i(TAG, "response : " + response);
-				Map<String, Object> proResultMap = (Map<String, Object>)((List<Map<String, Object>>)(new Gson().fromJson(response, List.class))).get(0);
+				if(response.length()==0){
+					Toast.makeText(mContext, "잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				Map<String, Object> proResultMap = (Map<String, Object>)(new Gson().fromJson(response, List.class)).get(0);
 				for(Map.Entry dtoTOMap : proResultMap.entrySet()){
-					if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
+					if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code((int) Math.round((double)dtoTOMap.getValue()));continue;}
 					if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
 					if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
 					if(dtoTOMap.getKey().equals("MEM_PW")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
@@ -219,31 +222,14 @@ public class NilFragment extends Fragment implements MemberVerifier {
 				Log.i(TAG, "MEMBERDTO toString() START ");
 				MemberDTO.getInstance().toString();
 				Log.i(TAG, "MEMBERDTO toString() FINISH ");
+				mOAuthLoginInstance.logout(mContext);
 				((LoginActivity)getActivity()).plazaEnterActivity();
-				Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_LONG).show();
+				Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_SHORT).show();
 			}
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Log.i(TAG, "error : " + error.toString());
-
 			}
 		}, "member/proc_login_social", OAuthCallbackParser.mapToDtoAndMapBinder(profileMap, TAG));
-	}
-
-	@Override
-	public void logoutProgress(Activity activity) {
-		Log.i(TAG, "logoutProgress()");
-		if(activity!=null){
-			Log.i(TAG, "activity : " + activity.toString());
-		}
-		if(mActivity!=null){
-			Log.i(TAG, "mActivity : " + mActivity.toString());
-		}
-		if(getActivity()!=null){
-			Log.i(TAG, "getActivity() : " + getActivity().toString());
-		}
-		//new RefreshTokenTask().execute();
-		mOAuthLoginInstance.logout(mContext);
-		((PlazaActivity)activity).loginEnterActivity();
 	}
 }

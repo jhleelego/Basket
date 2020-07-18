@@ -1,9 +1,5 @@
 package com.example.basket.vo;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
 import blockchain.Wallet;
 
 public class MemberDTO {
@@ -15,12 +11,12 @@ public class MemberDTO {
     private String  mem_entrance    = null;
     private String  mem_email       = null;
     private String  mem_pw          = null;
+    private int     eve_code        = 0;
 
-
-    private String  sto_code        = null;
+    private int     sto_code        = 0;
     private String  sto_name        = null;
 
-    private String  mem_code        = null;
+    private int     mem_code        = 0;
     private String  mem_name        = null;
     private String  mem_gender      = null;
     private String  mem_age         = null;
@@ -39,22 +35,17 @@ public class MemberDTO {
         private static final MemberDTO instance = new MemberDTO();
     }
 
-    /***************************************************
-     * DB BASKET member X member_detail Column !
-     * mem_code
-     * mem_email
-     * mem_name
-     * mem_pw
-     * mem_age
-     * mem_gender
-     * mem_birth
-     * mem_tel
-     ****************************************************/
+    public String getTAG() {
+        return TAG;
+    }
 
-    //sto_code는 DB가 아닌 비콘으로 set 된다.
-    public String getSto_code(){return sto_code;};
+    public int getEve_code() {
+        return eve_code;
+    }
 
-    public void setSto_code(String sto_code){this.sto_code = sto_code;}
+    public void setEve_code(int eve_code) {
+        this.eve_code = eve_code;
+    }
 
     public String getMem_entrance() {
         return mem_entrance;
@@ -62,14 +53,6 @@ public class MemberDTO {
 
     public void setMem_entrance(String mem_entrance) {
         this.mem_entrance = mem_entrance;
-    }
-
-    public String getMem_code() {
-        return mem_code;
-    }
-
-    public void setMem_code(String mem_code) {
-        this.mem_code = mem_code;
     }
 
     public String getMem_email() {
@@ -86,6 +69,30 @@ public class MemberDTO {
 
     public void setMem_pw(String mem_pw) {
         this.mem_pw = mem_pw;
+    }
+
+    public int getSto_code() {
+        return sto_code;
+    }
+
+    public void setSto_code(int sto_code) {
+        this.sto_code = sto_code;
+    }
+
+    public String getSto_name() {
+        return sto_name;
+    }
+
+    public void setSto_name(String sto_name) {
+        this.sto_name = sto_name;
+    }
+
+    public int getMem_code() {
+        return mem_code;
+    }
+
+    public void setMem_code(int mem_code) {
+        this.mem_code = mem_code;
     }
 
     public String getMem_name() {
@@ -144,56 +151,47 @@ public class MemberDTO {
         this.mem_coin = mem_coin;
     }
 
-    public String getSto_name() {
-        return sto_name;
-    }
-
-    public void setSto_name(String sto_name) {
-        this.sto_name = sto_name;
-    }
-
-    @NonNull
     @Override
     public String toString() {
-        if (getMem_entrance() != null && getMem_entrance().length() > 0) {
-            Log.i(TAG, "mem_entrance : " + getMem_entrance());
-        }
-        if (getMem_code() != null && getMem_code().length() > 0) {
-            Log.i(TAG, "mem_code : " + getMem_code());
-        }
-        if (getMem_email() != null && getMem_email().length() > 0) {
-            Log.i(TAG, "mem_id : " + getMem_email());
-        }
-        if (getMem_pw() != null && getMem_pw().length() > 0) {
-            Log.i(TAG, "mem_pw : " + getMem_pw());
-        }
-        if (getMem_name() != null && getMem_name().length() > 0) {
-            Log.i(TAG, "mem_name : " + getMem_name());
-        }
-        if (getMem_gender() != null && getMem_gender().length() > 0) {
-            Log.i(TAG, "mem_gender : " + getMem_gender());
-        }
-        if (getMem_age() != null && getMem_age().length() > 0) {
-            Log.i(TAG, "mem_age : " + getMem_age());
-        }
-        if (getMem_birth() != null && getMem_birth().length() > 0) {
-            Log.i(TAG, "mem_birth : " + getMem_birth());
-        }
-        if (getMem_tel() != null && getMem_tel().length() > 0) {
-            Log.i(TAG, "mem_tel : " + getMem_tel());
-        }
-        if (getMem_wallet() != null) {
-            Log.i(TAG, "mem_wallet : " + getMem_wallet());
-        }
-        if (getMem_coin() != null && getMem_coin().length() > 0) {
-            Log.i(TAG, "mem_coin : " + getMem_coin());
-        }
-        return null;
+        return "MemberDTO{" +
+                "TAG='" + TAG + '\'' +
+                ", mem_entrance='" + mem_entrance + '\'' +
+                ", mem_email='" + mem_email + '\'' +
+                ", mem_pw='" + mem_pw + '\'' +
+                ", eve_code=" + eve_code +
+                ", sto_code=" + sto_code +
+                ", sto_name='" + sto_name + '\'' +
+                ", mem_code=" + mem_code +
+                ", mem_name='" + mem_name + '\'' +
+                ", mem_gender='" + mem_gender + '\'' +
+                ", mem_age='" + mem_age + '\'' +
+                ", mem_birth='" + mem_birth + '\'' +
+                ", mem_tel='" + mem_tel + '\'' +
+                ", mem_wallet=" + mem_wallet +
+                ", mem_coin='" + mem_coin + '\'' +
+                '}';
     }
+
+    /***************************************************
+     * DB BASKET member X member_detail Column !
+     * mem_code
+     * mem_email
+     * mem_name
+     * mem_pw
+     * mem_age
+     * mem_gender
+     * mem_birth
+     * mem_tel
+     ****************************************************/
+
+    //sto_code는 DB가 아닌 비콘으로 set 된다.
+
+
     public void removeInfo(){
         //setSto_code(null);
         setMem_entrance(null);
-        setMem_code(null);
+        setMem_code(0);
+        setEve_code(0);
         setMem_email(null);
         setMem_pw(null);
         setMem_name(null);
@@ -201,7 +199,7 @@ public class MemberDTO {
         setMem_age(null);
         setMem_birth(null);
         setMem_tel(null);
-        setMem_wallet(null);
+//        setMem_wallet(null);
         setMem_coin(null);
     }
 }

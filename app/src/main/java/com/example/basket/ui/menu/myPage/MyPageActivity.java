@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.basket.R;
 
-import static android.widget.Toast.LENGTH_LONG;
-
 public class MyPageActivity extends AppCompatActivity {
     public static final String TAG = "MyPageActivity";
     EditText et_user_id = null;
@@ -52,7 +50,7 @@ public class MyPageActivity extends AppCompatActivity {
     }
 
     public void modifiedAndConfirm(View view) {
-        /*Toast.makeText(this, "MODIFIEDANDCONFIRM", Toast.LENGTH_LONG).show();*/
+        /*Toast.makeText(this, "MODIFIEDANDCONFIRM", Toast.LENGTH_SHORT).show();*/
         Log.i(TAG, "modifiedAndConfirm");
         Log.i(TAG, "btn_infoModified.getText : " + btn_infoModified.getText().toString());
         if (btn_infoModified.getText().toString().equals("회원정보수정")) {
@@ -63,16 +61,16 @@ public class MyPageActivity extends AppCompatActivity {
             btn_infoModified.setText("수정하기");
         } else if (btn_infoModified.getText().toString().equals("수정하기")) {
             if (et_user_id.length() == 0 || et_user_id == null) {
-                Toast.makeText(this, "아이디를 입력하여 주세요.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "아이디를 입력하여 주세요.", Toast.LENGTH_SHORT).show();
                 return;
             } else if (et_user_pw.length() > 0 && et_user_pw != null) {
-                Toast.makeText(this, "비밀번호를 입력하여 주세요.", LENGTH_LONG).show();
+                Toast.makeText(this, "비밀번호를 입력하여 주세요.", Toast.LENGTH_SHORT).show();
                 return;
             } else if (et_user_tel.length() > 0 && et_user_tel != null) {
-                Toast.makeText(this, "핸드폰 번호를 입력하여 주세요.", LENGTH_LONG).show();
+                Toast.makeText(this, "핸드폰 번호를 입력하여 주세요.", Toast.LENGTH_SHORT).show();
                 return;
             } else if (et_user_name.length() > 0 && et_user_name != null) {
-                Toast.makeText(this, "이름를 입력하여 주세요.", LENGTH_LONG).show();
+                Toast.makeText(this, "이름를 입력하여 주세요.", Toast.LENGTH_SHORT).show();
                 return;
             } else {
 

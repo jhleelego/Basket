@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OAuthCallbackParser {
-    public static final String TAG = "HashUtil";
+    public static final String TAG = "OAuthCallbackParser";
     public static Map<String, String> mapToDtoAndMapBinder(Map<String, String> profileMap, String mem_entrance){
         Log.i(TAG, "HashUtil - mapToDtoAndMapBinder");
         /****************************************************
@@ -47,48 +47,48 @@ public class OAuthCallbackParser {
          *  mem_birth : String
          *  mem_entrance : String
          ****************************************************/
+        MemberDTO.getInstance().removeInfo();
         Map<String, String> updateMap = new HashMap<>();
         if(profileMap!=null) {
-            MemberDTO memberDTO = MemberDTO.getInstance();
             for (Map.Entry vMap : profileMap.entrySet()) {
                 Log.i(TAG, vMap.getValue().toString());
                 if (vMap.getKey().equals("email")) {
-                    memberDTO.setMem_email(vMap.getValue().toString());
+                    MemberDTO.getInstance().setMem_email(vMap.getValue().toString());
                     updateMap.put("mem_email", vMap.getValue().toString());
                 } else if (vMap.getKey().equals("name")) {
-                    memberDTO.setMem_name(vMap.getValue().toString());
+                    MemberDTO.getInstance().setMem_name(vMap.getValue().toString());
                     updateMap.put("mem_name", (vMap.getValue().toString()));
                 } else if (vMap.getKey().equals("age")) {
                     if (mem_entrance.equals(NilFragment.TAG)) {
-                        memberDTO.setMem_age((vMap.getValue().toString()).substring(0, 2));
-                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0, 2));
+                        MemberDTO.getInstance().setMem_age((vMap.getValue().toString()).substring(0, 1));
+                        updateMap.put("mem_age", (vMap.getValue().toString()).substring(0, 1));
                     } else if (mem_entrance.equals(KilFragment.TAG)) {
-                        memberDTO.setMem_age((vMap.getValue().toString()).substring(4, 5));
+                        MemberDTO.getInstance().setMem_age((vMap.getValue().toString()).substring(4, 5));
                         updateMap.put("mem_age", (vMap.getValue().toString()).substring(4, 5));
                     }
                 } else if (vMap.getKey().equals("gender")) {
                     if (vMap.getValue().equals("M") || vMap.getValue().equals("MALE")) {
-                        memberDTO.setMem_gender("남");
+                        MemberDTO.getInstance().setMem_gender("남");
                         updateMap.put("mem_gender", "남");
-                    } else if (vMap.getValue().equals("W") || vMap.getValue().equals("FEMALE")) {
-                        memberDTO.setMem_gender("여");
+                    } else if (vMap.getValue().equals("F") || vMap.getValue().equals("FEMALE")) {
+                        MemberDTO.getInstance().setMem_gender("여");
                         updateMap.put("mem_gender", "여");
                     }
                 } else if (vMap.getKey().equals("birthday")) {
                     if (mem_entrance.equals(NilFragment.TAG)) {
-                        memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
+                        MemberDTO.getInstance().setMem_birth(vMap.getValue().toString().replace("-", ""));
                         updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
                     } else if (mem_entrance.equals(KilFragment.TAG)) {
-                        memberDTO.setMem_birth(vMap.getValue().toString().replace("-", ""));
+                        MemberDTO.getInstance().setMem_birth(vMap.getValue().toString().replace("-", ""));
                         updateMap.put("mem_birth", vMap.getValue().toString().replace("-", ""));
                     }
                 }
             }
-            memberDTO.setMem_entrance(mem_entrance);
+            MemberDTO.getInstance().setMem_entrance(mem_entrance);
             updateMap.put("mem_entrance", mem_entrance);
 
             Log.i(TAG, "TO DTO BINDER START");
-            memberDTO.toString();
+            MemberDTO.getInstance().toString();
             Log.i(TAG, "TO DTO BINDER FINISH");
 
             Log.i(TAG, "TO MAP BINDER START");
@@ -105,6 +105,7 @@ public class OAuthCallbackParser {
             oos.close();
             updateMap.put("myKey", new String(baos.toByteArray(), "ISO-8859-1"));
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e(TAG, "Error while key into Map");
         }
         return updateMap;

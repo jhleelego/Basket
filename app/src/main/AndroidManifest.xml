@@ -32,13 +32,25 @@
         android:name=".grobal.GlobalApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/basketappicon"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.main.BasketMoneyChargeDialog"/>
+        <activity android:name=".ui.menu.paymenthistory.PaymentInfoActivity" />
+        <activity
+            android:name=".ui.menu.favstore.FavStoreDelActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".ui.search.StoreMapInfoDialog"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.CALL" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -55,6 +67,7 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.scan.RepayActivity" />
         <activity android:name=".ui.main.TermsActivity" />
         <activity android:name=".ui.main.SignUpActivity" /> <!-- 상품 정보 띄우는 다이얼로그 액티비티 -->
         <activity
@@ -62,29 +75,21 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity android:name=".ui.main.LoginActivity" />
         <activity android:name=".ui.menu.myPage.MyPageActivity" />
-        <activity android:name=".ui.menu.myStoreChoice.FavStoreActivity" />
+        <activity android:name=".ui.menu.favstore.FavStoreActivity" />
         <activity android:name=".ui.menu.serviceCenter.ServiceCenterActivity" />
-        <activity android:name=".ui.menu.event.EventActivity" />
-        <activity android:name=".ui.menu.myCoupon.MyCouponActivity" />
-        <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryActivity" />
-        <activity android:name=".ui.menu.purchaseHistory.PurchaseHistoryDetailActivity" />
-        <activity
-            android:name=".ui.menu.myStoreChoice.ChooseStoActivity"
-            android:theme="@android:style/Theme.Dialog" />
-        <activity
-            android:name=".ui.search.EventPopupActivity"
-            android:theme="@style/Theme.MyDialog" />
+        <activity android:name=".ui.menu.favevent.FavCouponActivity" />
+        <activity android:name=".ui.menu.paymenthistory.PaymentHistoryActivity" />
         <activity android:name=".ui.main.InspectionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.PlazaActivity" />
         <activity android:name=".ui.scan.CustomScannerActivity" />
-        <activity
-            android:name=".ui.basket.PaymentDialog"
-            android:theme="@android:style/Theme.Dialog"/>
+        <activity android:name=".ui.basket.PaymentActivity"/>
+        <activity android:name=".ui.basket.PaymentResultActivity"/>
     </application>
 
 </manifest>

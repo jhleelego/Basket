@@ -6,14 +6,18 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public final class VolleyQueueProvider {
@@ -54,7 +58,7 @@ public final class VolleyQueueProvider {
 
     public static void callbackVolley(@NonNull final VolleyCallback volleyCallBack, String path, final Map<String, String> pMap) {
         Object result;
-        final String url = "http://192.168.0.30:8000/pjBasket/" + path + ".do";
+        final String url = "http://192.168.0.244:8000/" + path;
         Log.e("url: ", url);
         try {
             RequestFuture<Object> future = RequestFuture.newFuture();
@@ -72,6 +76,22 @@ public final class VolleyQueueProvider {
                         }
                     }
             ) {
+
+                @Override //response를 UTF8로 변경해주는 소스코드
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    try {
+                        String utf8String = new String(response.data, "UTF-8");
+                        return Response.success(utf8String, HttpHeaderParser.parseCacheHeaders(response));
+                    } catch (UnsupportedEncodingException e) {
+                        // log error
+                        return Response.error(new ParseError(e));
+                    } catch (Exception e) {
+                        // log error
+                        return Response.error(new ParseError(e));
+                    }
+                }
+
+
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     return pMap;

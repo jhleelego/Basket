@@ -1,6 +1,5 @@
 package com.example.basket.loginFragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.EditText;
@@ -13,7 +12,6 @@ import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.ui.main.LoginActivity;
-import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
@@ -34,7 +32,6 @@ public class BilFragment extends Fragment implements MemberVerifier {
     public EditText et_inputID = null;
     public EditText et_inputPW = null;
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         Log.i(TAG, "onAttach()");
@@ -51,6 +48,8 @@ public class BilFragment extends Fragment implements MemberVerifier {
         }
         pMap.put("mem_email", et_inputID.getText().toString());
         pMap.put("mem_pw", et_inputPW.getText().toString());
+        et_inputID.setText("");
+        et_inputPW.setText("");
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -86,16 +85,18 @@ public class BilFragment extends Fragment implements MemberVerifier {
                 Log.i(TAG, "response : " + response);
                 List<Map<String, Object>> resultList = new Gson().fromJson(response, List.class);
                 if(resultList.size()==0){
-                    Toast.makeText(mContext, "아이디가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "아이디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                     ((LoginActivity)getActivity()).logOutActive();
+                    return;
                 } else if(resultList.get(0).get("MEM_NAME").toString().equals("-1")){
-                    Toast.makeText(mContext, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                     ((LoginActivity)getActivity()).logOutActive();
+                    return;
                 } else {
                     Log.i(TAG, "BASKET CONNECT SUCCESS");
                     Log.i(TAG, "DATABASE ISNERT OR UPDATE SUCCESS");
                     for(Map.Entry dtoTOMap : resultList.get(0).entrySet()){
-                        if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
+                        if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code((int) Math.round((double)dtoTOMap.getValue()));continue;}
                         if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
                         if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
                         if(dtoTOMap.getKey().equals("MEM_PW")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
@@ -110,7 +111,7 @@ public class BilFragment extends Fragment implements MemberVerifier {
                     MemberDTO.getInstance().toString();
                     Log.i(TAG, "MEMBERDTO toString() FINISH ");
                     ((LoginActivity)getActivity()).plazaEnterActivity();
-                    Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
@@ -118,12 +119,5 @@ public class BilFragment extends Fragment implements MemberVerifier {
                 Log.i(TAG, "error : " + error.toString());
             }
         }, "member/proc_login_bil", pMap);
-    }
-
-    @Override
-    public void logoutProgress(Activity activity) {
-        Log.i(TAG, "logoutProgress()");
-        ((PlazaActivity)activity).loginEnterActivity();
-        MemberDTO.getInstance().removeInfo();
     }
 }

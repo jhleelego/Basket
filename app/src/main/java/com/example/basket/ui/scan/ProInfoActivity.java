@@ -17,6 +17,7 @@ import com.example.basket.R;
 import com.example.basket.vo.ProductOneDTO;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class ProInfoActivity extends Activity {
         }
         if(proResultMap.get("PRO_PRICE")!=null){
             productOneDTO.setPro_price((int) Math.round((double)proResultMap.get("PRO_PRICE")));
-            tv_pro_price.setText(Math.round((double)proResultMap.get("PRO_PRICE"))+"원");
+            tv_pro_price.setText(new DecimalFormat("###,###").format(Math.round((double)proResultMap.get("PRO_PRICE")))+"원");
         }
         proList.add(productOneDTO);
         Log.i(TAG, "proList ALL SHOW START");
@@ -91,7 +92,7 @@ public class ProInfoActivity extends Activity {
         switch(view.getId()){
             case R.id.btn_sto_minus : {
                 if(desired_stock_count==1){
-                    Toast.makeText(this, "주문수량은 최소 1개 입니다..", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "주문수량은 최소 1개 입니다..", Toast.LENGTH_SHORT).show();
                 } else {
                     tv_desired_stock_count.setText(String.valueOf(Integer.valueOf(--desired_stock_count)));
                 }
@@ -102,7 +103,7 @@ public class ProInfoActivity extends Activity {
                 if(desired_stock_count<pro_stock_ea){
                     tv_desired_stock_count.setText(String.valueOf(Integer.valueOf(++desired_stock_count)));
                 } else {
-                    Toast.makeText(this, "주문수량이 재고수량보다 많습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "주문수량이 재고수량보다 많습니다.", Toast.LENGTH_SHORT).show();
                 }
             } break;
             case R.id.btn_basket_cancel : {
@@ -129,7 +130,7 @@ public class ProInfoActivity extends Activity {
                     row.put("pay_ea", ea + desired_stock_count);
                     basket.update(row, "pro_code = " + productOneDTO.getPro_code());
                 }
-                Toast.makeText(this, "장바구니에 추가되었습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "장바구니에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                 String last_barcode = getIntent().getStringExtra("last_barcode");
                 last_barcode = null;
                 finish();

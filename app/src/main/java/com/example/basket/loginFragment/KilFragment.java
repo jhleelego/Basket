@@ -14,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.example.basket.controller.MemberVerifier;
 import com.example.basket.logical.OAuthCallbackParser;
 import com.example.basket.ui.main.LoginActivity;
-import com.example.basket.ui.main.PlazaActivity;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
 import com.example.basket.vo.MemberDTO;
@@ -26,6 +25,7 @@ import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.callback.UnLinkResponseCallback;
 import com.kakao.usermgmt.response.MeV2Response;
 import com.kakao.usermgmt.response.model.Profile;
 import com.kakao.usermgmt.response.model.UserAccount;
@@ -42,6 +42,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
     Session session;
     private Context mContext;
     private Activity mActivity;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -49,18 +50,58 @@ public class KilFragment extends Fragment implements MemberVerifier {
         this.mContext = context;
         this.mActivity = getActivity();
         session = Session.getCurrentSession();
-        if(!session.isOpened()){
-            session.close();
-        }
         session.addCallback(sessionCallback);
         Log.i(TAG, "session.isOpened() : " + session.isOpened());
-        if(mActivity!=null){
+        if (mActivity != null) {
             Log.i(TAG, "mActivity!=null : " + mActivity.toString());
         }
         session.open(AuthType.KAKAO_LOGIN_ALL, KilFragment.this);
-        if(getActivity()!=null){
+        if (getActivity() != null) {
             Log.i(TAG, "getActivity()!=null : " + getActivity().toString());
         }
+
+        UserManagement.getInstance()
+                .requestUnlink(new UnLinkResponseCallback() {
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "세션이 닫혀 있음: " + errorResult);
+                    }
+
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "연결 끊기 실패: " + errorResult);
+
+                    }
+                    @Override
+                    public void onSuccess(Long result) {
+                        Log.i("KAKAO_API", "연결 끊기 성공. id: " + result);
+                    }
+                });/*
+        UserManagement.getInstance()
+                .requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Log.i("KAKAO_API", "로그아웃 완료");
+                    }
+                });
+        AuthService.getInstance()
+                .requestAccessTokenInfo(new ApiResponseCallback<AccessTokenInfoResponse>() {
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "세션이 닫혀 있음: " + errorResult);
+                    }
+
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "토큰 정보 요청 실패: " + errorResult);
+                    }
+
+                    @Override
+                    public void onSuccess(AccessTokenInfoResponse result) {
+                        Log.i("KAKAO_API", "사용자 아이디: " + result.getUserId());
+                        Log.i("KAKAO_API", "남은 시간(s): " + result.getExpiresInMillis());
+                    }
+                });*/
     }
 
     @Override
@@ -69,6 +110,7 @@ public class KilFragment extends Fragment implements MemberVerifier {
         Log.i(TAG, "onDestroy()");
         // 세션 콜백 삭제
         Session.getCurrentSession().removeCallback(sessionCallback);
+
     }
 
 
@@ -90,12 +132,15 @@ public class KilFragment extends Fragment implements MemberVerifier {
         public void onSessionOpened() {
             requestMe();
         }
+
         // 로그인에 실패한 상태
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
             Log.e("SessionCallback :: ", "onSessionOpenFailed : " + exception.getMessage());
-            ((LoginActivity)getActivity()).logOutActive();
+            ((LoginActivity) getActivity()).logOutActive();
+
         }
+
         // 사용자 정보 요청
         public void requestMe() {
             UserManagement.getInstance()
@@ -126,27 +171,27 @@ public class KilFragment extends Fragment implements MemberVerifier {
                                     // 이메일 획득 불가
                                 }
                                 Map<String, String> profileMap = new HashMap<>();
-                                if(kakaoAccount.getEmail()!=null){
+                                if (kakaoAccount.getEmail() != null) {
                                     Log.i(TAG, "kakaoAccount.getEmail() : " + kakaoAccount.getEmail());
-                                    profileMap.put("email",kakaoAccount.getEmail());
+                                    profileMap.put("email", kakaoAccount.getEmail());
                                 }
-                                if(kakaoAccount.getProfile()!=null){
-                                    if(kakaoAccount.getProfile().getNickname()!=null){
-                                        Log.i(TAG,  "kakaoAccount.getProfile().getNickname() : " + kakaoAccount.getProfile().getNickname());
+                                if (kakaoAccount.getProfile() != null) {
+                                    if (kakaoAccount.getProfile().getNickname() != null) {
+                                        Log.i(TAG, "kakaoAccount.getProfile().getNickname() : " + kakaoAccount.getProfile().getNickname());
                                         profileMap.put("name", kakaoAccount.getProfile().getNickname());
                                     }
                                 }
-                                if(kakaoAccount.getAgeRange()!=null){
+                                if (kakaoAccount.getAgeRange() != null) {
                                     Log.i(TAG, "kakaoAccount.getAgeRange().toString() : " + kakaoAccount.getAgeRange().toString());
-                                    profileMap.put("age",kakaoAccount.getAgeRange().toString());
+                                    profileMap.put("age", kakaoAccount.getAgeRange().toString());
                                 }
-                                if(kakaoAccount.getGender()!=null){
+                                if (kakaoAccount.getGender() != null) {
                                     Log.i(TAG, "kakaoAccount.getGender().toString() : " + kakaoAccount.getGender().toString());
-                                    profileMap.put("gender",kakaoAccount.getGender().toString());
+                                    profileMap.put("gender", kakaoAccount.getGender().toString());
                                 }
-                                if(kakaoAccount.getBirthday()!=null){
+                                if (kakaoAccount.getBirthday() != null) {
                                     Log.i(TAG, "kakaoAccount.getBirthday() : " + kakaoAccount.getBirthday());
-                                    profileMap.put("birthday",kakaoAccount.getBirthday());
+                                    profileMap.put("birthday", kakaoAccount.getBirthday());
                                 }
                                 loginProgress(profileMap);
                                 // 프로필
@@ -161,7 +206,6 @@ public class KilFragment extends Fragment implements MemberVerifier {
                                     // 프로필 획득 불가
                                 }
                             }
-                            ((LoginActivity)mActivity).plazaEnterActivity();
                         }
                     });
         }
@@ -185,24 +229,50 @@ public class KilFragment extends Fragment implements MemberVerifier {
             @Override
             public void onResponse(String response) { //resonse : JSONArray
                 Log.i(TAG, "response : " + response);
-
-                Map<String, Object> proResultMap = (Map<String, Object>)((List<Map<String, Object>>)(new Gson().fromJson(response, List.class))).get(0);
-                for(Map.Entry dtoTOMap : proResultMap.entrySet()){
-                    if(dtoTOMap.getKey().equals("MEM_CODE")) {MemberDTO.getInstance().setMem_code(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_NAME")) {MemberDTO.getInstance().setMem_name(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_EMAIL")) {MemberDTO.getInstance().setMem_email(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_PW")) {MemberDTO.getInstance().setMem_pw(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_AGE")) {MemberDTO.getInstance().setMem_age(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_GENDER")) {MemberDTO.getInstance().setMem_gender(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_BIRTh")) {MemberDTO.getInstance().setMem_birth(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_TEL")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
-                    if(dtoTOMap.getKey().equals("MEM_ENTRANCE")) {MemberDTO.getInstance().setMem_tel(dtoTOMap.getValue().toString());continue;}
+                if(response.length()==0){
+                    Toast.makeText(mContext, "잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Map<String, Object> proResultMap = (Map<String, Object>) (new Gson().fromJson(response, List.class)).get(0);
+                if (proResultMap.get("MEM_CODE") != null) {
+                    MemberDTO.getInstance().setMem_code((int) Math.round((double) proResultMap.get("MEM_CODE")));
+                }
+                if (proResultMap.get("MEM_NAME") != null) {
+                    MemberDTO.getInstance().setMem_name(proResultMap.get("MEM_NAME").toString());
+                }
+                if (proResultMap.get("MEM_EMAIL") != null) {
+                    MemberDTO.getInstance().setMem_email(proResultMap.get("MEM_EMAIL").toString());
+                }
+                if (proResultMap.get("MEM_PW") != null) {
+                    MemberDTO.getInstance().setMem_pw(proResultMap.get("MEM_PW").toString());
+                }
+                if (proResultMap.get("MEM_AGE") != null) {
+                    MemberDTO.getInstance().setMem_age(proResultMap.get("MEM_AGE").toString());
+                }
+                if (proResultMap.get("MEM_GENDER") != null) {
+                    MemberDTO.getInstance().setMem_gender(proResultMap.get("MEM_GENDER").toString());
+                }
+                if (proResultMap.get("MEM_BIRTH") != null) {
+                    MemberDTO.getInstance().setMem_birth(proResultMap.get("MEM_BIRTH").toString());
+                }
+                if (proResultMap.get("MEM_TEL") != null) {
+                    MemberDTO.getInstance().setMem_tel(proResultMap.get("MEM_TEL").toString());
+                }
+                if (proResultMap.get("MEM_ENTRANCE") != null) {
+                    MemberDTO.getInstance().setMem_entrance(proResultMap.get("MEM_ENTRANCE").toString());
                 }
                 Log.i(TAG, "MEMBERDTO toString() START ");
                 MemberDTO.getInstance().toString();
                 Log.i(TAG, "MEMBERDTO toString() FINISH ");
-                ((LoginActivity)getActivity()).plazaEnterActivity();
-                    Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_LONG).show();
+                ((LoginActivity) getActivity()).plazaEnterActivity();
+                Toast.makeText(mContext, MemberDTO.getInstance().getMem_name() + "님 환영합니다.", Toast.LENGTH_SHORT).show();
+                UserManagement.getInstance()
+                        .requestLogout(new LogoutResponseCallback() {
+                            @Override
+                            public void onCompleteLogout() {
+                                /*Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();*/
+                            }
+                        });
             }
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -210,18 +280,4 @@ public class KilFragment extends Fragment implements MemberVerifier {
             }
         }, "member/proc_login_social", OAuthCallbackParser.mapToDtoAndMapBinder(profileMap, TAG));
     }
-
-    @Override
-    public void logoutProgress(Activity activity) {
-        Log.i(TAG, "logoutProgress()");
-        UserManagement.getInstance()
-                .requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                        Toast.makeText(mContext, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        ((PlazaActivity)activity).loginEnterActivity();
-    }
-
 }

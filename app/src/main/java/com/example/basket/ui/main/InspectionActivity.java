@@ -46,13 +46,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.security.PublicKey;
 import java.security.Security;
-import java.util.ArrayList;
-import java.util.List;
 
 import blockchain.Wallet;
 
 public class InspectionActivity extends AppCompatActivity {
-    public static final String TAG                           = "InspectionActivity";
+    public static final String TAG = "InspectionActivity";
     public String userNick = null;
     public static final int PERMISSIONS_REQUEST_CODE = 2000;
     private Context applicationContext = null;
@@ -62,8 +60,44 @@ public class InspectionActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
-
     View mLayout = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate()");
+        super.onCreate(savedInstanceState);
+
+        this.applicationContext = getApplicationContext();
+        setContentView(R.layout.activity_inspection);
+        getHashKey();
+        mLayout = (View) findViewById(R.id.inspection);
+        MemberDTO.getInstance();
+        checkPermission();
+        VolleyQueueProvider.initRequestQueue(getApplicationContext());
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(BeaconFragment.getInstance(), "BeaconFragment");
+        fragmentTransaction.commitAllowingStateLoss();
+
+        SqliteTable.initTables(getApplicationContext());
+        PublicKey pk = createWallet();
+        Log.e("PublicKey: ", pk.toString());
+
+//        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
+//            @Override
+//            public void onResponse(String response) {
+//                Toast.makeText(applicationContext, "callback: " + response, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(applicationContext, "error: " + error, Toast.LENGTH_SHORT).show();
+//            }
+//        }, "chain/current_time", null);
+
+
+
+    }
+
 
     private void setupBouncyCastle() {
         final Provider provider = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME);
@@ -83,7 +117,8 @@ public class InspectionActivity extends AppCompatActivity {
         Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
 
-    private PublicKey createWallet() {
+    public PublicKey createWallet() {
+        setupBouncyCastle();
         Cursor c = SqliteTable.wallet.select(null);
         if (c.getCount() == 0) {
             try {
@@ -113,51 +148,6 @@ public class InspectionActivity extends AppCompatActivity {
             Log.e("at Read Wallet", e.toString());
         }
         return MemberDTO.getInstance().getMem_wallet().publicKey;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate()");
-        super.onCreate(savedInstanceState);
-
-        this.applicationContext = getApplicationContext();
-        setContentView(R.layout.activity_inspection);
-        getHashKey();
-        mLayout = (View) findViewById(R.id.inspection);
-        MemberDTO.getInstance();
-        checkPermission();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(BeaconFragment.getInstance(), "BeaconFragment");
-        fragmentTransaction.commitAllowingStateLoss();
-
-        VolleyQueueProvider.initRequestQueue(getApplicationContext());
-        SqliteTable.initTables(getApplicationContext());
-        setupBouncyCastle();
-        PublicKey pk = createWallet();
-        Log.e("PublicKey: ", pk.toString());
-//        VolleyQueueProvider.callbackVolley(new VolleyCallBack() {
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(applicationContext, "callback: " + response, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(applicationContext, "error: " + error, Toast.LENGTH_SHORT).show();
-//            }
-//        }, "chain/current_time", null);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG, "onPause()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "onDestroy()");
     }
 
     @Override
@@ -226,7 +216,8 @@ public class InspectionActivity extends AppCompatActivity {
 
     private void loginCheck() {
         //Log.i(TAG, MemberDTO.getInstance().getMem_code());
-        if (MemberDTO.getInstance().getMem_code() != null && MemberDTO.getInstance().getMem_code().length() > 0) {
+        if (MemberDTO.getInstance().getMem_code() != 0) {
+            toString();
             Intent intent = new Intent(InspectionActivity.this, PlazaActivity.class);
             startActivity(intent);
         } else {
@@ -297,6 +288,14 @@ public class InspectionActivity extends AppCompatActivity {
         }
     }
 
+   /* @Override
+    public void onPause() {
+        Log.i(TAG, "onPause()");
+        super.onPause();
+        if(providerClient!=null){
+            providerClient.removeLocationUpdates(locationCallback);    //화면 중단시 업데이트 종료
+        }
+    }*/
 
 
 }

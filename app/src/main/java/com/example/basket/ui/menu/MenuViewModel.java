@@ -11,7 +11,7 @@ public class MenuViewModel extends ViewModel {
 
 
     public MenuViewModel() {
-        listMenu = new String[] { "마이페이지", "구매내역", "내쿠폰", "이벤트", "나의 관심 매장", "고객센터"};
+        listMenu = new String[] { "마이페이지", "구매내역", "나의 관심매장 이벤트쿠폰", "나의 관심 매장", "고객센터"};
 
     }
     public ArrayAdapter getList(Context context) {

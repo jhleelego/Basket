@@ -13,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.example.basket.R;
 import com.example.basket.util.VolleyCallback;
 import com.example.basket.util.VolleyQueueProvider;
-import com.example.basket.vo.MemberDTO;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -41,12 +40,6 @@ public class ProductSearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 Map<String, String> pMap = new HashMap<>();
                 pMap.put("p_word", query);
-                String sto_code = MemberDTO.getInstance().getSto_code();
-                if (sto_code != null) {
-                    pMap.put("sto_code", sto_code);
-                } else {
-                    pMap.put("sto_code", "0");
-                }
                 VolleyQueueProvider.initRequestQueue(ProductSearchActivity.this);
                 searchProduct(pMap);
                 return false;

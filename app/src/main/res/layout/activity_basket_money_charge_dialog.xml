@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/main_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="60dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/basketappicon_foreground" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="바스켓머니"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="44sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="충전하시겠습니까?"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="44sp" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_basket"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginHorizontal="44dp"
+            android:textSize="84dp"
+            android:textStyle="bold"
+            android:text="0"
+            android:maxLength="7"
+            android:textColor="@color/white"
+            android:inputType="number"
+            android:gravity="bottom"
+            android:theme="@style/EditText"
+            android:textAlignment="textEnd"
+            android:backgroundTint="@color/main_color"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginHorizontal="44dp"
+            android:background="@color/white">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_basketCharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:backgroundTint="@color/white"
+            android:text="충전"
+            android:textColor="@color/main_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/btn_basketCharge_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:backgroundTint="@color/white"
+            android:text="닫기"
+            android:textColor="@color/main_color"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

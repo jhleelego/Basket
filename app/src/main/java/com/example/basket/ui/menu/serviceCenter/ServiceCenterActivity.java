@@ -17,15 +17,7 @@ public class ServiceCenterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_center);
-
-
     }
-
-    public void chatMove(View view) {
-        Intent intent = new Intent(ServiceCenterActivity.this,ChattingActivity.class);
-        startActivity(intent);
-    }
-
     public void call(View view) {
         Intent tt = new Intent(ACTION_DIAL, Uri.parse("tel:00000000"));
         startActivity(tt);

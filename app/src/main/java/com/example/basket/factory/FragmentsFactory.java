@@ -1,6 +1,5 @@
 package com.example.basket.factory;
 
-import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
@@ -19,12 +18,7 @@ public class FragmentsFactory {
     public static final String TAG = "FragmentFactory";
     public static MemberVerifier memberVerifier = null;
     private static final MemberVerifier UNDEFINED_FRAGMENT = new MemberVerifier() {
-        @Override public void loginProgress(Map<String, String> profileMap) {
-
-        }
-        @Override public void logoutProgress(Activity activity) {
-
-        }
+        @Override public void loginProgress(Map<String, String> profileMap) {}
     };
 
     public static final MemberVerifier newInstance(View v) {

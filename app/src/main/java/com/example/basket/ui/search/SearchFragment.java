@@ -2,6 +2,7 @@ package com.example.basket.ui.search;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.VolleyError;
 import com.example.basket.R;
+import com.example.basket.util.VolleyCallback;
+import com.example.basket.util.VolleyQueueProvider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -32,36 +36,41 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public static final String TAG = "SearchFragment";
+    private double latitude = 0.0;
+    private double longitude = 0.0;
+    private GoogleMap mMap;
+    private Context mContext;
 
     GoogleApiClient googleApiClient;                                           //LocationManger역할
     FusedLocationProviderClient providerClient;                                //최적의 provider선택역할
-    LocationCallback locationCallback= new LocationCallback(){
+    LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Log.i(TAG, "onLocationResult() : ");
             super.onLocationResult(locationResult);
-
-            Location location= locationResult.getLastLocation();
-            double latitude= location.getLatitude();
-            double longitude= location.getLongitude();
+            Location location = locationResult.getLastLocation();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             Log.i(TAG, "★★★latitude : " + latitude + ",   longitude : " + longitude);
         }
     };
-
-    private GoogleMap mMap;
-    private Context mContext;
 
 
     public static SearchFragment newInstance() {
@@ -73,12 +82,28 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         Log.i(TAG, "context()");
         super.onAttach(context);
         this.mContext = context;
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView()");
+        View root = inflater.inflate(R.layout.fragment_search, container, false);
+        String apiKey = getString(R.string.google_api_key);
 
-        Log.i(TAG, "clickBtn()");
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (getActivity() != null) {
+            Log.i(TAG, "getActivity() : " + getActivity().toString());
+        }
+        //Places 초기화 여부
+        if (!Places.isInitialized()) {
+            Places.initialize(getActivity().getApplicationContext(), apiKey);
+        }
+
+
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(mContext);      //위치정보객체 생성
         builder.addApi(LocationServices.API);                                         //위치서비스 인증키 넣기
         builder.addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {    //탐색결과여부체크 리스너
@@ -117,21 +142,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         googleApiClient.connect();                                                  //위치연결 시도
         providerClient = LocationServices.getFusedLocationProviderClient(mContext); //최적
 
-        Log.i(TAG, "onCreateView()");
-        View root = inflater.inflate(R.layout.fragment_search, container, false);
-        String apiKey = getString(R.string.google_api_key);
-
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
-        if(getActivity()!=null){
-            Log.i(TAG, "getActivity() : " + getActivity().toString());
-        }
-        //Places 초기화 여부
-        if (!Places.isInitialized()) {
-            Places.initialize(getActivity().getApplicationContext(), apiKey);
-        }
 
         //자동완성기능 (Map 상단 SearchBar)
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
@@ -144,48 +154,27 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Log.i(TAG, "Place.getName : " + place.getName());
                 Log.i(TAG, "place.getLat_Lgt() : " + place.getLatLng());
+                Log.i(TAG, "place.getLatLng().latitude : " + place.getLatLng().latitude);
+                Log.i(TAG, "place.getLatLng().longitude : " + place.getLatLng().longitude);
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(place.getLatLng().latitude, place.getLatLng().longitude), 16);
                 mMap.animateCamera(cameraUpdate);
             }
+
             @Override
             public void onError(@NotNull Status status) {
                 // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-
-
-       /* //새 지역 정보 클라이언트 인스턴스를 생성
-        PlacesClient placesClient = Places.createClient(mContext);
-        //장소 ID를 정의
-        String placeId = "INSERT_PLACE_ID_HERE";
-        //리턴 할 필드를 지정
-        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-        //장소 ID 및 필드 배열을 전달하여 요청 객체를 생성
-        FetchPlaceRequest request = FetchPlaceRequest.builder(placeId, placeFields).build();
-        //응답을 처리 할 리스너를 추가
-        placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-            Place place = response.getPlace();
-            Log.i(TAG, "Place found: " + place.getName());
-        }).addOnFailureListener((exception) -> {
-            if (exception instanceof ApiException) {
-                ApiException apiException = (ApiException) exception;
-                int statusCode = apiException.getStatusCode();
-                // Handle error with given status code.
-                Log.e(TAG, "Place not found: " + exception.getMessage());
-            }
-        });*/
-
-        SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         return root;
     }
 
     @Override
-    public void onMapReady(final GoogleMap googleMap){
+    public void onMapReady(final GoogleMap googleMap) {
         Log.i(TAG, "onMapReady()");
 
         /********************************************
@@ -196,7 +185,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
          *  sto_code
          *  sto_lat
          *  sto_lng
-         *  sto_name
          *
          *  필요하다면 기타필요정보들 :
          *  영업시간
@@ -205,59 +193,92 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
          ********************************************/
 
         mMap = googleMap;
+        String km = "10";
+        Map<String, String> requestMap = new HashMap<>();
+        if (latitude != 0.0 && longitude != 0.0) {
+            requestMap.put("p_lng", Double.toString(latitude));
+            requestMap.put("p_lat", Double.toString(longitude));
+        } else {
+            requestMap.put("p_lng", Double.toString(37.4786733));
+            requestMap.put("p_lat", Double.toString(126.8790434));
+        }
+        requestMap.put("p_km", km);
+        VolleyQueueProvider.callbackVolley(new VolleyCallback() {
+            @Override
+            public void onResponse(String response) {
+                Log.i(TAG, "response : " + response);
+                if (response.equals("조회된 매장이 없습니다")) {
+                    Toast.makeText(mContext, "반경 " + km + "km 안에 조회된 매장이 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    List<Map<String, Object>> resultList = new Gson().fromJson(response, List.class);
+                    if (resultList != null && resultList.size() != 0) {
+                        LatLng latLng = null;
+                        for (int i = 0; i < resultList.size(); i++) {
+                            Map<String, Object> resultMap = resultList.get(i);
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            if (resultMap.get("LNG") != null && resultMap.get("LAT") != null) {
+                                Log.i(TAG, "resultMap.get(\"LNG : " + resultMap.get("LNG").toString());
+                                Log.i(TAG, "resultMap.get(\"LAT : " + resultMap.get("LAT").toString());
+                                latLng = new LatLng((double) resultMap.get("LNG"), (double) resultMap.get("LAT"));
+                                markerOptions.position(latLng);
+                            }
+                            if (resultMap.get("STO_NAME") != null) {
+                                Log.i(TAG, "STO_NAME : " + resultMap.get("STO_NAME").toString());
+                                markerOptions.title(resultMap.get("STO_NAME").toString());
+                            }
+                            if (resultMap.get("STO_ADDR") != null) {
+                                Log.i(TAG, "STO_ADDR : " + resultMap.get("STO_ADDR").toString());
+                                markerOptions.snippet(resultMap.get("STO_ADDR").toString());
+                            }
+                            mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                @Override
+                                public void onInfoWindowClick(Marker arg0) {
+                                    if(arg0.getTitle()!=null){
+                                        Log.i(TAG, "■■■■■■■■■ arg0.getTitle() : " + arg0.getTitle());
+                                        Map<String, String> stoInfoMap = new HashMap<>();
+                                        stoInfoMap.put("sto_name", arg0.getTitle());
+                                        VolleyQueueProvider.callbackVolley(new VolleyCallback() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                if(response.length()==0){
+                                                    Toast.makeText(mContext, "잠시 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                                                    return;
+                                                }
+                                                Log.i(TAG, "response : " + response);
+                                                Intent intent = new Intent(getActivity(), StoreMapInfoDialog.class);
+                                                Log.i(TAG, "■■■■■■■■■■■■■■■■■■■■■■■■■■■ : " + new Gson().toJson(response));
+                                                intent.putExtra("storeData", response);
+                                                startActivityForResult(intent, 1);
+                                            }
 
-        LatLng SEOUL = new LatLng(37.585445, 126.954459);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Log.i(TAG, "error : " + error.toString());
+                                                error.printStackTrace();
+                                            }
+                                        },"store/sto_info",stoInfoMap);
+                                    }
+                                }
+                            });
+                            mMap.addMarker(markerOptions);
+                        }
+                    }
+                }
+            }
 
-        LatLng AMUDAENA1 = new LatLng(37.566465, 126.9345357);
-        markerOptions = new MarkerOptions();
-        markerOptions.position(AMUDAENA1);
-        markerOptions.title("아무대나1");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        LatLng AMUDAENA2 = new LatLng(37.43454356, 126.83459);
-        markerOptions = new MarkerOptions();
-        markerOptions.position(AMUDAENA2);
-        markerOptions.title("아무대나2");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        LatLng AMUDAENA3 = new LatLng( 37.585965, 126.949354);
-        markerOptions = new MarkerOptions();
-        markerOptions.position(AMUDAENA3);
-        markerOptions.title("아무대나2");
-        markerOptions.snippet("홍제동1");
-        mMap.addMarker(markerOptions);
-
-        LatLng AMUDAENA4 = new LatLng(37.586329, 126.948002);
-        markerOptions = new MarkerOptions();
-        markerOptions.position(AMUDAENA4);
-        markerOptions.title("아무대나3");
-        markerOptions.snippet("홍제동2");
-        mMap.addMarker(markerOptions);
-
-        LatLng AMUDAENA5 = new LatLng(37.584085, 126.948244);
-        markerOptions = new MarkerOptions();
-        markerOptions.position(AMUDAENA5);
-        markerOptions.title("아무대나4");
-        markerOptions.snippet("홍제동3");
-        mMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.478720, 126.878654), 16);
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Log.i(TAG, "error : " + error.toString());
+            }
+        }, "store/find_sto", requestMap);
+        CameraUpdate cameraUpdate = null;
+        if (latitude != 0.0 && longitude != 0.0) {
+            cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16);
+        } else {
+            cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.4786725, 126.8790373), 16);
+        }
         mMap.animateCamera(cameraUpdate);
     }
 
-    @Override
-    public void onPause() {
-        Log.i(TAG, "onPause()");
-        super.onPause();
-        if(providerClient!=null){
-            providerClient.removeLocationUpdates(locationCallback);    //화면 중단시 업데이트 종료
-        }
-    }
 }
